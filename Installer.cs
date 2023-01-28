@@ -1,22 +1,27 @@
 ﻿using System.Diagnostics;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Genshin.Downloader
 {
-    public partial class Form2 : Form
+    public partial class Form_Installer : Form
     {
         private readonly string path_game;
+        private readonly string path_down;
+        private readonly string path_temp;
 
-        public Form2(string path_game)
+        public Form_Installer(string path_game, string path_down, string path_temp)
         {
             InitializeComponent();
             this.path_game = path_game;
+            this.path_down = path_down;
+            this.path_temp = path_temp;
         }
 
-        private void Form2_Load(object sender, EventArgs e)
+        private void Form_Installer_Load(object sender, EventArgs e)
         {
             Text += $" ({path_game})";
-            openFileDialog1.InitialDirectory = Directory.GetCurrentDirectory() + "\\Downloads";
+            openFileDialog1.InitialDirectory = path_down;
         }
 
         private void Button_Install_File_Browse_Click(object sender, EventArgs e)
@@ -59,7 +64,7 @@ namespace Genshin.Downloader
             string path = textBox_fullname.Text;
             if (File.Exists(path))
             {
-                await Install(path, path_game);
+                await Install(path);
             }
             else
             {
@@ -68,13 +73,19 @@ namespace Genshin.Downloader
             button1.Enabled = true;
         }
 
-        private async Task Install(string zipFile, string gamePath)
+        private async Task Install(string zipFile)
         {
-            string name = new FileInfo(zipFile).Name;
-            string tmp = Directory.GetCurrentDirectory() + "\\Temp";
+            FileInfo fileInfo = new(zipFile);
+            string name = fileInfo.Name;
+            string ext = fileInfo.Extension;
+
+            if (ext != ".zip")
+            {
+                return;
+            }
 
             bool game;
-            string version_current = INI.Read("General", "game_version", $"{gamePath}\\config.ini");
+            string version_current = INI.Read("General", "game_version", $"{path_game}\\config.ini");
             string version_new;
 
             if (name.Contains("hdiff"))
@@ -94,16 +105,16 @@ namespace Genshin.Downloader
 
                 if (version_current == version_new)
                 {
-                    string message = $"Current Version: {version_current}\n" +
-                        $"Package Version: {version_old} to {version_new}\n\n" +
-                        $"Seems you've installed this package, continue however?";
+                    string message = $"当前版本：{version_current}\n" +
+                        $"资源包版本：从 {version_old} 更新到 {version_new}\n\n" +
+                        $"看起来你好像已经安装了这个更新包，要继续吗？";
                     cancel = MessageBox.Show(message, "Notice", MessageBoxButtons.YesNo) != DialogResult.Yes;
                 }
                 else if (version_current != version_old)
                 {
-                    string message = $"Current Version: {version_current}\n" +
-                        $"Package Version: {version_old} to {version_new}\n\n" +
-                        $"Seems you're using wrong package, continue however?";
+                    string message = $"当前版本：{version_current}\n" +
+                        $"资源包版本：从 {version_old} 更新到 {version_new}\n\n" +
+                        $"看起来你好像选择了错误的资源包，要继续吗？";
                     cancel = MessageBox.Show(message, "Notice", MessageBoxButtons.YesNo) != DialogResult.Yes;
                 }
 
@@ -125,10 +136,10 @@ namespace Genshin.Downloader
                 bool cancel = false;
                 if (version_current == version_new)
                 {
-                    string message = $"Current Version: {version_current}\n" +
-                        $"Package Version: {version_new}\n\n" +
-                        $"Seems you've installed this package, continue however?";
-                    cancel = MessageBox.Show(message, "Notice", MessageBoxButtons.YesNo) != DialogResult.Yes;
+                    string message = $"当前版本：{version_current}\n" +
+                        $"资源包版本：{version_new}\n\n" +
+                        $"看起来你好像已经安装了这个更新包，要继续吗？";
+                    cancel = MessageBox.Show(message, "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes;
                 }
                 if (cancel)
                 {
@@ -138,27 +149,35 @@ namespace Genshin.Downloader
                 game = name.StartsWith("GenshinImpact");
             }
 
-            await UnzipAsync(zipFile, tmp);
-            await UseHDiffAsync(gamePath, tmp);
+            await UnzipAsync(zipFile, path_temp);
+            await HPatchAsync(path_game, path_temp);
 
             if (game)
             {
-                INI.Write("General", "game_version", version_new, $"{gamePath}\\config.ini");
+                INI.Write("General", "game_version", version_new, $"{path_game}\\config.ini");
             }
 
-            Process.Start(new ProcessStartInfo()
+            string command_line = $"xcopy /f /e /y \"{path_temp}\" \"{path_game}\" && del /s /q \"{path_temp}\\*\" && rd /s /q \"{path_temp}\\GenshinImpact_Data\" || pause";
+            Process? process = Process.Start(new ProcessStartInfo()
             {
                 FileName = "cmd.exe",
-                Arguments = $"/c xcopy /f /e /y \"{tmp}\" \"{gamePath}\" & del /s /q \"{tmp}\\*\" & rd /s /q \"{tmp}\\GenshinImpact_Data\" &pause&exit"
-            })?.WaitForExit();
+                Arguments = $"/c title 正在应用更新.. & {command_line}"
+            });
+            if (process != null)
+            {
+                await process.WaitForExitAsync();
+            }
         }
 
         private static async Task UnzipAsync(string @in, string @out)
         {
+            string seven_zip = $"{Directory.GetCurrentDirectory()}\\7za.exe";
             Process? process = Process.Start(new ProcessStartInfo()
             {
-                FileName = "7za.exe",
-                Arguments = $"x -o\"{@out}\" \"{@in}\""
+                FileName = "cmd.exe",
+                Arguments = $"/c title 正在解压资源包.. & \"{seven_zip}\" x -o\"{@out}\" \"{@in}\"",
+                UseShellExecute = false,
+                ErrorDialog = true
             });
             if (process is not null)
             {
@@ -166,27 +185,28 @@ namespace Genshin.Downloader
             }
         }
 
-        private static async Task UseHDiffAsync(string path, string path_hdiff)
+        private static async Task HPatchAsync(string path_game, string path_hdiff)
         {
             if (File.Exists($"{path_hdiff}\\deletefiles.txt"))
             {
                 string delete_file = $"{path_hdiff}\\deletefiles.txt";
                 string batch_file = $"{path_hdiff}\\deletefiles.bat";
                 StreamReader reader = new(delete_file);
-                StreamWriter writer = new(batch_file, false);
-                await writer.WriteLineAsync("@echo off");
+                StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
+                await writer.WriteLineAsync("@echo off & chcp 65001");
+                await writer.WriteLineAsync("@title 正在删除旧文件..");
                 while (!reader.EndOfStream)
                 {
                     string? line = await reader.ReadLineAsync();
                     if (line != null)
                     {
-                        string command_line = $"del /f \"{path}\\{line.Replace("/", "\\")}\"";
+                        string command_line = $"del /f \"{path_game}\\{line.Replace("/", "\\")}\"";
                         await writer.WriteLineAsync(command_line);
                     }
                 }
                 reader.Close();
                 await writer.WriteLineAsync($"del /f \"{delete_file}\"");
-                await writer.WriteLineAsync("del %0 &pause&exit");
+                await writer.WriteLineAsync("del %0 & exit");
                 writer.Close();
                 Process? process = Process.Start(new ProcessStartInfo()
                 {
@@ -204,8 +224,9 @@ namespace Genshin.Downloader
                 string batch_file = $"{path_hdiff}\\hdifffiles.bat";
                 string hpatchz = $"{Directory.GetCurrentDirectory()}\\hpatchz.exe";
                 StreamReader reader = new(hdiff_file);
-                StreamWriter writer = new(batch_file, false);
-                await writer.WriteLineAsync("@echo off");
+                StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
+                await writer.WriteLineAsync("@echo off & chcp 65001");
+                await writer.WriteLineAsync("@title 正在处理差异文件..");
                 while (!reader.EndOfStream)
                 {
                     string? line = await reader.ReadLineAsync();
@@ -216,7 +237,7 @@ namespace Genshin.Downloader
                         if (match.Success)
                         {
                             string remoteName = match.Groups[1].Value.Replace("/", "\\");
-                            string oldFile = $"{path}\\{remoteName}";
+                            string oldFile = $"{path_game}\\{remoteName}";
                             string diffFile = $"{path_hdiff}\\{remoteName}.hdiff";
                             string newFile = $"{path_hdiff}\\{remoteName}";
                             string command_line = $"\"{hpatchz}\" \"{oldFile}\" \"{diffFile}\" \"{newFile}\" & del /f \"{diffFile}\"";
@@ -226,7 +247,7 @@ namespace Genshin.Downloader
                 }
                 reader.Close();
                 await writer.WriteLineAsync($"del /f \"{hdiff_file}\"");
-                await writer.WriteLineAsync("del %0 &pause&exit");
+                await writer.WriteLineAsync("del %0 & exit");
                 writer.Close();
                 Process? process = Process.Start(new ProcessStartInfo()
                 {

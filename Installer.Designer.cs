@@ -1,6 +1,6 @@
 ﻿namespace Genshin.Downloader
 {
-    partial class Form2
+    partial class Form_Installer
     {
         /// <summary>
         /// Required designer variable.
@@ -56,7 +56,7 @@
             this.groupBox_install_file.Size = new System.Drawing.Size(388, 52);
             this.groupBox_install_file.TabIndex = 0;
             this.groupBox_install_file.TabStop = false;
-            this.groupBox_install_file.Text = "Install File (.zip)";
+            this.groupBox_install_file.Text = "资源文件 (.zip)";
             // 
             // button_install_file_browse
             // 
@@ -64,7 +64,7 @@
             this.button_install_file_browse.Name = "button_install_file_browse";
             this.button_install_file_browse.Size = new System.Drawing.Size(75, 23);
             this.button_install_file_browse.TabIndex = 1;
-            this.button_install_file_browse.Text = "browse..";
+            this.button_install_file_browse.Text = "浏览..";
             this.button_install_file_browse.UseVisualStyleBackColor = true;
             this.button_install_file_browse.Click += new System.EventHandler(this.Button_Install_File_Browse_Click);
             // 
@@ -96,14 +96,14 @@
             this.groupBox_file_info.Size = new System.Drawing.Size(388, 110);
             this.groupBox_file_info.TabIndex = 1;
             this.groupBox_file_info.TabStop = false;
-            this.groupBox_file_info.Text = "File Info";
+            this.groupBox_file_info.Text = "文件信息";
             // 
             // textBox_fullname
             // 
-            this.textBox_fullname.Location = new System.Drawing.Point(84, 80);
+            this.textBox_fullname.Location = new System.Drawing.Point(74, 80);
             this.textBox_fullname.Name = "textBox_fullname";
             this.textBox_fullname.ReadOnly = true;
-            this.textBox_fullname.Size = new System.Drawing.Size(298, 23);
+            this.textBox_fullname.Size = new System.Drawing.Size(308, 23);
             this.textBox_fullname.TabIndex = 5;
             this.textBox_fullname.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -112,16 +112,16 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 83);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 17);
+            this.label3.Size = new System.Drawing.Size(56, 17);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Full Name";
+            this.label3.Text = "完整名称";
             // 
             // textBox_size
             // 
-            this.textBox_size.Location = new System.Drawing.Point(49, 48);
+            this.textBox_size.Location = new System.Drawing.Point(50, 48);
             this.textBox_size.Name = "textBox_size";
             this.textBox_size.ReadOnly = true;
-            this.textBox_size.Size = new System.Drawing.Size(333, 23);
+            this.textBox_size.Size = new System.Drawing.Size(332, 23);
             this.textBox_size.TabIndex = 3;
             this.textBox_size.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -130,16 +130,16 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 51);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 17);
+            this.label2.Size = new System.Drawing.Size(32, 17);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Size";
+            this.label2.Text = "大小";
             // 
             // textBox_name
             // 
-            this.textBox_name.Location = new System.Drawing.Point(61, 16);
+            this.textBox_name.Location = new System.Drawing.Point(50, 16);
             this.textBox_name.Name = "textBox_name";
             this.textBox_name.ReadOnly = true;
-            this.textBox_name.Size = new System.Drawing.Size(321, 23);
+            this.textBox_name.Size = new System.Drawing.Size(332, 23);
             this.textBox_name.TabIndex = 1;
             this.textBox_name.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -148,9 +148,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 17);
+            this.label1.Size = new System.Drawing.Size(32, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Name";
+            this.label1.Text = "名称";
             // 
             // groupBox_install_button
             // 
@@ -161,7 +161,7 @@
             this.groupBox_install_button.Size = new System.Drawing.Size(388, 137);
             this.groupBox_install_button.TabIndex = 2;
             this.groupBox_install_button.TabStop = false;
-            this.groupBox_install_button.Text = "Install Button";
+            this.groupBox_install_button.Text = "开始按钮";
             // 
             // button1
             // 
@@ -171,11 +171,11 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(382, 115);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Start";
+            this.button1.Text = "开始";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button_Start_Click);
             // 
-            // Form2
+            // Form_Installer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -186,9 +186,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form2";
-            this.Text = "Genshin Impact Installer";
-            this.Load += new System.EventHandler(this.Form2_Load);
+            this.Name = "Form_Installer";
+            this.Text = "Genshin Impact 安装器";
+            this.Load += new System.EventHandler(this.Form_Installer_Load);
             this.groupBox_install_file.ResumeLayout(false);
             this.groupBox_install_file.PerformLayout();
             this.groupBox_file_info.ResumeLayout(false);
