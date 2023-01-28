@@ -108,14 +108,14 @@ namespace Genshin.Downloader
                     string message = $"当前版本：{version_current}\n" +
                         $"资源包版本：从 {version_old} 更新到 {version_new}\n\n" +
                         $"看起来你好像已经安装了这个更新包，要继续吗？";
-                    cancel = MessageBox.Show(message, "Notice", MessageBoxButtons.YesNo) != DialogResult.Yes;
+                    cancel = MessageBox.Show(message, "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes;
                 }
                 else if (version_current != version_old)
                 {
                     string message = $"当前版本：{version_current}\n" +
                         $"资源包版本：从 {version_old} 更新到 {version_new}\n\n" +
                         $"看起来你好像选择了错误的资源包，要继续吗？";
-                    cancel = MessageBox.Show(message, "Notice", MessageBoxButtons.YesNo) != DialogResult.Yes;
+                    cancel = MessageBox.Show(message, "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes;
                 }
 
                 if (cancel)
