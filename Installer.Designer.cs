@@ -158,7 +158,7 @@
             this.groupBox_install_button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_install_button.Location = new System.Drawing.Point(0, 162);
             this.groupBox_install_button.Name = "groupBox_install_button";
-            this.groupBox_install_button.Size = new System.Drawing.Size(388, 137);
+            this.groupBox_install_button.Size = new System.Drawing.Size(388, 179);
             this.groupBox_install_button.TabIndex = 2;
             this.groupBox_install_button.TabStop = false;
             this.groupBox_install_button.Text = "开始按钮";
@@ -169,7 +169,7 @@
             this.button1.Font = new System.Drawing.Font("Microsoft YaHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button1.Location = new System.Drawing.Point(3, 19);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(382, 115);
+            this.button1.Size = new System.Drawing.Size(382, 157);
             this.button1.TabIndex = 0;
             this.button1.Text = "开始";
             this.button1.UseVisualStyleBackColor = true;
@@ -179,7 +179,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(388, 299);
+            this.ClientSize = new System.Drawing.Size(388, 341);
             this.Controls.Add(this.groupBox_install_button);
             this.Controls.Add(this.groupBox_file_info);
             this.Controls.Add(this.groupBox_install_file);
@@ -187,6 +187,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form_Installer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Genshin Impact 安装器";
             this.Load += new System.EventHandler(this.Form_Installer_Load);
             this.groupBox_install_file.ResumeLayout(false);

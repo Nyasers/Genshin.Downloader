@@ -146,7 +146,7 @@ namespace Genshin.Downloader
                     return;
                 }
 
-                game = name.StartsWith("GenshinImpact");
+                game = name.StartsWith("GenshinImpact") | name.StartsWith("YuanShen");
             }
 
             await UnzipAsync(zipFile, path_temp);

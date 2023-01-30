@@ -6,26 +6,41 @@ namespace Genshin.Downloader
 {
     public partial class Form_Downloader : Form
     {
-        public Form_Downloader()
-        {
-            InitializeComponent();
-        }
-
         private const string DownPath = "Downloads";
         private const string TempPath = "Temp";
 
-        private int textBox_path_width;
-        private int groupBox_version_voicePacks_width;
+        private readonly int textBox_path_width;
+        private readonly int groupBox_version_voicePacks_width;
+        private readonly int comboBox_API_width;
 
         private static readonly Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         private static readonly KeyValueConfigurationCollection settings = config.AppSettings.Settings;
 
-
-        public HttpClient Client { get; } = new()
+        private readonly KeyValueConfigurationCollection APIs = new()
         {
-            BaseAddress = new Uri("https://genshin-global.nyaser.tk"),
-            DefaultRequestVersion = Version.Parse("2.0")
+            new KeyValueConfigurationElement("global", "https://genshin-global.nyaser.tk"),
+            new KeyValueConfigurationElement("official", "https://genshin-official.nyaser.tk"),
+            new KeyValueConfigurationElement("bilibili", "https://genshin-bilibili.nyaser.tk")
         };
+
+        private HttpClient Client { get; set; } = new();
+
+        public Form_Downloader()
+        {
+            InitializeComponent();
+            MinimumSize = Size;
+            textBox_path_width = Width - textBox_path.Width;
+            groupBox_version_voicePacks_width = Width - groupBox_version_voicePacks.Width;
+            comboBox_API_width = Width - comboBox_API.Width;
+        }
+
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            // Text = Size.ToString();
+            textBox_path.Width = Width - textBox_path_width;
+            groupBox_version_voicePacks.Width = Width - groupBox_version_voicePacks_width;
+            comboBox_API.Width = Width - comboBox_API_width;
+        }
 
         private void Form_Downloader_Load(object sender, EventArgs e)
         {
@@ -44,6 +59,7 @@ namespace Genshin.Downloader
 例如：
     完整文件：
         游戏本体：
+            YuanShen_[版本号].zip
             GenshinImpact_[版本号].zip
         语音包：
             Audio_[语言名称]_[版本号].zip
@@ -60,8 +76,36 @@ namespace Genshin.Downloader
                 _ = MessageBox.Show(message, Text);
                 SetConfigValue("run", "true");
             }
-            textBox_path_width = Width - textBox_path.Width;
-            groupBox_version_voicePacks_width = Width - groupBox_version_voicePacks.Width;
+
+            foreach (KeyValueConfigurationElement api in APIs)
+            {
+                _ = comboBox_API.Items.Add($"{api.Key} => {api.Value}");
+            }
+
+            SetAPIByKey("global");
+        }
+
+        private void SetAPIByKey(string key)
+        {
+            foreach (string? api in from string api in comboBox_API.Items
+                                    where api.StartsWith(key)
+                                    select api)
+            {
+                comboBox_API.SelectedItem = api;
+            }
+        }
+
+        private void ComboBox_API_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string? key = comboBox_API.SelectedItem.ToString();
+            key = string.IsNullOrEmpty(key) ? "global" : key;
+            key = key[..key.IndexOf(" => ")];
+            Client.Dispose();
+            Client = new HttpClient()
+            {
+                BaseAddress = new Uri(APIs[key].Value),
+                DefaultRequestVersion = Version.Parse("2.0"),
+            };
         }
 
         private static string? GetConfigValue(string key)
@@ -80,12 +124,6 @@ namespace Genshin.Downloader
                 settings.Add(key, value);
             }
             config.Save(ConfigurationSaveMode.Modified);
-        }
-
-        private void Form1_SizeChanged(object sender, EventArgs e)
-        {
-            textBox_path.Width = Width - textBox_path_width;
-            groupBox_version_voicePacks.Width = Width - groupBox_version_voicePacks_width;
         }
 
         private void Button_Path_Browse_Click(object sender, EventArgs e)
@@ -112,7 +150,7 @@ namespace Genshin.Downloader
 
         private async void CheckUpdate(bool pre_download = false)
         {
-            button_check_update.Enabled = false;
+            comboBox_API.Enabled = button_check_update.Enabled = false;
             try
             {
                 string game = pre_download ? "pre_download_game" : "game";
@@ -149,7 +187,7 @@ namespace Genshin.Downloader
             }
             finally
             {
-                button_check_update.Enabled = true;
+                comboBox_API.Enabled = button_check_update.Enabled = true;
             }
         }
 
