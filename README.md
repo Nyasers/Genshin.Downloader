@@ -12,3 +12,4 @@ Get Genshin Impact game resources from the official server.
 - > hpatchz.exe
 - Aria2: <https://github.com/aria2/aria2>
 - > aria2c.exe
+- API: <https://genshin.nyaser.tk/>
