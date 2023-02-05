@@ -10,7 +10,7 @@ Get Genshin Impact game resources from the official server.
 2. Official: <https://genshin-official.nyaser.tk/>
 3. Bilibili: <https://genshin-bilibili.nyaser.tk/>
 3. Global: <https://genshin-global.nyaser.tk/>
-> For official API links, visit '/source' on the three websites above.
+> For official API links, visit `/source` on the three websites above.
 
 # Reference
 - 7-Zip: <https://7-zip.org/>
