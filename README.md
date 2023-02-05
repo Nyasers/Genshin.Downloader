@@ -21,4 +21,4 @@ Get Genshin Impact game resources from the official server.
 - > [hpatchz.exe](/hpatchz.exe)
 
 ## License
-[MIT](LICENSE) (c) 2023 Nyaser
+[MIT](LICENSE) © 2023 Nyaser
