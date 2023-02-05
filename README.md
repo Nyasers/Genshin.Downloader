@@ -5,6 +5,12 @@ Get Genshin Impact game resources from the official server.
 - This program is only available in Chinese languages.
 - Windows x64 required.
 
+# API
+0. Index: <https://genshin.nyaser.tk/>
+1. Official: <https://genshin-official.nyaser.tk/>
+2. Bilibili: <https://genshin-bilibili.nyaser.tk/>
+3. Global: <https://genshin-global.nyaser.tk/>
+
 # Reference
 - 7-Zip: <https://7-zip.org/>
 - > 7za.exe
@@ -12,9 +18,3 @@ Get Genshin Impact game resources from the official server.
 - > aria2c.exe
 - HDiffPatch: <https://github.com/sisong/HDiffPatch>
 - > hpatchz.exe
-
-# API
-- Index: <https://genshin.nyaser.tk/>
-- Official: <https://genshin-official.nyaser.tk/>
-- Bilibili: <https://genshin-bilibili.nyaser.tk/>
-- Global: <https://genshin-global.nyaser.tk/>
