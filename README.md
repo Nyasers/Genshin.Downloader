@@ -7,4 +7,4 @@ Get Genshin Impact game resources from the official server.
 - HDiffPatch: <https://github.com/sisong/HDiffPatch>
 > `./hpatchz.exe`
 - Aria2: <https://github.com/aria2/aria2>
-> `aria2c.exe`
+> `./aria2c.exe`
