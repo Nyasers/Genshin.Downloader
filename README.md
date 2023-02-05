@@ -8,8 +8,8 @@ Get Genshin Impact game resources from the official server.
 # API
 0. Index: <https://genshin.nyaser.tk/>
 1. Official: <https://genshin-official.nyaser.tk/>
-2. Bilibili: <https://genshin-bilibili.nyaser.tk/>
-3. Global: <https://genshin-global.nyaser.tk/>
+1. Bilibili: <https://genshin-bilibili.nyaser.tk/>
+4. Global: <https://genshin-global.nyaser.tk/>
 
 # Reference
 - 7-Zip: <https://7-zip.org/>
