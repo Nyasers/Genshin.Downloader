@@ -1,6 +1,10 @@
 # Genshin.Downloader
 Get Genshin Impact game resources from the official server.
 
+# Notice
+- This program is only available in Chinese languages.
+- Windows x64 required.
+
 # Reference
 - 7-Zip: <https://7-zip.org/>
 - > 7za.exe
