@@ -3,7 +3,7 @@ Get Genshin Impact game resources from the official server.
 
 ## Notice
 1. **This program is only available in Chinese languages.**
-2. Windows x64 required.
+2. ***!!For Windows x64 ONLY!!***
 
 ## API
 0. Index: <https://genshin.nyaser.tk/>
