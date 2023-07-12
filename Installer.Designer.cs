@@ -79,7 +79,7 @@
             // openFileDialog1
             // 
             this.openFileDialog1.DefaultExt = "zip";
-            this.openFileDialog1.Filter = ".zip file|*.zip";
+            this.openFileDialog1.Filter = ".zip file|*.zip;*.zip.001";
             this.openFileDialog1.ReadOnlyChecked = true;
             // 
             // groupBox_file_info

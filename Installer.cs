@@ -79,7 +79,7 @@ namespace Genshin.Downloader
             string name = fileInfo.Name;
             string ext = fileInfo.Extension;
 
-            if (ext != ".zip")
+            if (ext is not (".zip" or ".001"))
             {
                 return;
             }

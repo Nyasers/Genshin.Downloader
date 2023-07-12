@@ -1,4 +1,7 @@
-﻿namespace Genshin.Downloader
+﻿using System.Net.Http.Headers;
+using System.Text.Json.Nodes;
+
+namespace Genshin.Downloader
 {
     internal partial class File2Down
     {
@@ -15,48 +18,60 @@
             md5 = "";
         }
 
-        public async Task<File2Down> BuildAsync(HttpClient client, string requestUri)
+        public async Task<File2Down?> BuildAsync(HttpClient client, string requestUri)
         {
             try
             {
-                name = await client.GetStringAsync(requestUri + "/name");
-                path = await client.GetStringAsync(requestUri + "/path");
-                size = long.Parse(await client.GetStringAsync(requestUri + "/size"));
-                md5 = await client.GetStringAsync(requestUri + "/md5");
-                name = name == "" ? GetName(path) : name;
+                var res = await client.GetStringAsync(requestUri);
+                JsonNode? data = JsonNode.Parse(res);
+                path = (string?)data?["path"] ?? string.Empty;
+                if (string.IsNullOrEmpty(path))
+                {
+                    throw new();
+                }
+                name = (string?)data?["name"] ?? string.Empty;
+                name = string.IsNullOrEmpty(name) ? GetName(path) : name;
+                size = long.Parse((string?)data?["package_size"] ?? "0");
+                size = size == 0 ? await GetSizeAsync(path) : size;
+                md5 = (string?)data?["md5"] ?? string.Empty;
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show(ex.Message, "Error");
+                return null;
             }
             return this;
         }
 
-        private static string GetName(string path)
+        public static async Task<long> GetSizeAsync(string path)
+        {
+            using HttpClient client = new();
+            return (await client.GetAsync(path, HttpCompletionOption.ResponseHeadersRead)).Content.Headers.ContentLength ?? 0;
+        }
+
+        public static string GetName(string path)
         {
             string[] s = path.Split("/");
             string name = s[^1];
             return name;
         }
 
-        private string GetFileSize()
+        public static string GetFileSize(long size)
         {
             double num = 1024.00;
-            long size = this.size / 2;
             return size < num
-                ? size + "Byte"
+                ? size + " Byte"
                 : size < Math.Pow(num, 2)
-                ? (size / num).ToString("f2") + "KB"
+                ? (size / num).ToString("f2") + " KB"
                 : size < Math.Pow(num, 3)
-                ? (size / Math.Pow(num, 2)).ToString("f2") + "MB"
+                ? (size / Math.Pow(num, 2)).ToString("f2") + " MB"
                 : size < Math.Pow(num, 4)
-                ? (size / Math.Pow(num, 3)).ToString("f2") + "GB"
-                : (size / Math.Pow(num, 4)).ToString("f2") + "TB";
+                ? (size / Math.Pow(num, 3)).ToString("f2") + " GB"
+                : (size / Math.Pow(num, 4)).ToString("f2") + " TB";
         }
 
         public override string ToString()
         {
-            return $"{name} ({GetFileSize()})";
+            return $"{name} ({GetFileSize(size)})";
         }
     }
 }

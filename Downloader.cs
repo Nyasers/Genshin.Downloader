@@ -1,5 +1,6 @@
 using System.Configuration;
 using System.Diagnostics;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
 namespace Genshin.Downloader
@@ -73,7 +74,7 @@ namespace Genshin.Downloader
 位置：{Directory.GetCurrentDirectory()}\{TempPath}
 
 5. 建议先安装语音包再安装游戏本体，安装游戏本体后将更新游戏配置文件的版本号。";
-                _ = MessageBox.Show(message, Text);
+                _ = MessageBox.Show(this, message, Text);
                 SetConfigValue("run", "true");
             }
 
@@ -143,14 +144,15 @@ namespace Genshin.Downloader
             }
         }
 
-        private void Button_Check_Update_Click(object sender, EventArgs e)
-        {
-            CheckUpdate(checkBox_pre_download.Checked);
-        }
-
-        private async void CheckUpdate(bool pre_download = false)
+        private async void Button_Check_Update_Click(object sender, EventArgs e)
         {
             comboBox_API.Enabled = button_check_update.Enabled = false;
+            await CheckUpdate(checkBox_pre_download.Checked);
+            comboBox_API.Enabled = button_check_update.Enabled = true;
+        }
+
+        private async Task CheckUpdate(bool pre_download = false)
+        {
             try
             {
                 string game = pre_download ? "pre_download_game" : "game";
@@ -159,8 +161,8 @@ namespace Genshin.Downloader
                 {
                     textBox_version_latest.Text = await message.Content.ReadAsStringAsync();
                     toolStripStatusLabel1.Text = textBox_version_current.Text == textBox_version_latest.Text
-                        ? "已是最新版本"
-                        : $"{textBox_version_latest.Text} 版本可更新";
+                        ? "已是最新版本，可重新下载完整文件。"
+                        : $"存在 {textBox_version_latest.Text} 版本可下载。";
                     string requestUri = $"/data/{game}/diffs?version=" + textBox_version_current.Text;
                     HttpResponseMessage message1 = await Client.GetAsync(requestUri);
                     if (!message1.IsSuccessStatusCode)
@@ -168,12 +170,25 @@ namespace Genshin.Downloader
                         requestUri = $"/data/{game}/latest";
                     }
                     listBox_file2down.Items.Clear();
-                    _ = listBox_file2down.Items.Add(await new File2Down().BuildAsync(Client, requestUri));
+                    await File2Down_Add(requestUri);
+                    if (requestUri.EndsWith("latest"))
+                    {
+                        string res = await Client.GetStringAsync(requestUri + "/segments");
+                        JsonNode? json = JsonNode.Parse(res);
+                        if (json is not null)
+                        {
+                            int count = json.AsArray().Count;
+                            for (int i = 0; i < count; i++)
+                            {
+                                await File2Down_Add(requestUri + $"/segments/{i}");
+                            }
+                        }
+                    }
                     string pattern = @"\[(.+)\]";
-                    foreach (string item in checkedListBox1.CheckedItems)
+                    foreach (string item in checkedListBox_voicePacks.CheckedItems)
                     {
                         string language = Regex.Match(item, pattern).Value[1..^1];
-                        _ = listBox_file2down.Items.Add(await new File2Down().BuildAsync(Client, requestUri + "/voice_packs?language=" + language));
+                        await File2Down_Add(requestUri + "/voice_packs?language=" + language);
                     }
                 }
                 else
@@ -183,12 +198,14 @@ namespace Genshin.Downloader
             }
             catch (Exception ex)
             {
-                _ = MessageBox.Show(ex.Message, "错误");
+                _ = MessageBox.Show(this, ex.Message, "错误");
             }
-            finally
-            {
-                comboBox_API.Enabled = button_check_update.Enabled = true;
-            }
+        }
+
+        private async Task File2Down_Add(string requestUri)
+        {
+            File2Down? file = await new File2Down().BuildAsync(Client, requestUri);
+            _ = file is null ? 0 : listBox_file2down.Items.Add(file);
         }
 
         private void TextBox_Path_TextChanged(object sender, EventArgs e)
@@ -203,39 +220,70 @@ namespace Genshin.Downloader
                     textBox_version_current.Text = INI.Read("General", "game_version", path_config);
                 }
 
-                string path_voicePacks = @$"{path}\GenshinImpact_Data\StreamingAssets\Audio\GeneratedSoundBanks\Windows\";
+                string path_voicePacks = @$"{path}\GenshinImpact_Data\StreamingAssets\AudioAssets\";
                 if (Directory.Exists(path_voicePacks))
                 {
-                    System.Collections.IList list = checkedListBox1.Items;
-                    for (int i = 0; i < list.Count; i++)
+                    for (int i = 0; i < checkedListBox_voicePacks.Items.Count; i++)
                     {
-                        object? item = list[i];
-                        string? language = item?.ToString()?[7..];
-                        if (item is not null && language is not null)
+                        string? language = checkedListBox_voicePacks.Items[i].ToString()?[7..];
+                        if (checkedListBox_voicePacks.Items[i] is not null && language is not null)
                         {
-                            int index = checkedListBox1.Items.IndexOf(item);
-                            bool value = Directory.Exists(path_voicePacks + language);
-                            checkedListBox1.SetItemChecked(index, value);
+                            checkedListBox_voicePacks.SetItemChecked(i, Directory.Exists(path_voicePacks + language));
                         }
                     }
                 }
             }
         }
 
-        private async void ListBox_File2Down_DoubleClick(object sender, EventArgs e)
+        private async void Button_Download_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = $"创建下载任务..";
-            int exitCode = await DownloadFileAsync((File2Down)listBox_file2down.SelectedItem, 1);
+            List<File2Down> files = new();
+            foreach (File2Down file in listBox_file2down.SelectedItems)
+            {
+                files.Add(file);
+            }
+            int exitCode = await DownloadFileAsync(files.ToArray(), 1);
             toolStripStatusLabel1.Text = exitCode switch
             {
-                -1 => $"启动 aria2c.exe 失败",
-                0 => $"下载完成，没有错误。",
+                -1 => $"启动 aria2c.exe 失败。",
+                0 => $"下载成功。",
                 7 => $"下载取消。",
-                _ => $"下载结束，返回值：{exitCode}",
+                9 => $"下载失败，磁盘空间不足。",
+                _ => $"下载结束，返回值：{exitCode}。",
             };
         }
 
-        private async Task<int> DownloadFileAsync(File2Down file, int log_level = 0, int console_log_level = 2)
+        private async Task<int> DownloadFileAsync(File2Down[] files, int log_level = 0, int console_log_level = 2)
+        {
+            if (files is not null)
+            {
+                string file_list = string.Empty, origin_input = string.Empty;
+                long size_total = 0;
+                foreach (File2Down file in files)
+                {
+                    file_list += $"\t{file}\n";
+                    origin_input += $"#{file}\n" +
+                        $"{file.path}\n" +
+                        $" out={file.name}\n" +
+                        $" checksum=md5={file.md5}\n\n";
+                    size_total += file.size;
+                }
+                origin_input += $"#Count: {files.Length} file(s), {File2Down.GetFileSize(size_total)} in total.\n";
+                string time_now = $"{DateTime.Now.Year:0000}{DateTime.Now.Month:00}{DateTime.Now.Day:00}{DateTime.Now.Hour:00}{DateTime.Now.Minute:00}{DateTime.Now.Second:00}";
+                string file_input = $"{time_now}.aria2";
+                string file_log = $"{time_now}.aria2.log";
+                if (!Directory.Exists(DownPath))
+                {
+                    _ = Directory.CreateDirectory(DownPath);
+                }
+                await File.WriteAllTextAsync($"{DownPath}\\{file_input}", origin_input);
+                return await DownloadFileDialogAsync(log_level, console_log_level, file_list, file_input, file_log);
+            }
+            return -1;
+        }
+
+        private async Task<int> DownloadFileDialogAsync(int log_level, int console_log_level, string file_list, string file_input, string file_log)
         {
             List<string> aria2c_log_levels = new()
             {
@@ -276,33 +324,28 @@ namespace Genshin.Downloader
                 "Reserved. Not used.",
                 "Checksum validation failed."
             };
-
-            if (file is not null)
+            switch (MessageBox.Show(this, $"文件列表：\n{file_list}\n选择是：创建下载任务 (aria2c.exe)\n选择否：查看原始输入 (notepad.exe)", $"下载文件：{file_input}", MessageBoxButtons.YesNoCancel))
             {
-                switch (MessageBox.Show($"MD5: {file.md5}\nURL: {file.path}\n\n选择是：立即下载 (使用 aria2c.exe)\n选择否：复制链接", file.ToString(), MessageBoxButtons.YesNoCancel))
-                {
-                    case DialogResult.Yes:
-                        if (!Directory.Exists(DownPath))
-                        {
-                            _ = Directory.CreateDirectory(DownPath);
-                        }
-                        toolStripStatusLabel1.Text = $"下载任务已创建。";
-                        int exitCode = await RunProcess("aria2c.exe", $"-x 8 -s 8 -j 8 --log={file.name}.aria2.log --log-level={aria2c_log_levels[log_level]} --console-log-level={aria2c_log_levels[console_log_level]} --checksum=md5={file.md5} {file.path}", DownPath);
-                        string error = "Unknown error.";
-                        if (exitCode is >= 0 and <= 32)
-                        {
-                            error = aria2c_errors[exitCode];
-                        }
-                        _ = MessageBox.Show(this, error, "下载结束");
-                        return exitCode;
-                    case DialogResult.No:
-                        Clipboard.SetText(file.path);
-                        return 7;
-                    default:
-                        return 7;
-                }
+                case DialogResult.Yes:
+                    toolStripStatusLabel1.Text = $"下载任务已创建：{file_input}。";
+                    int exitCode = await RunProcess("aria2c.exe", $"-R --log-level={aria2c_log_levels[log_level]} --console-log-level={aria2c_log_levels[console_log_level]} " +
+                        $"--input-file={file_input} --log={file_log}", DownPath);
+                    string error = "Unknown error.";
+                    if (exitCode is >= 0 and <= 32)
+                    {
+                        error = aria2c_errors[exitCode];
+                    }
+                    _ = MessageBox.Show(this, error, "下载结束");
+                    return exitCode;
+                case DialogResult.No:
+                    File.SetAttributes($"{DownPath}\\{file_input}", FileAttributes.ReadOnly);
+                    await Process.Start("notepad.exe", $"{DownPath}\\{file_input}").WaitForExitAsync();
+                    File.SetAttributes($"{DownPath}\\{file_input}", FileAttributes.Normal);
+                    return await DownloadFileDialogAsync(log_level, console_log_level, file_list, file_input, file_log);
+                default:
+                    File.Delete($"{DownPath}\\{file_input}");
+                    return 7;
             }
-            return -1;
         }
 
         private static async Task<int> RunProcess(string fileName, string arguments, string workingDirectory, DataReceivedEventHandler? onOutputDataReceived = null, DataReceivedEventHandler? onErrorDataReceived = null)
@@ -364,6 +407,20 @@ namespace Genshin.Downloader
             else
             {
                 Button_Path_Browse_Click(sender, e);
+            }
+        }
+
+        private void ListBox_file2down_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button_select_all.Text = (listBox_file2down.Items.Count == listBox_file2down.SelectedItems.Count) ? "全不选" : "全选";
+        }
+
+        private void Button_select_all_Click(object sender, EventArgs e)
+        {
+            bool select = listBox_file2down.Items.Count != listBox_file2down.SelectedItems.Count;
+            for (int i = 0; i < listBox_file2down.Items.Count; i++)
+            {
+                listBox_file2down.SetSelected(i, select);
             }
         }
     }
