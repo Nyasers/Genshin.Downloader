@@ -23,4 +23,4 @@
 - > [hpatchz.exe](/hpatchz.exe)
 
 ## 开源协议
-[MIT](LICENSE) © 2023 Nyaser
+[MIT](LICENSE) © 2023 ProjectNyaser
