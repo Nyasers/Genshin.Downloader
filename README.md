@@ -4,13 +4,13 @@ Get Genshin Impact game resources from the official server.
 
 ## Notice
 1. **This program is only available in Chinese languages.**
-2. ***!!For Windows x64 ONLY!!***
-3. Free for use, but **refuse to abuse**.
+1. ***!!For Windows x64 ONLY!!***
+4. Free for use, but **refuse to abuse**.
 
 ## API
 0. Index: <https://genshin.nyaser.tk/>
-2. Official: <https://genshin-official.nyaser.tk/> ([source](https://genshin-official.nyaser.tk/source))
-3. Bilibili: <https://genshin-bilibili.nyaser.tk/> ([source](https://genshin-bilibili.nyaser.tk/source))
+2. Bilibili: <https://genshin-bilibili.nyaser.tk/> ([source](https://genshin-bilibili.nyaser.tk/source))
+3. Official: <https://genshin-official.nyaser.tk/> ([source](https://genshin-official.nyaser.tk/source))
 3. Global: <https://genshin-global.nyaser.tk/> ([source](https://genshin-global.nyaser.tk/source))
 
 ## Reference
