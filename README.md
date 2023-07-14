@@ -1,9 +1,11 @@
+[中文 README](README_ZH-CN.md)
 # Genshin.Downloader
 Get Genshin Impact game resources from the official server.
 
 ## Notice
 1. **This program is only available in Chinese languages.**
 2. ***!!For Windows x64 ONLY!!***
+3. Free for use, but **refuse to abuse**.
 
 ## API
 0. Index: <https://genshin.nyaser.tk/>
