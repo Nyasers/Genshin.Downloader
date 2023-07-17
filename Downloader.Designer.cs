@@ -127,6 +127,7 @@
             // 
             this.listBox_file2down.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox_file2down.FormattingEnabled = true;
+            this.listBox_file2down.IntegralHeight = false;
             this.listBox_file2down.ItemHeight = 17;
             this.listBox_file2down.Location = new System.Drawing.Point(3, 19);
             this.listBox_file2down.Name = "listBox_file2down";
@@ -308,6 +309,7 @@
             // 
             this.checkedListBox_voicePacks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkedListBox_voicePacks.FormattingEnabled = true;
+            this.checkedListBox_voicePacks.IntegralHeight = false;
             this.checkedListBox_voicePacks.Items.AddRange(new object[] {
             "[zh-cn]Chinese",
             "[en-us]English(US)",
