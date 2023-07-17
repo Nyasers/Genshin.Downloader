@@ -1,7 +1,5 @@
 ﻿using Genshin.Downloader.Helpers;
 using System.Diagnostics;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Genshin.Downloader
 {
@@ -15,17 +13,17 @@ namespace Genshin.Downloader
         {
             InitializeComponent();
             this.path_game = path_game;
+            _ = DirectoryH.EnsureExists(path_game);
             this.path_down = path_down;
+            _ = DirectoryH.EnsureExists(path_down);
             this.path_temp = path_temp;
+            _ = DirectoryH.EnsureExists(path_temp);
         }
 
         private void Form_Installer_Load(object sender, EventArgs e)
         {
             Text += $" ({path_game})";
             openFileDialog1.InitialDirectory = path_down;
-            _ = DirectoryH.EnsureExists(path_game);
-            _ = DirectoryH.EnsureExists(path_down);
-            _ = DirectoryH.EnsureExists(path_temp);
         }
 
         private void Button_Install_File_Browse_Click(object sender, EventArgs e)
@@ -96,14 +94,14 @@ namespace Genshin.Downloader
                     string message = $"当前版本：{version_current}\n" +
                         $"资源包版本：从 {version_old} 更新到 {version_new}\n\n" +
                         $"看起来你好像已经安装了这个更新包，要继续吗？";
-                    cancel = MessageBox.Show(message, "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes;
+                    cancel = MessageBox.Show(this, message, "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes;
                 }
                 else if (version_current != version_old)
                 {
                     string message = $"当前版本：{version_current}\n" +
                         $"资源包版本：从 {version_old} 更新到 {version_new}\n\n" +
                         $"看起来你好像选择了错误的资源包，要继续吗？";
-                    cancel = MessageBox.Show(message, "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes;
+                    cancel = MessageBox.Show(this, message, "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes;
                 }
 
                 if (cancel)
@@ -127,7 +125,7 @@ namespace Genshin.Downloader
                     string message = $"当前版本：{version_current}\n" +
                         $"资源包版本：{version_new}\n\n" +
                         $"看起来你好像已经安装了这个更新包，要继续吗？";
-                    cancel = MessageBox.Show(message, "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes;
+                    cancel = MessageBox.Show(this, message, "注意", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes;
                 }
                 if (cancel)
                 {

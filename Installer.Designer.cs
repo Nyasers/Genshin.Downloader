@@ -81,7 +81,6 @@
             this.openFileDialog1.DefaultExt = "zip";
             this.openFileDialog1.Filter = ".zip file|*.zip;*.zip.001";
             this.openFileDialog1.ReadOnlyChecked = true;
-            this.openFileDialog1.RestoreDirectory = true;
             this.openFileDialog1.Title = "打开资源文件";
             this.openFileDialog1.ValidateNames = false;
             // 
