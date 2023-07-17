@@ -13,10 +13,6 @@ namespace Genshin.Downloader
         private readonly int textBox_path_width;
         private readonly int groupBox_version_voicePacks_width;
         private readonly int comboBox_API_width;
-
-        private static readonly Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-        private static readonly KeyValueConfigurationCollection settings = config.AppSettings.Settings;
-
         private readonly KeyValueConfigurationCollection APIs = new()
         {
             new KeyValueConfigurationElement("global", "https://genshin-global.nyaser.tk"),
@@ -45,13 +41,13 @@ namespace Genshin.Downloader
 
         private void Form_Downloader_Load(object sender, EventArgs e)
         {
-            string? strRun = GetConfigValue("run");
+            string? strRun = Helpers.Config.GetValue("run");
             strRun = string.IsNullOrEmpty(strRun) ? "false" : strRun;
             bool run = bool.Parse(strRun);
             if (!run)
             {
                 string message = @$"1. 此提示信息仅在首次运行时显示，如需再次查看，可删除配置文件。
-位置：{config.FilePath}
+位置：{Helpers.Config.config.FilePath}
 
 2. 下载的文件保存在工作目录下的 {DownPath} 文件夹，请确保磁盘空间充足。
 位置：{Directory.GetCurrentDirectory()}\{DownPath}
@@ -75,7 +71,7 @@ namespace Genshin.Downloader
 
 5. 建议先安装语音包再安装游戏本体，安装游戏本体后将更新游戏配置文件的版本号。";
                 _ = MessageBox.Show(this, message, Text);
-                SetConfigValue("run", "true");
+                Helpers.Config.SetValue("run", "true");
             }
 
             foreach (KeyValueConfigurationElement api in APIs)
@@ -107,24 +103,6 @@ namespace Genshin.Downloader
                 BaseAddress = new Uri(APIs[key].Value),
                 DefaultRequestVersion = Version.Parse("2.0"),
             };
-        }
-
-        private static string? GetConfigValue(string key)
-        {
-            return settings.AllKeys.Contains(key) ? settings[key].Value : null;
-        }
-
-        private static void SetConfigValue(string key, string? value = null)
-        {
-            if (settings.AllKeys.Contains(key))
-            {
-                settings.Remove(key);
-            }
-            if (!string.IsNullOrEmpty(value))
-            {
-                settings.Add(key, value);
-            }
-            config.Save(ConfigurationSaveMode.Modified);
         }
 
         private void Button_Path_Browse_Click(object sender, EventArgs e)
@@ -217,7 +195,7 @@ namespace Genshin.Downloader
                 string path_config = $"{path}\\config.ini";
                 if (File.Exists(path_config))
                 {
-                    textBox_version_current.Text = INI.Read("General", "game_version", path_config);
+                    textBox_version_current.Text = Helpers.INI.Read("General", "game_version", path_config);
                 }
 
                 string path_voicePacks = @$"{path}\GenshinImpact_Data\StreamingAssets\AudioAssets\";
@@ -269,7 +247,7 @@ namespace Genshin.Downloader
                         $" checksum=md5={file.md5}\n\n";
                     size_total += file.size;
                 }
-                origin_input += $"#Count: {files.Length} file(s), {File2Down.GetFileSize(size_total)} in total.\n";
+                origin_input += $"#Count: {files.Length} file(s), {Helpers.Unit.ParseSize(size_total)} in total.\n";
                 string time_now = $"{DateTime.Now.Year:0000}{DateTime.Now.Month:00}{DateTime.Now.Day:00}{DateTime.Now.Hour:00}{DateTime.Now.Minute:00}{DateTime.Now.Second:00}";
                 string file_input = $"{time_now}.aria2";
                 string file_log = $"{time_now}.aria2.log";
@@ -328,7 +306,7 @@ namespace Genshin.Downloader
             {
                 case DialogResult.Yes:
                     toolStripStatusLabel1.Text = $"下载任务已创建：{file_input}。";
-                    int exitCode = await RunProcess("aria2c.exe", $"-R --log-level={aria2c_log_levels[log_level]} --console-log-level={aria2c_log_levels[console_log_level]} " +
+                    int exitCode = await Helpers.Process.Run("aria2c.exe", $"-R --log-level={aria2c_log_levels[log_level]} --console-log-level={aria2c_log_levels[console_log_level]} " +
                         $"--input-file={file_input} --log={file_log}", DownPath);
                     string error = "Unknown error.";
                     if (exitCode is >= 0 and <= 32)
@@ -346,47 +324,6 @@ namespace Genshin.Downloader
                     File.Delete($"{DownPath}\\{file_input}");
                     return 7;
             }
-        }
-
-        private static async Task<int> RunProcess(string fileName, string arguments, string workingDirectory, DataReceivedEventHandler? onOutputDataReceived = null, DataReceivedEventHandler? onErrorDataReceived = null)
-        {
-            ProcessStartInfo startInfo = new()
-            {
-                FileName = fileName,
-                Arguments = arguments,
-                WorkingDirectory = workingDirectory,
-                UseShellExecute = false,
-                ErrorDialog = true,
-            };
-            if (onOutputDataReceived is not null)
-            {
-                startInfo.RedirectStandardOutput = true;
-            }
-            if (onErrorDataReceived is not null)
-            {
-                startInfo.RedirectStandardError = true;
-            }
-            if (startInfo.RedirectStandardOutput & startInfo.RedirectStandardError)
-            {
-                startInfo.CreateNoWindow = true;
-            }
-            Process? process = Process.Start(startInfo);
-            if (process is not null)
-            {
-                if (startInfo.RedirectStandardOutput)
-                {
-                    process.OutputDataReceived += onOutputDataReceived;
-                    process.BeginOutputReadLine();
-                }
-                if (startInfo.RedirectStandardError)
-                {
-                    process.ErrorDataReceived += onErrorDataReceived;
-                    process.BeginErrorReadLine();
-                }
-                await process.WaitForExitAsync();
-                return process.ExitCode;
-            }
-            return -1;
         }
 
         private void Button_Open_Installer_Click(object sender, EventArgs e)

@@ -85,7 +85,7 @@ namespace Genshin.Downloader
             }
 
             bool game;
-            string version_current = INI.Read("General", "game_version", $"{path_game}\\config.ini");
+            string version_current = Helpers.INI.Read("General", "game_version", $"{path_game}\\config.ini");
             string version_new;
 
             if (name.Contains("hdiff"))
@@ -154,7 +154,7 @@ namespace Genshin.Downloader
 
             if (game)
             {
-                INI.Write("General", "game_version", version_new, $"{path_game}\\config.ini");
+                Helpers.INI.Write("General", "game_version", version_new, $"{path_game}\\config.ini");
             }
 
             string command_line = $"xcopy /f /e /y \"{path_temp}\" \"{path_game}\" && del /s /q \"{path_temp}\\*\" && rd /s /q \"{path_temp}\\GenshinImpact_Data\" || pause";
