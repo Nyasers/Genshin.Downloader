@@ -366,6 +366,7 @@
             this.Controls.Add(this.groupBox_version);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox_path);
+            this.MaximizeBox = false;
             this.Name = "Form_Downloader";
             this.Padding = new System.Windows.Forms.Padding(5, 5, 5, 0);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

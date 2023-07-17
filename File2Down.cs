@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Net.Http.Headers;
+using System.Text.Json.Nodes;
 
 namespace Genshin.Downloader
 {
@@ -8,8 +9,6 @@ namespace Genshin.Downloader
         public string path;
         public long size;
         public string md5;
-
-        public string ParsedSize => Helpers.Unit.ParseSize(size);
 
         public File2Down()
         {
@@ -23,16 +22,17 @@ namespace Genshin.Downloader
         {
             try
             {
-                string res = await client.GetStringAsync(requestUri);
+                var res = await client.GetStringAsync(requestUri);
                 JsonNode? data = JsonNode.Parse(res);
                 path = (string?)data?["path"] ?? string.Empty;
                 if (string.IsNullOrEmpty(path))
                 {
                     throw new();
                 }
-                name = Helpers.String.EmptyCheck((string?)data?["name"]) ?? Helpers.File.GetName(path);
+                name = (string?)data?["name"] ?? string.Empty;
+                name = string.IsNullOrEmpty(name) ? GetName(path) : name;
                 size = long.Parse((string?)data?["package_size"] ?? "0");
-                size = size == 0 ? await Helpers.File.GetSizeAsync(path) : size;
+                size = size == 0 ? await GetSizeAsync(path) : size;
                 md5 = (string?)data?["md5"] ?? string.Empty;
             }
             catch
@@ -42,9 +42,36 @@ namespace Genshin.Downloader
             return this;
         }
 
+        public static async Task<long> GetSizeAsync(string path)
+        {
+            using HttpClient client = new();
+            return (await client.GetAsync(path, HttpCompletionOption.ResponseHeadersRead)).Content.Headers.ContentLength ?? 0;
+        }
+
+        public static string GetName(string path)
+        {
+            string[] s = path.Split("/");
+            string name = s[^1];
+            return name;
+        }
+
+        public static string GetFileSize(long size)
+        {
+            double num = 1024.00;
+            return size < num
+                ? size + " Byte"
+                : size < Math.Pow(num, 2)
+                ? (size / num).ToString("f2") + " KB"
+                : size < Math.Pow(num, 3)
+                ? (size / Math.Pow(num, 2)).ToString("f2") + " MB"
+                : size < Math.Pow(num, 4)
+                ? (size / Math.Pow(num, 3)).ToString("f2") + " GB"
+                : (size / Math.Pow(num, 4)).ToString("f2") + " TB";
+        }
+
         public override string ToString()
         {
-            return $"{name} ({ParsedSize})";
+            return $"{name} ({GetFileSize(size)})";
         }
     }
 }
