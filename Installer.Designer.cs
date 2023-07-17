@@ -191,7 +191,6 @@
             this.Name = "Form_Installer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Genshin Impact 安装器";
-            this.Load += new System.EventHandler(this.Form_Installer_Load);
             this.groupBox_install_file.ResumeLayout(false);
             this.groupBox_install_file.PerformLayout();
             this.groupBox_file_info.ResumeLayout(false);

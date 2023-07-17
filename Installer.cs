@@ -11,17 +11,13 @@ namespace Genshin.Downloader
 
         public Form_Installer(string path_game, string path_down, string path_temp)
         {
-            InitializeComponent();
             this.path_game = path_game;
             _ = DirectoryH.EnsureExists(path_game);
             this.path_down = path_down;
             _ = DirectoryH.EnsureExists(path_down);
             this.path_temp = path_temp;
             _ = DirectoryH.EnsureExists(path_temp);
-        }
-
-        private void Form_Installer_Load(object sender, EventArgs e)
-        {
+            InitializeComponent();
             Text += $" ({path_game})";
             openFileDialog1.InitialDirectory = path_down;
         }
