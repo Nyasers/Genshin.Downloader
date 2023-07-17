@@ -10,9 +10,6 @@ namespace Genshin.Downloader
         private const string DownPath = "Downloads";
         private const string TempPath = "Temp";
 
-        private readonly int textBox_path_width;
-        private readonly int groupBox_version_voicePacks_width;
-        private readonly int comboBox_API_width;
         private readonly KeyValueConfigurationCollection APIs = new()
         {
             new KeyValueConfigurationElement("global", "https://genshin-global.nyaser.tk"),
@@ -26,38 +23,16 @@ namespace Genshin.Downloader
         {
             InitializeComponent();
             MinimumSize = Size;
-            textBox_path_width = Width - textBox_path.Width;
-            groupBox_version_voicePacks_width = Width - groupBox_version_voicePacks.Width;
-            comboBox_API_width = Width - comboBox_API.Width;
-        }
-
-        private void Form1_SizeChanged(object sender, EventArgs e)
-        {
-            // Text = Size.ToString();
-            textBox_path.Width = Width - textBox_path_width;
-            groupBox_version_voicePacks.Width = Width - groupBox_version_voicePacks_width;
-            comboBox_API.Width = Width - comboBox_API_width;
         }
 
         private void Form_Downloader_Load(object sender, EventArgs e)
         {
             string? strRun = Helpers.Config.GetValue("run");
-            strRun = string.IsNullOrEmpty(strRun) ? "false" : strRun;
+            strRun = string.IsNullOrEmpty(strRun) ? bool.FalseString : strRun;
             bool run = bool.Parse(strRun);
             if (!run)
             {
-                string message = @$"1. 此提示信息仅在首次运行时显示，如需再次查看，可删除配置文件。
-位置：{Helpers.Config.config.FilePath}
-
-2. 下载的文件保存在工作目录下的 {DownPath} 文件夹，请确保磁盘空间充足。
-位置：{Directory.GetCurrentDirectory()}\{DownPath}
-
-3. 下载后的文件请保留其原名称，安装器需识别文件的名称以获取一些信息。
-
-4. 安装器在安装过程中，会先将文件暂存在工作目录下的 {TempPath} 文件夹，参考第 2 点。
-位置：{Directory.GetCurrentDirectory()}\{TempPath}
-
-5. 建议先安装语音包再安装游戏本体，安装游戏本体后将更新游戏配置文件的版本号。";
+                string message = $"1. 此提示信息仅在首次运行时显示，如需再次查看，可删除配置文件。\r\n位置：{Helpers.Config.config.FilePath}\r\n\r\n2. 下载的文件保存在工作目录下的 {DownPath} 文件夹，请确保磁盘空间充足。\r\n位置：{Directory.GetCurrentDirectory()}\\{DownPath}\r\n\r\n3. 下载后的文件请保留其原名称，安装器需识别文件的名称以获取一些信息。\r\n\r\n4. 安装器在安装过程中，会先将文件暂存在工作目录下的 {TempPath} 文件夹，参考第 2 点。\r\n位置：{Directory.GetCurrentDirectory()}\\{TempPath}\r\n\r\n5. 建议先安装语音包再安装游戏本体，安装游戏本体后将更新游戏配置文件的版本号。";
                 _ = MessageBox.Show(this, message, Text);
                 Helpers.Config.SetValue("run", "true");
             }

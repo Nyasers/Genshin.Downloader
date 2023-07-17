@@ -371,7 +371,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Genshin Impact 下载器";
             this.Load += new System.EventHandler(this.Form_Downloader_Load);
-            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.groupBox_path.ResumeLayout(false);
             this.groupBox_path.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
