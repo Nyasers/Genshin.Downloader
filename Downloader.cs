@@ -99,15 +99,13 @@ namespace Genshin.Downloader
                     textBox_version_current.Text = INI.Read("General", "game_version", path_config);
                 }
 
-                string path_voicePacks = @$"{path}\GenshinImpact_Data\StreamingAssets\AudioAssets\";
-                if (Directory.Exists(path_voicePacks))
+                if (Directory.Exists(path))
                 {
                     for (int i = 0; i < checkedListBox_voicePacks.Items.Count; i++)
                     {
-                        string? language = checkedListBox_voicePacks.Items[i].ToString()?[7..];
-                        if (checkedListBox_voicePacks.Items[i] is not null && language is not null)
+                        if (checkedListBox_voicePacks.Items[i] is not null)
                         {
-                            checkedListBox_voicePacks.SetItemChecked(i, Directory.Exists(path_voicePacks + language));
+                            checkedListBox_voicePacks.SetItemChecked(i, File.Exists(@$"{path}\Audio_{checkedListBox_voicePacks.Items[i].ToString()?[7..]}_pkg_version"));
                         }
                     }
                 }
