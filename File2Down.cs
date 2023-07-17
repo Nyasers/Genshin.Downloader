@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using Genshin.Downloader.Helpers;
+using System.Text.Json.Nodes;
 
 namespace Genshin.Downloader
 {
@@ -9,7 +10,7 @@ namespace Genshin.Downloader
         public long size;
         public string md5;
 
-        public string ParsedSize => Helpers.Unit.ParseSize(size);
+        public string ParsedSize => FileH.ParseSize(size);
 
         public File2Down()
         {
@@ -30,9 +31,9 @@ namespace Genshin.Downloader
                 {
                     throw new();
                 }
-                name = Helpers.String.EmptyCheck((string?)data?["name"]) ?? Helpers.File.GetName(path);
+                name = StringH.EmptyCheck((string?)data?["name"]) ?? FileH.GetName(path);
                 size = long.Parse((string?)data?["package_size"] ?? "0");
-                size = size == 0 ? await Helpers.File.GetSizeAsync(path) : size;
+                size = size == 0 ? await FileH.GetSizeAsync(path) : size;
                 md5 = (string?)data?["md5"] ?? string.Empty;
             }
             catch

@@ -370,6 +370,7 @@
             this.Padding = new System.Windows.Forms.Padding(5, 5, 5, 0);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Genshin Impact 下载器";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Downloader_FormClosing);
             this.Load += new System.EventHandler(this.Form_Downloader_Load);
             this.groupBox_path.ResumeLayout(false);
             this.groupBox_path.PerformLayout();

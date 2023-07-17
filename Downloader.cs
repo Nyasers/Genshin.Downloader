@@ -1,3 +1,4 @@
+using Genshin.Downloader.Helpers;
 using System.Configuration;
 using System.Diagnostics;
 using System.Text.Json.Nodes;
@@ -7,9 +8,7 @@ namespace Genshin.Downloader
 {
     public partial class Form_Downloader : Form
     {
-        private const string DownPath = "Downloads";
-        private const string TempPath = "Temp";
-
+        private const string DownPath = "Downloads", TempPath = "Temp", NormalAPI = "global";
         private readonly KeyValueConfigurationCollection APIs = new()
         {
             new KeyValueConfigurationElement("global", "https://genshin-global.nyaser.tk"),
@@ -25,16 +24,23 @@ namespace Genshin.Downloader
             MinimumSize = Size;
         }
 
+        #region ControlEvents
         private void Form_Downloader_Load(object sender, EventArgs e)
         {
-            string? strRun = Helpers.Config.GetValue("run");
-            strRun = string.IsNullOrEmpty(strRun) ? bool.FalseString : strRun;
-            bool run = bool.Parse(strRun);
-            if (!run)
+            if (Config.Read("run") != bool.TrueString)
             {
-                string message = $"1. 此提示信息仅在首次运行时显示，如需再次查看，可删除配置文件。\r\n位置：{Helpers.Config.config.FilePath}\r\n\r\n2. 下载的文件保存在工作目录下的 {DownPath} 文件夹，请确保磁盘空间充足。\r\n位置：{Directory.GetCurrentDirectory()}\\{DownPath}\r\n\r\n3. 下载后的文件请保留其原名称，安装器需识别文件的名称以获取一些信息。\r\n\r\n4. 安装器在安装过程中，会先将文件暂存在工作目录下的 {TempPath} 文件夹，参考第 2 点。\r\n位置：{Directory.GetCurrentDirectory()}\\{TempPath}\r\n\r\n5. 建议先安装语音包再安装游戏本体，安装游戏本体后将更新游戏配置文件的版本号。";
+                string message = $@"1. 此提示信息仅在首次运行时显示。
+
+2. 下载的文件保存在工作目录下的 {DownPath} 文件夹，请确保磁盘空间充足。
+位置：{Directory.GetCurrentDirectory()}\{DownPath}
+
+3. 下载后的文件请保留其原名称，安装器需识别文件的名称以获取一些信息。
+
+4. 安装器在安装过程中，会将文件缓存在工作目录下的 {TempPath} 文件夹，注意磁盘空间。
+位置：{Directory.GetCurrentDirectory()}\{TempPath}
+
+5. 建议先安装语音包再安装游戏本体，安装游戏本体后将更新游戏配置文件的版本号。";
                 _ = MessageBox.Show(this, message, Text);
-                Helpers.Config.SetValue("run", "true");
             }
 
             foreach (KeyValueConfigurationElement api in APIs)
@@ -42,24 +48,20 @@ namespace Genshin.Downloader
                 _ = comboBox_API.Items.Add($"{api.Key} => {api.Value}");
             }
 
-            SetAPIByKey("global");
+            SetAPIByKey(Config.Read("api") ?? NormalAPI);
+            textBox_path.Text = Config.Read("path");
         }
 
-        private void SetAPIByKey(string key)
+        private void Form_Downloader_FormClosing(object sender, FormClosingEventArgs e)
         {
-            foreach (string? api in from string api in comboBox_API.Items
-                                    where api.StartsWith(key)
-                                    select api)
-            {
-                comboBox_API.SelectedItem = api;
-            }
+            Config.Write("run", bool.TrueString);
+            Config.Write("api", GetKeyByAPI() ?? NormalAPI);
+            Config.Write("path", textBox_path.Text);
         }
 
         private void ComboBox_API_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string? key = comboBox_API.SelectedItem.ToString();
-            key = string.IsNullOrEmpty(key) ? "global" : key;
-            key = key[..key.IndexOf(" => ")];
+            string? key = GetKeyByAPI();
             Client.Dispose();
             Client = new HttpClient()
             {
@@ -90,6 +92,109 @@ namespace Genshin.Downloader
             comboBox_API.Enabled = button_check_update.Enabled = false;
             await CheckUpdate(checkBox_pre_download.Checked);
             comboBox_API.Enabled = button_check_update.Enabled = true;
+        }
+
+        private void TextBox_Path_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox_path.Text.EndsWith("\\Genshin Impact game"))
+            {
+                string path = textBox_path.Text;
+
+                string path_config = $"{path}\\config.ini";
+                if (File.Exists(path_config))
+                {
+                    textBox_version_current.Text = INI.Read("General", "game_version", path_config);
+                }
+
+                string path_voicePacks = @$"{path}\GenshinImpact_Data\StreamingAssets\AudioAssets\";
+                if (Directory.Exists(path_voicePacks))
+                {
+                    for (int i = 0; i < checkedListBox_voicePacks.Items.Count; i++)
+                    {
+                        string? language = checkedListBox_voicePacks.Items[i].ToString()?[7..];
+                        if (checkedListBox_voicePacks.Items[i] is not null && language is not null)
+                        {
+                            checkedListBox_voicePacks.SetItemChecked(i, Directory.Exists(path_voicePacks + language));
+                        }
+                    }
+                }
+            }
+        }
+
+        private async void Button_Download_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = $"创建下载任务..";
+            List<File2Down> files = new();
+            foreach (File2Down file in listBox_file2down.SelectedItems)
+            {
+                files.Add(file);
+            }
+            int exitCode = await DownloadFileAsync(files.ToArray(), 1);
+            toolStripStatusLabel1.Text = exitCode switch
+            {
+                -1 => $"启动 aria2c.exe 失败。",
+                0 => $"下载成功。",
+                7 => $"下载取消。",
+                9 => $"下载失败，磁盘空间不足。",
+                _ => $"下载结束，返回值：{exitCode}。",
+            };
+        }
+
+        private void Button_Open_Installer_Click(object sender, EventArgs e)
+        {
+            string path_game = textBox_path.Text;
+            if (path_game.EndsWith("\\Genshin Impact game"))
+            {
+                if (!Directory.Exists(path_game))
+                {
+                    _ = Directory.CreateDirectory(path_game);
+                }
+
+                using Form_Installer form = new(path_game, @$"{Directory.GetCurrentDirectory()}\{DownPath}", @$"{Directory.GetCurrentDirectory()}\{TempPath}");
+                form.FormClosed += (object? sender, FormClosedEventArgs e) => Show();
+                Hide();
+                _ = form.ShowDialog(this);
+            }
+            else
+            {
+                Button_Path_Browse_Click(sender, e);
+            }
+        }
+
+        private void ListBox_file2down_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button_select_all.Text = (listBox_file2down.Items.Count == listBox_file2down.SelectedItems.Count) ? "全不选" : "全选";
+        }
+
+        private void Button_select_all_Click(object sender, EventArgs e)
+        {
+            bool select = listBox_file2down.Items.Count != listBox_file2down.SelectedItems.Count;
+            for (int i = 0; i < listBox_file2down.Items.Count; i++)
+            {
+                listBox_file2down.SetSelected(i, select);
+            }
+        }
+
+        #endregion
+
+        #region ToolFunction
+
+        private void SetAPIByKey(string key)
+        {
+            foreach (string? api in from string api in comboBox_API.Items
+                                    where api.StartsWith(key)
+                                    select api)
+            {
+                comboBox_API.SelectedItem = api;
+            }
+        }
+
+        private string GetKeyByAPI()
+        {
+            string? key = comboBox_API.SelectedItem.ToString();
+            key = string.IsNullOrEmpty(key) ? NormalAPI : key;
+            key = key[..key.IndexOf(" => ")];
+            return key;
         }
 
         private async Task CheckUpdate(bool pre_download = false)
@@ -149,52 +254,6 @@ namespace Genshin.Downloader
             _ = file is null ? 0 : listBox_file2down.Items.Add(file);
         }
 
-        private void TextBox_Path_TextChanged(object sender, EventArgs e)
-        {
-            if (textBox_path.Text.EndsWith("\\Genshin Impact game"))
-            {
-                string path = textBox_path.Text;
-
-                string path_config = $"{path}\\config.ini";
-                if (File.Exists(path_config))
-                {
-                    textBox_version_current.Text = Helpers.INI.Read("General", "game_version", path_config);
-                }
-
-                string path_voicePacks = @$"{path}\GenshinImpact_Data\StreamingAssets\AudioAssets\";
-                if (Directory.Exists(path_voicePacks))
-                {
-                    for (int i = 0; i < checkedListBox_voicePacks.Items.Count; i++)
-                    {
-                        string? language = checkedListBox_voicePacks.Items[i].ToString()?[7..];
-                        if (checkedListBox_voicePacks.Items[i] is not null && language is not null)
-                        {
-                            checkedListBox_voicePacks.SetItemChecked(i, Directory.Exists(path_voicePacks + language));
-                        }
-                    }
-                }
-            }
-        }
-
-        private async void Button_Download_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel1.Text = $"创建下载任务..";
-            List<File2Down> files = new();
-            foreach (File2Down file in listBox_file2down.SelectedItems)
-            {
-                files.Add(file);
-            }
-            int exitCode = await DownloadFileAsync(files.ToArray(), 1);
-            toolStripStatusLabel1.Text = exitCode switch
-            {
-                -1 => $"启动 aria2c.exe 失败。",
-                0 => $"下载成功。",
-                7 => $"下载取消。",
-                9 => $"下载失败，磁盘空间不足。",
-                _ => $"下载结束，返回值：{exitCode}。",
-            };
-        }
-
         private async Task<int> DownloadFileAsync(File2Down[] files, int log_level = 0, int console_log_level = 2)
         {
             if (files is not null)
@@ -210,7 +269,7 @@ namespace Genshin.Downloader
                         $" checksum=md5={file.md5}\n\n";
                     size_total += file.size;
                 }
-                origin_input += $"#Count: {files.Length} file(s), {Helpers.Unit.ParseSize(size_total)} in total.\n";
+                origin_input += $"#Count: {files.Length} file(s), {FileH.ParseSize(size_total)} in total.\n";
                 string time_now = $"{DateTime.Now.Year:0000}{DateTime.Now.Month:00}{DateTime.Now.Day:00}{DateTime.Now.Hour:00}{DateTime.Now.Minute:00}{DateTime.Now.Second:00}";
                 string file_input = $"{time_now}.aria2";
                 string file_log = $"{time_now}.aria2.log";
@@ -244,11 +303,11 @@ namespace Genshin.Downloader
                 "Piece length was different from one in .aria2 control file. See --allow-piece-length-change option.",
                 "Aria2 was downloading same file at that moment.",
                 "Aria2 was downloading same info hash torrent at that moment.",
-                "File already existed. See --allow-overwrite option.",
+                "FileH already existed. See --allow-overwrite option.",
                 "Renaming file failed. See --auto-file-renaming option.",
                 "Aria2 could not open existing file.",
                 "Aria2 could not create new file or truncate existing file.",
-                "File I/O error occurred.",
+                "FileH I/O error occurred.",
                 "Aria2 could not create directory.",
                 "Name resolution failed.",
                 "Aria2 could not parse Metalink document.",
@@ -269,8 +328,22 @@ namespace Genshin.Downloader
             {
                 case DialogResult.Yes:
                     toolStripStatusLabel1.Text = $"下载任务已创建：{file_input}。";
-                    int exitCode = await Helpers.Process.Run("aria2c.exe", $"-R --log-level={aria2c_log_levels[log_level]} --console-log-level={aria2c_log_levels[console_log_level]} " +
-                        $"--input-file={file_input} --log={file_log}", DownPath);
+                    int exitCode = -1;
+                    ProcessStartInfo startInfo = new()
+                    {
+                        FileName = "aria2c.exe",
+                        Arguments = $"-R --log-level={aria2c_log_levels[log_level]} --console-log-level={aria2c_log_levels[console_log_level]} " +
+                        $"--input-file={file_input} --log={file_log}",
+                        WorkingDirectory = DownPath,
+                        UseShellExecute = false,
+                        ErrorDialog = true,
+                    };
+                    Process? process = Process.Start(startInfo);
+                    if (process is not null)
+                    {
+                        await process.WaitForExitAsync();
+                        exitCode = process.ExitCode;
+                    }
                     string error = "Unknown error.";
                     if (exitCode is >= 0 and <= 32)
                     {
@@ -289,39 +362,6 @@ namespace Genshin.Downloader
             }
         }
 
-        private void Button_Open_Installer_Click(object sender, EventArgs e)
-        {
-            string path_game = textBox_path.Text;
-            if (path_game.EndsWith("\\Genshin Impact game"))
-            {
-                if (!Directory.Exists(path_game))
-                {
-                    _ = Directory.CreateDirectory(path_game);
-                }
-
-                using Form_Installer form = new(path_game, @$"{Directory.GetCurrentDirectory()}\{DownPath}", @$"{Directory.GetCurrentDirectory()}\{TempPath}");
-                form.FormClosed += (object? sender, FormClosedEventArgs e) => Show();
-                Hide();
-                _ = form.ShowDialog(this);
-            }
-            else
-            {
-                Button_Path_Browse_Click(sender, e);
-            }
-        }
-
-        private void ListBox_file2down_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            button_select_all.Text = (listBox_file2down.Items.Count == listBox_file2down.SelectedItems.Count) ? "全不选" : "全选";
-        }
-
-        private void Button_select_all_Click(object sender, EventArgs e)
-        {
-            bool select = listBox_file2down.Items.Count != listBox_file2down.SelectedItems.Count;
-            for (int i = 0; i < listBox_file2down.Items.Count; i++)
-            {
-                listBox_file2down.SetSelected(i, select);
-            }
-        }
+        #endregion
     }
 }

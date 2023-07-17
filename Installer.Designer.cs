@@ -81,6 +81,9 @@
             this.openFileDialog1.DefaultExt = "zip";
             this.openFileDialog1.Filter = ".zip file|*.zip;*.zip.001";
             this.openFileDialog1.ReadOnlyChecked = true;
+            this.openFileDialog1.RestoreDirectory = true;
+            this.openFileDialog1.Title = "打开资源文件";
+            this.openFileDialog1.ValidateNames = false;
             // 
             // groupBox_file_info
             // 
@@ -161,7 +164,7 @@
             this.groupBox_install_button.Size = new System.Drawing.Size(388, 179);
             this.groupBox_install_button.TabIndex = 2;
             this.groupBox_install_button.TabStop = false;
-            this.groupBox_install_button.Text = "开始按钮";
+            this.groupBox_install_button.Text = "按钮";
             // 
             // button1
             // 

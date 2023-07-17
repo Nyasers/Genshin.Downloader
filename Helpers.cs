@@ -1,11 +1,13 @@
 ﻿using System.Configuration;
 using System.Diagnostics;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Genshin.Downloader
 {
     namespace Helpers
     {
-        internal static class String
+        internal static class StringH
         {
             public static string? EmptyCheck(string? left)
             {
@@ -13,16 +15,129 @@ namespace Genshin.Downloader
             }
         }
 
-        internal static class File
+        internal static class FileH
         {
             public static string GetName(string path)
             {
                 return path.Split("/")[^1];
             }
 
+            public static string ParseSize(long size)
+            {
+                return Unit.Parse(1024, new string[] { "Byte", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB", "BB" }, size);
+            }
+
             public static async Task<long> GetSizeAsync(string path)
             {
                 return (await new HttpClient().GetAsync(path, HttpCompletionOption.ResponseHeadersRead)).Content.Headers.ContentLength ?? 0;
+            }
+
+            public static async Task HPatchAsync(string path_game, string path_hdiff)
+            {
+                if (File.Exists($"{path_hdiff}\\deletefiles.txt"))
+                {
+                    string delete_file = $"{path_hdiff}\\deletefiles.txt";
+                    string batch_file = $"{path_hdiff}\\deletefiles.bat";
+                    StreamReader reader = new(delete_file);
+                    StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
+                    await writer.WriteLineAsync("@echo off & chcp 65001");
+                    await writer.WriteLineAsync("@title 正在删除旧文件..");
+                    while (!reader.EndOfStream)
+                    {
+                        string? line = await reader.ReadLineAsync();
+                        if (line != null)
+                        {
+                            string command_line = $"del /f \"{path_game}\\{line.Replace("/", "\\")}\"";
+                            await writer.WriteLineAsync(command_line);
+                        }
+                    }
+                    reader.Close();
+                    await writer.WriteLineAsync($"del /f \"{delete_file}\"");
+                    await writer.WriteLineAsync("del %0 & exit");
+                    writer.Close();
+                    using Process? process = Process.Start(new ProcessStartInfo()
+                    {
+                        FileName = "cmd.exe",
+                        Arguments = $"/c \"{batch_file}\""
+                    });
+                    if (process is not null)
+                    {
+                        await process.WaitForExitAsync();
+                    }
+                }
+                if (File.Exists($"{path_hdiff}\\hdifffiles.txt"))
+                {
+                    string hdiff_file = $"{path_hdiff}\\hdifffiles.txt";
+                    string batch_file = $"{path_hdiff}\\hdifffiles.bat";
+                    string hpatchz = $"{Directory.GetCurrentDirectory()}\\hpatchz.exe";
+                    StreamReader reader = new(hdiff_file);
+                    StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
+                    await writer.WriteLineAsync("@echo off & chcp 65001");
+                    await writer.WriteLineAsync("@title 正在处理差异文件..");
+                    while (!reader.EndOfStream)
+                    {
+                        string? line = await reader.ReadLineAsync();
+                        if (line != null)
+                        {
+                            string pattern = @"{""remoteName"": ""(.+)""}";
+                            Match match = Regex.Match(line, pattern);
+                            if (match.Success)
+                            {
+                                string remoteName = match.Groups[1].Value.Replace("/", "\\");
+                                string oldFile = $"{path_game}\\{remoteName}";
+                                string diffFile = $"{path_hdiff}\\{remoteName}.hdiff";
+                                string newFile = $"{path_hdiff}\\{remoteName}";
+                                string command_line = $"\"{hpatchz}\" \"{oldFile}\" \"{diffFile}\" \"{newFile}\" & del /f \"{diffFile}\"";
+                                await writer.WriteLineAsync(command_line);
+                            }
+                        }
+                    }
+                    reader.Close();
+                    await writer.WriteLineAsync($"del /f \"{hdiff_file}\"");
+                    await writer.WriteLineAsync("del %0 & exit");
+                    writer.Close();
+                    Process? process = Process.Start(new ProcessStartInfo()
+                    {
+                        FileName = "cmd.exe",
+                        Arguments = $"/c \"{batch_file}\""
+                    });
+                    if (process is not null)
+                    {
+                        await process.WaitForExitAsync();
+                    }
+                }
+            }
+
+            public static async Task UnzipAsync(string @in, string @out)
+            {
+                string seven_zip = $"{Directory.GetCurrentDirectory()}\\7za.exe";
+                Process? process = Process.Start(new ProcessStartInfo()
+                {
+                    FileName = "cmd.exe",
+                    Arguments = $"/c title 正在解压资源包.. & \"{seven_zip}\" x -o\"{@out}\" \"{@in}\"",
+                    UseShellExecute = false,
+                    ErrorDialog = true
+                });
+                if (process is not null)
+                {
+                    await process.WaitForExitAsync();
+                    if (process.ExitCode is not 0)
+                    {
+                        throw new Exception($"7za.exe exited with exception code {process.ExitCode}.");
+                    }
+                }
+            }
+        }
+
+        internal static class DirectoryH
+        {
+            public static DirectoryInfo EnsureExists(string path)
+            {
+                if (Directory.Exists(path))
+                {
+                    return new DirectoryInfo(path);
+                }
+                return Directory.CreateDirectory(path);
             }
         }
 
@@ -40,55 +155,6 @@ namespace Genshin.Downloader
                     unit++;
                 }
                 throw new NotImplementedException();
-            }
-
-            public static string ParseSize(long size)
-            {
-                return Parse(1024, new string[] { "Byte", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB", "BB" }, size);
-            }
-        }
-
-        internal static class Process
-        {
-            public static async Task<int> Run(string fileName, string arguments, string workingDirectory, DataReceivedEventHandler? onOutputDataReceived = null, DataReceivedEventHandler? onErrorDataReceived = null)
-            {
-                ProcessStartInfo startInfo = new()
-                {
-                    FileName = fileName,
-                    Arguments = arguments,
-                    WorkingDirectory = workingDirectory,
-                    UseShellExecute = false,
-                    ErrorDialog = true,
-                };
-                if (onOutputDataReceived is not null)
-                {
-                    startInfo.RedirectStandardOutput = true;
-                }
-                if (onErrorDataReceived is not null)
-                {
-                    startInfo.RedirectStandardError = true;
-                }
-                if (startInfo.RedirectStandardOutput & startInfo.RedirectStandardError)
-                {
-                    startInfo.CreateNoWindow = true;
-                }
-                System.Diagnostics.Process? process = System.Diagnostics.Process.Start(startInfo);
-                if (process is not null)
-                {
-                    if (startInfo.RedirectStandardOutput)
-                    {
-                        process.OutputDataReceived += onOutputDataReceived;
-                        process.BeginOutputReadLine();
-                    }
-                    if (startInfo.RedirectStandardError)
-                    {
-                        process.ErrorDataReceived += onErrorDataReceived;
-                        process.BeginErrorReadLine();
-                    }
-                    await process.WaitForExitAsync();
-                    return process.ExitCode;
-                }
-                return -1;
             }
         }
 
@@ -115,7 +181,7 @@ namespace Genshin.Downloader
 
             public static void Delete(string FilePath)
             {
-                System.IO.File.Delete(FilePath);
+                File.Delete(FilePath);
             }
         }
 
@@ -124,12 +190,12 @@ namespace Genshin.Downloader
             public static readonly Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             public static readonly KeyValueConfigurationCollection settings = config.AppSettings.Settings;
 
-            public static string? GetValue(string key)
+            public static string? Read(string key)
             {
                 return settings.AllKeys.Contains(key) ? settings[key].Value : null;
             }
 
-            public static void SetValue(string key, string? value = null)
+            public static void Write(string key, string? value = null)
             {
                 if (settings.AllKeys.Contains(key))
                 {

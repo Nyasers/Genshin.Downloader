@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Genshin.Downloader.Helpers;
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -22,6 +23,9 @@ namespace Genshin.Downloader
         {
             Text += $" ({path_game})";
             openFileDialog1.InitialDirectory = path_down;
+            _ = DirectoryH.EnsureExists(path_game);
+            _ = DirectoryH.EnsureExists(path_down);
+            _ = DirectoryH.EnsureExists(path_temp);
         }
 
         private void Button_Install_File_Browse_Click(object sender, EventArgs e)
@@ -39,23 +43,9 @@ namespace Genshin.Downloader
             {
                 FileInfo fileInfo = new(path);
                 textBox_name.Text = fileInfo.Name;
-                textBox_size.Text = GetFileSize(fileInfo.Length);
+                textBox_size.Text = FileH.ParseSize(fileInfo.Length);
                 textBox_fullname.Text = fileInfo.FullName;
             }
-        }
-
-        private static string GetFileSize(long size)
-        {
-            double num = 1024.00;
-            return size < num
-                ? size + "Byte"
-                : size < Math.Pow(num, 2)
-                ? (size / num).ToString("f2") + "KB"
-                : size < Math.Pow(num, 3)
-                ? (size / Math.Pow(num, 2)).ToString("f2") + "MB"
-                : size < Math.Pow(num, 4)
-                ? (size / Math.Pow(num, 3)).ToString("f2") + "GB"
-                : (size / Math.Pow(num, 4)).ToString("f2") + "TB";
         }
 
         private async void Button_Start_Click(object sender, EventArgs e)
@@ -76,8 +66,7 @@ namespace Genshin.Downloader
         private async Task Install(string zipFile)
         {
             FileInfo fileInfo = new(zipFile);
-            string name = fileInfo.Name;
-            string ext = fileInfo.Extension;
+            string name = fileInfo.Name, ext = fileInfo.Extension;
 
             if (ext is not (".zip" or ".001"))
             {
@@ -85,8 +74,7 @@ namespace Genshin.Downloader
             }
 
             bool game;
-            string version_current = Helpers.INI.Read("General", "game_version", $"{path_game}\\config.ini");
-            string version_new;
+            string version_new, version_current = INI.Read("General", "game_version", $"{path_game}\\config.ini");
 
             if (name.Contains("hdiff"))
             {
@@ -149,12 +137,12 @@ namespace Genshin.Downloader
                 game = name.StartsWith("GenshinImpact") | name.StartsWith("YuanShen");
             }
 
-            await UnzipAsync(zipFile, path_temp);
-            await HPatchAsync(path_game, path_temp);
+            await FileH.UnzipAsync(zipFile, path_temp);
+            await FileH.HPatchAsync(path_game, path_temp);
 
             if (game)
             {
-                Helpers.INI.Write("General", "game_version", version_new, $"{path_game}\\config.ini");
+                INI.Write("General", "game_version", version_new, $"{path_game}\\config.ini");
             }
 
             string command_line = $"xcopy /f /e /y \"{path_temp}\" \"{path_game}\" && del /s /q \"{path_temp}\\*\" && rd /s /q \"{path_temp}\\GenshinImpact_Data\" || pause";
@@ -166,98 +154,6 @@ namespace Genshin.Downloader
             if (process != null)
             {
                 await process.WaitForExitAsync();
-            }
-        }
-
-        private static async Task UnzipAsync(string @in, string @out)
-        {
-            string seven_zip = $"{Directory.GetCurrentDirectory()}\\7za.exe";
-            Process? process = Process.Start(new ProcessStartInfo()
-            {
-                FileName = "cmd.exe",
-                Arguments = $"/c title 正在解压资源包.. & \"{seven_zip}\" x -o\"{@out}\" \"{@in}\"",
-                UseShellExecute = false,
-                ErrorDialog = true
-            });
-            if (process is not null)
-            {
-                await process.WaitForExitAsync();
-            }
-        }
-
-        private static async Task HPatchAsync(string path_game, string path_hdiff)
-        {
-            if (File.Exists($"{path_hdiff}\\deletefiles.txt"))
-            {
-                string delete_file = $"{path_hdiff}\\deletefiles.txt";
-                string batch_file = $"{path_hdiff}\\deletefiles.bat";
-                StreamReader reader = new(delete_file);
-                StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
-                await writer.WriteLineAsync("@echo off & chcp 65001");
-                await writer.WriteLineAsync("@title 正在删除旧文件..");
-                while (!reader.EndOfStream)
-                {
-                    string? line = await reader.ReadLineAsync();
-                    if (line != null)
-                    {
-                        string command_line = $"del /f \"{path_game}\\{line.Replace("/", "\\")}\"";
-                        await writer.WriteLineAsync(command_line);
-                    }
-                }
-                reader.Close();
-                await writer.WriteLineAsync($"del /f \"{delete_file}\"");
-                await writer.WriteLineAsync("del %0 & exit");
-                writer.Close();
-                Process? process = Process.Start(new ProcessStartInfo()
-                {
-                    FileName = "cmd.exe",
-                    Arguments = $"/c \"{batch_file}\""
-                });
-                if (process is not null)
-                {
-                    await process.WaitForExitAsync();
-                }
-            }
-            if (File.Exists($"{path_hdiff}\\hdifffiles.txt"))
-            {
-                string hdiff_file = $"{path_hdiff}\\hdifffiles.txt";
-                string batch_file = $"{path_hdiff}\\hdifffiles.bat";
-                string hpatchz = $"{Directory.GetCurrentDirectory()}\\hpatchz.exe";
-                StreamReader reader = new(hdiff_file);
-                StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
-                await writer.WriteLineAsync("@echo off & chcp 65001");
-                await writer.WriteLineAsync("@title 正在处理差异文件..");
-                while (!reader.EndOfStream)
-                {
-                    string? line = await reader.ReadLineAsync();
-                    if (line != null)
-                    {
-                        string pattern = @"{""remoteName"": ""(.+)""}";
-                        Match match = Regex.Match(line, pattern);
-                        if (match.Success)
-                        {
-                            string remoteName = match.Groups[1].Value.Replace("/", "\\");
-                            string oldFile = $"{path_game}\\{remoteName}";
-                            string diffFile = $"{path_hdiff}\\{remoteName}.hdiff";
-                            string newFile = $"{path_hdiff}\\{remoteName}";
-                            string command_line = $"\"{hpatchz}\" \"{oldFile}\" \"{diffFile}\" \"{newFile}\" & del /f \"{diffFile}\"";
-                            await writer.WriteLineAsync(command_line);
-                        }
-                    }
-                }
-                reader.Close();
-                await writer.WriteLineAsync($"del /f \"{hdiff_file}\"");
-                await writer.WriteLineAsync("del %0 & exit");
-                writer.Close();
-                Process? process = Process.Start(new ProcessStartInfo()
-                {
-                    FileName = "cmd.exe",
-                    Arguments = $"/c \"{batch_file}\""
-                });
-                if (process is not null)
-                {
-                    await process.WaitForExitAsync();
-                }
             }
         }
     }
