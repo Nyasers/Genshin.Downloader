@@ -1,3 +1,4 @@
+[Eglish README](README.md)
 # Genshin.Downloader
 从对应的官方服务器下载原神的游戏资源文件。
 
