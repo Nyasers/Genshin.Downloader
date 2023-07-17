@@ -83,15 +83,8 @@ namespace Genshin.Downloader
                     }
                     path += "Genshin Impact game";
                 }
-                textBox_path.Text = path;
+                textBox_path.Text = DirectoryH.EnsureExists(path).FullName;
             }
-        }
-
-        private async void Button_Check_Update_Click(object sender, EventArgs e)
-        {
-            comboBox_API.Enabled = button_check_update.Enabled = false;
-            await CheckUpdate(checkBox_pre_download.Checked);
-            comboBox_API.Enabled = button_check_update.Enabled = true;
         }
 
         private void TextBox_Path_TextChanged(object sender, EventArgs e)
@@ -119,6 +112,13 @@ namespace Genshin.Downloader
                     }
                 }
             }
+        }
+
+        private async void Button_Check_Update_Click(object sender, EventArgs e)
+        {
+            comboBox_API.Enabled = button_check_update.Enabled = false;
+            await CheckUpdate(checkBox_pre_download.Checked);
+            comboBox_API.Enabled = button_check_update.Enabled = true;
         }
 
         private async void Button_Download_Click(object sender, EventArgs e)
@@ -258,7 +258,8 @@ namespace Genshin.Downloader
         {
             if (files is not null)
             {
-                string file_list = string.Empty, origin_input = string.Empty;
+                DateTime now = DateTime.Now;
+                string file_list = string.Empty, origin_input = $"#Created Time: {now.Kind}";
                 long size_total = 0;
                 foreach (File2Down file in files)
                 {
@@ -270,13 +271,10 @@ namespace Genshin.Downloader
                     size_total += file.size;
                 }
                 origin_input += $"#Count: {files.Length} file(s), {FileH.ParseSize(size_total)} in total.\n";
-                string time_now = $"{DateTime.Now.Year:0000}{DateTime.Now.Month:00}{DateTime.Now.Day:00}{DateTime.Now.Hour:00}{DateTime.Now.Minute:00}{DateTime.Now.Second:00}";
-                string file_input = $"{time_now}.aria2";
-                string file_log = $"{time_now}.aria2.log";
-                if (!Directory.Exists(DownPath))
-                {
-                    _ = Directory.CreateDirectory(DownPath);
-                }
+                string file_name = $"{now.Year:0000}{now.Month:00}{now.Day:00}{now.Hour:00}{now.Minute:00}{now.Second:00}";
+                string file_input = $"{file_name}.aria2";
+                string file_log = $"{file_name}.aria2.log";
+                _ = DirectoryH.EnsureExists(DownPath);
                 await File.WriteAllTextAsync($"{DownPath}\\{file_input}", origin_input);
                 return await DownloadFileDialogAsync(log_level, console_log_level, file_list, file_input, file_log);
             }
