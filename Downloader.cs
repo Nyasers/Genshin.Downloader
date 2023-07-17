@@ -53,18 +53,6 @@ namespace Genshin.Downloader
 位置：{Directory.GetCurrentDirectory()}\{DownPath}
 
 3. 下载后的文件请保留其原名称，安装器需识别文件的名称以获取一些信息。
-例如：
-    完整文件：
-        游戏本体：
-            YuanShen_[版本号].zip
-            GenshinImpact_[版本号].zip
-        语音包：
-            Audio_[语言名称]_[版本号].zip
-    差异文件：
-        游戏本体：
-            game_[原版本号]_[目标版本号]_hdiff_[ID].zip
-        语音包：
-            [语言代号]_[原版本号]_[目标版本号]_hdiff_[ID].zip
 
 4. 安装器在安装过程中，会先将文件暂存在工作目录下的 {TempPath} 文件夹，参考第 2 点。
 位置：{Directory.GetCurrentDirectory()}\{TempPath}
