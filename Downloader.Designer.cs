@@ -54,6 +54,12 @@
             this.button_open_installer = new System.Windows.Forms.Button();
             this.groupBox_version = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.选择目录PToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.检查更新UToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开安装器IToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开修复器FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox_path.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox_file2down.SuspendLayout();
@@ -64,6 +70,7 @@
             this.groupBox_version_voicePacks.SuspendLayout();
             this.groupBox_version.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox_path
@@ -71,7 +78,7 @@
             this.groupBox_path.Controls.Add(this.textBox_path);
             this.groupBox_path.Controls.Add(this.button_path_browse);
             this.groupBox_path.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox_path.Location = new System.Drawing.Point(5, 5);
+            this.groupBox_path.Location = new System.Drawing.Point(5, 30);
             this.groupBox_path.Name = "groupBox_path";
             this.groupBox_path.Padding = new System.Windows.Forms.Padding(6, 3, 6, 6);
             this.groupBox_path.Size = new System.Drawing.Size(362, 49);
@@ -109,7 +116,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(5, 351);
+            this.statusStrip1.Location = new System.Drawing.Point(5, 375);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(362, 22);
             this.statusStrip1.SizingGrip = false;
@@ -132,7 +139,7 @@
             this.listBox_file2down.Location = new System.Drawing.Point(3, 19);
             this.listBox_file2down.Name = "listBox_file2down";
             this.listBox_file2down.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBox_file2down.Size = new System.Drawing.Size(248, 72);
+            this.listBox_file2down.Size = new System.Drawing.Size(248, 71);
             this.listBox_file2down.TabIndex = 1;
             this.listBox_file2down.SelectedIndexChanged += new System.EventHandler(this.ListBox_file2down_SelectedIndexChanged);
             // 
@@ -141,10 +148,10 @@
             this.groupBox_file2down.Controls.Add(this.groupBox4);
             this.groupBox_file2down.Controls.Add(this.groupBox3);
             this.groupBox_file2down.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox_file2down.Location = new System.Drawing.Point(5, 231);
+            this.groupBox_file2down.Location = new System.Drawing.Point(5, 256);
             this.groupBox_file2down.Name = "groupBox_file2down";
             this.groupBox_file2down.Padding = new System.Windows.Forms.Padding(6, 3, 6, 6);
-            this.groupBox_file2down.Size = new System.Drawing.Size(362, 120);
+            this.groupBox_file2down.Size = new System.Drawing.Size(362, 119);
             this.groupBox_file2down.TabIndex = 2;
             this.groupBox_file2down.TabStop = false;
             this.groupBox_file2down.Text = "文件";
@@ -156,7 +163,7 @@
             this.groupBox4.Location = new System.Drawing.Point(6, 19);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 3, 3, 4);
-            this.groupBox4.Size = new System.Drawing.Size(254, 95);
+            this.groupBox4.Size = new System.Drawing.Size(254, 94);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "列表";
@@ -169,7 +176,7 @@
             this.groupBox3.Location = new System.Drawing.Point(260, 19);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(6, 3, 6, 8);
-            this.groupBox3.Size = new System.Drawing.Size(96, 95);
+            this.groupBox3.Size = new System.Drawing.Size(96, 94);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "按钮";
@@ -179,7 +186,7 @@
             this.button_download.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_download.Location = new System.Drawing.Point(6, 53);
             this.button_download.Name = "button_download";
-            this.button_download.Size = new System.Drawing.Size(84, 34);
+            this.button_download.Size = new System.Drawing.Size(84, 33);
             this.button_download.TabIndex = 2;
             this.button_download.Text = "下载";
             this.button_download.UseVisualStyleBackColor = true;
@@ -200,7 +207,7 @@
             // 
             this.groupBox1.Controls.Add(this.comboBox_API);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(5, 54);
+            this.groupBox1.Location = new System.Drawing.Point(5, 79);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(6, 3, 6, 8);
             this.groupBox1.Size = new System.Drawing.Size(362, 51);
@@ -337,7 +344,7 @@
             this.groupBox_version.Controls.Add(this.groupBox2);
             this.groupBox_version.Controls.Add(this.groupBox_version_game);
             this.groupBox_version.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox_version.Location = new System.Drawing.Point(5, 105);
+            this.groupBox_version.Location = new System.Drawing.Point(5, 130);
             this.groupBox_version.Name = "groupBox_version";
             this.groupBox_version.Padding = new System.Windows.Forms.Padding(6, 3, 6, 6);
             this.groupBox_version.Size = new System.Drawing.Size(362, 126);
@@ -358,16 +365,67 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "按钮";
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.menuStrip1.Location = new System.Drawing.Point(5, 5);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(362, 25);
+            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.选择目录PToolStripMenuItem,
+            this.检查更新UToolStripMenuItem,
+            this.打开安装器IToolStripMenuItem,
+            this.打开修复器FToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(68, 21);
+            this.toolStripMenuItem1.Text = "菜单 (&M)";
+            // 
+            // 选择目录PToolStripMenuItem
+            // 
+            this.选择目录PToolStripMenuItem.Name = "选择目录PToolStripMenuItem";
+            this.选择目录PToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.选择目录PToolStripMenuItem.Text = "选择目录 (&P)";
+            this.选择目录PToolStripMenuItem.Click += new System.EventHandler(this.选择目录PToolStripMenuItem_Click);
+            // 
+            // 检查更新UToolStripMenuItem
+            // 
+            this.检查更新UToolStripMenuItem.Name = "检查更新UToolStripMenuItem";
+            this.检查更新UToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.检查更新UToolStripMenuItem.Text = "检查更新 (&U)";
+            this.检查更新UToolStripMenuItem.Click += new System.EventHandler(this.检查更新UToolStripMenuItem_Click);
+            // 
+            // 打开安装器IToolStripMenuItem
+            // 
+            this.打开安装器IToolStripMenuItem.Name = "打开安装器IToolStripMenuItem";
+            this.打开安装器IToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开安装器IToolStripMenuItem.Text = "打开安装器 (&I)";
+            this.打开安装器IToolStripMenuItem.Click += new System.EventHandler(this.打开安装器IToolStripMenuItem_Click);
+            // 
+            // 打开修复器FToolStripMenuItem
+            // 
+            this.打开修复器FToolStripMenuItem.Name = "打开修复器FToolStripMenuItem";
+            this.打开修复器FToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开修复器FToolStripMenuItem.Text = "打开修复器 (&F)";
+            this.打开修复器FToolStripMenuItem.Click += new System.EventHandler(this.打开修复器FToolStripMenuItem_Click);
+            // 
             // Form_Downloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(372, 373);
+            this.ClientSize = new System.Drawing.Size(372, 397);
             this.Controls.Add(this.groupBox_file2down);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox_version);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox_path);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form_Downloader";
             this.Padding = new System.Windows.Forms.Padding(5, 5, 5, 0);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -387,6 +445,8 @@
             this.groupBox_version_voicePacks.ResumeLayout(false);
             this.groupBox_version.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -420,5 +480,11 @@
         private GroupBox groupBox4;
         private GroupBox groupBox3;
         private Button button_select_all;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private ToolStripMenuItem 选择目录PToolStripMenuItem;
+        private ToolStripMenuItem 检查更新UToolStripMenuItem;
+        private ToolStripMenuItem 打开安装器IToolStripMenuItem;
+        private ToolStripMenuItem 打开修复器FToolStripMenuItem;
     }
 }

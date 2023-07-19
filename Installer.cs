@@ -1,4 +1,4 @@
-﻿using Genshin.Downloader.Helpers;
+﻿using Genshin.Downloader.Helper;
 using System.Diagnostics;
 
 namespace Genshin.Downloader
@@ -18,8 +18,8 @@ namespace Genshin.Downloader
             this.path_temp = path_temp;
             _ = DirectoryH.EnsureExists(path_temp);
             InitializeComponent();
-            Text += $" ({path_game})";
-            openFileDialog1.InitialDirectory = path_down;
+            Text += $" ({this.path_game})";
+            openFileDialog1.InitialDirectory = this.path_down;
         }
 
         private void Button_Install_File_Browse_Click(object sender, EventArgs e)
@@ -46,13 +46,16 @@ namespace Genshin.Downloader
         {
             button1.Enabled = false;
             string path = textBox_fullname.Text;
-            if (File.Exists(path))
+            try
             {
                 await Install(path);
             }
-            else
+            catch (Exception ex)
             {
-                Button_Install_File_Browse_Click(sender, e);
+                if (MessageBox.Show(this, $"请选择一个可用的资源包。\r\n\r\n出现错误：{ex}", Text) is DialogResult.OK)
+                {
+                    Button_Install_File_Browse_Click(sender, e);
+                }
             }
             button1.Enabled = true;
         }
@@ -82,6 +85,10 @@ namespace Genshin.Downloader
                 left = right + 1;
                 right = name.IndexOf("_", left);
                 version_new = name[left..right];
+                if (string.IsNullOrEmpty(version_new))
+                {
+                    throw new ArgumentException("Unexpected file name.", nameof(zipFile));
+                }
 
                 bool cancel = false;
 
@@ -105,7 +112,7 @@ namespace Genshin.Downloader
                     return;
                 }
 
-                game = name.StartsWith("game");
+                game = name.StartsWith("change_version");
             }
             else
             {
@@ -114,6 +121,10 @@ namespace Genshin.Downloader
                 int left;
                 left = name.LastIndexOf("_") + 1;
                 version_new = name[left..^4];
+                if (string.IsNullOrEmpty(version_new))
+                {
+                    throw new ArgumentException("Unexpected file name.", nameof(zipFile));
+                }
 
                 bool cancel = false;
                 if (version_current == version_new)
@@ -133,22 +144,7 @@ namespace Genshin.Downloader
 
             await FileH.UnzipAsync(zipFile, path_temp);
             await FileH.HPatchAsync(path_game, path_temp);
-
-            if (game)
-            {
-                INI.Write("General", "game_version", version_new, $"{path_game}\\config.ini");
-            }
-
-            string command_line = $"xcopy /f /e /y \"{path_temp}\" \"{path_game}\" && del /s /q \"{path_temp}\\*\" && rd /s /q \"{path_temp}\\GenshinImpact_Data\" || pause";
-            Process? process = Process.Start(new ProcessStartInfo()
-            {
-                FileName = "cmd.exe",
-                Arguments = $"/c title 正在应用更新.. & {command_line}"
-            });
-            if (process != null)
-            {
-                await process.WaitForExitAsync();
-            }
+            await FileH.ApplyUpdate(path_game, path_temp, game ? version_new : null);
         }
     }
 }

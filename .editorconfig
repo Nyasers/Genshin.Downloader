@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0002: 简化成员访问
+dotnet_diagnostic.IDE0002.severity = suggestion
