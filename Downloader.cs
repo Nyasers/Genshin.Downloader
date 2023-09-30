@@ -1,5 +1,4 @@
 using Genshin.Downloader.Helper;
-using Microsoft.VisualBasic;
 using System.Configuration;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
@@ -14,7 +13,7 @@ namespace Genshin.Downloader
             MinimumSize = Size;
         }
 
-        private void Form_Downloader_Load(object sender, EventArgs e)
+        private async void Form_Downloader_Load(object sender, EventArgs e)
         {
             if (Config.Read("run") != bool.TrueString)
             {
@@ -23,11 +22,27 @@ namespace Genshin.Downloader
 
             foreach (KeyValueConfigurationElement api in Const.APIs)
             {
-                _ = comboBox_API.Items.Add($"{api.Key} => {api.Value}");
+                _ = comboBox_API.Items.Add($"{api.Key} => {api.Value[8..]}"); // 去除https://
             }
 
             SetItem(Config.Read("item") ?? Const.NormalAPI);
             textBox_path.Text = Config.Read("path");
+
+            try
+            {
+                _ = (await Const.Client.GetAsync("https://genshin.nyaser.tk/")).EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                if (DialogResult.Retry == MessageBox.Show($"无法与服务器进行通信：{ex.Message}", "错误", MessageBoxButtons.RetryCancel))
+                {
+                    Application.Restart();
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
         }
 
         private void Form_Downloader_FormClosing(object sender, FormClosingEventArgs e)
@@ -87,9 +102,15 @@ namespace Genshin.Downloader
 
         private async void Button_Check_Update_Click(object sender, EventArgs e)
         {
-            comboBox_API.Enabled = button_check_update.Enabled = false;
-            await CheckUpdate(checkBox_pre_download.Checked);
-            comboBox_API.Enabled = button_check_update.Enabled = true;
+            try
+            {
+                comboBox_API.Enabled = button_check_update.Enabled = false;
+                await CheckUpdate(checkBox_pre_download.Checked);
+            }
+            finally
+            {
+                comboBox_API.Enabled = button_check_update.Enabled = true;
+            }
         }
 
         private async void Button_Download_Click(object sender, EventArgs e)

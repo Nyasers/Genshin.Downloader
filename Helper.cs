@@ -264,7 +264,7 @@ namespace Genshin.Downloader
             public static string GetAria2cInput(File2Down[] files)
             {
                 long size_total = 0;
-                string origin_input = $"#Created Time: {DateTime.Now.Kind}\n";
+                string origin_input = $"#Created Time: {DateTime.Now.ToLocalTime()}\n";
                 foreach (File2Down file in files)
                 {
                     string? outPath = string.IsNullOrEmpty(file.remoteName) ? file.name : file.remoteName;

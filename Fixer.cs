@@ -37,9 +37,9 @@ namespace Genshin.Downloader
 
         private async void Button1_Count_Click(object sender, EventArgs e)
         {
-            ButtonLock(true);
             try
             {
+                ButtonLock(true);
                 string temp = DirectoryH.EnsureExists(Const.TempPath).FullName;
                 await GetOnlinePkgVersion(temp, key, voice_packs, SetProgressStyle, Logger);
                 await GetLocalPkgVersion(temp, path, key, SetProgressStyle, GetProgressValue, SetProgressValue, Logger);
@@ -50,7 +50,10 @@ namespace Genshin.Downloader
                 SetProgressValue((0, 0));
                 Logger($"{ex.Message}");
             }
-            ButtonLock(false);
+            finally
+            {
+                ButtonLock(false);
+            }
         }
 
         private void ButtonLock(bool enable)
@@ -93,18 +96,40 @@ namespace Genshin.Downloader
             files.AddRange(GetFiles(path_game, false, logger));
             files.AddRange(GetFiles($"{path_game}\\{(key == "global" ? "GenshinImpact" : "YuanShen")}_Data", true, logger));
             files = files.Where(file => !FreeFile(path_game, file)).ToList();
-            for (SetProgressValue.Invoke((0, files.Count)); GetProgressValue().Item1 < GetProgressValue().Item2; SetProgressValue((GetProgressValue().Item1 + 1, GetProgressValue().Item2)))
+            int totalsize = 0;
+            int zoom = 0b1;
+            foreach (string file in files)
             {
-                string file = files[GetProgressValue().Item1];
+                int filesize = (int)new FileInfo(file).Length / zoom;
+                while (totalsize + filesize >= 0x8000)
+                {
+                    zoom *= 0b10;
+                    filesize /= 2;
+                    totalsize /= 2;
+                }
+                totalsize += filesize;
+            }
+            SetProgressValue.Invoke((0, totalsize));
+            foreach (string file in files)
+            {
+                //string file = files[GetProgressValue().Item1];
+                int filesize = (int)new FileInfo(file).Length / zoom;
                 FileR? fileR = await GetFileInfoAsync(path_game, file, logger);
                 JsonNode? json = fileR?.GetJSON();
                 if (json != null)
                 {
                     local_pkg_version.Add(json);
                 }
+
+                (int, int) progressValue = GetProgressValue();
+                if (progressValue.Item1 + filesize <= progressValue.Item2)
+                {
+                    SetProgressValue((progressValue.Item1 + filesize, progressValue.Item2));
+                }
             }
-            await WriteJsonFileAsync($"{path_temp}\\local_pkg_version", local_pkg_version, logger);
             SetProgressValue((0, 0));
+            SetProgressStyle(ProgressBarStyle.Marquee);
+            await WriteJsonFileAsync($"{path_temp}\\local_pkg_version", local_pkg_version, logger);
             SetProgressStyle(ProgressBarStyle.Blocks);
         }
 
@@ -275,7 +300,10 @@ namespace Genshin.Downloader
             }
         }
 
-        private void Logger(string log) => this.textBox_log.AppendText($"[线程 {Thread.GetCurrentProcessorId()}] {log}\r\n");
+        private void Logger(string log)
+        {
+            textBox_log.AppendText($"[线程 {Thread.GetCurrentProcessorId()}] {log}\r\n");
+        }
 
         private void SetProgressStyle(ProgressBarStyle style)
         {
