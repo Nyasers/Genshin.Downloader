@@ -7,12 +7,6 @@ Get Genshin Impact game resources from the official server.
 1. ***!!For Windows x64 ONLY!!***
 4. Free for use, but **refuse to abuse**.
 
-## API
-0. Index: <https://genshin.nyaser.tk/>
-2. Bilibili: <https://genshin-bilibili.nyaser.tk/> ([source](https://genshin-bilibili.nyaser.tk/source))
-3. Official: <https://genshin-official.nyaser.tk/> ([source](https://genshin-official.nyaser.tk/source))
-3. Global: <https://genshin-global.nyaser.tk/> ([source](https://genshin-global.nyaser.tk/source))
-
 ## Reference
 - 7-Zip: <https://7-zip.org/>
 - > [7za.exe](/7za.exe)
