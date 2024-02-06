@@ -18,9 +18,9 @@ namespace Genshin.Downloader
             public static HttpClient Client { get; set; } = new();
             public static readonly KeyValueConfigurationCollection APIs = new()
             {
-                new KeyValueConfigurationElement("global", "https://genshin-global.nyaser.tk"),
-                new KeyValueConfigurationElement("official", "https://genshin-official.nyaser.tk"),
-                new KeyValueConfigurationElement("bilibili", "https://genshin-bilibili.nyaser.tk")
+                new KeyValueConfigurationElement("global", "https://hk4e-launcher-static.hoyoverse.com/hk4e_global/mdk/launcher/api/resource?launcher_id=10&key=gcStgarh&channel_id=1&sub_channel_id=3"),
+                new KeyValueConfigurationElement("official", "https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/resource?launcher_id=18&key=eYd89JmJ&channel_id=1&sub_channel_id=1"),
+                new KeyValueConfigurationElement("bilibili", "https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/resource?launcher_id=17&key=KAtdSsoQ&channel_id=14&sub_channel_id=0")
             };
         }
 
@@ -409,21 +409,27 @@ namespace Genshin.Downloader
                 md5 = "";
             }
 
-            public async Task<File2Down?> BuildAsync(string requestUri)
+            public async Task<File2Down?> BuildAsync(dynamic data)
             {
                 try
                 {
-                    string res = await Const.Client.GetStringAsync(requestUri);
-                    JsonNode? data = JsonNode.Parse(res);
-                    path = (string?)data?["path"] ?? string.Empty;
+                    path = data.path ?? string.Empty;
                     if (string.IsNullOrEmpty(path))
                     {
                         throw new();
                     }
-                    name = StringH.EmptyCheck((string?)data?["name"]) ?? FileH.GetName(path);
-                    size = long.Parse((string?)data?["package_size"] ?? "0");
+                    try
+                    {
+                        name = data.name ?? string.Empty;
+                    }
+                    catch { }
+                    finally
+                    {
+                        name = StringH.EmptyCheck(name) ?? FileH.GetName(path);
+                    }
+                    size = long.Parse(data.package_size ?? "0");
                     size = size == 0 ? await FileH.GetSizeAsync(path) : size;
-                    md5 = (string?)data?["md5"] ?? string.Empty;
+                    md5 = data.md5 ?? string.Empty;
                 }
                 catch
                 {

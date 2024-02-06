@@ -1,4 +1,5 @@
-﻿using Genshin.Downloader.Helper;
+﻿using Codeplex.Data;
+using Genshin.Downloader.Helper;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text.Json.Nodes;
@@ -41,8 +42,8 @@ namespace Genshin.Downloader
             {
                 ButtonLock(true);
                 string temp = DirectoryH.EnsureExists(Const.TempPath).FullName;
-                await GetOnlinePkgVersion(temp, key, voice_packs, SetProgressStyle, Logger);
-                await GetLocalPkgVersion(temp, path, key, SetProgressStyle, GetProgressValue, SetProgressValue, Logger);
+                List<JsonNode> online_pkg_version = await GetOnlinePkgVersion(temp, voice_packs, SetProgressStyle, Logger);
+                await GetLocalPkgVersion(temp, path, key, online_pkg_version, SetProgressStyle, GetProgressValue, SetProgressValue, Logger);
             }
             catch (Exception ex)
             {
@@ -61,33 +62,48 @@ namespace Genshin.Downloader
             button1_Count.Enabled = button2_Fix.Enabled = button3_Launch.Enabled = !enable;
         }
 
-        private static async Task GetOnlinePkgVersion(string path_temp, string key, System.Collections.IEnumerable voice_packs, Action<ProgressBarStyle> SetProgressStyle, Action<string>? logger = null)
+        private static async Task<List<JsonNode>> GetOnlinePkgVersion(string path_temp, System.Collections.IEnumerable voice_packs, Action<ProgressBarStyle> SetProgressStyle, Action<string>? logger = null)
         {
             SetProgressStyle(ProgressBarStyle.Marquee);
             File.Delete($"{path_temp}\\online_pkg_version");
             List<JsonNode> online_pkg_version = new();
-            string url_path = await GetStringAsync($"{Const.APIs[key].Value}/data/game/latest/decompressed_path", logger);
-            string resp = await GetStringAsync($"{url_path}/pkg_version", logger);
-            foreach (string voice_pack in voice_packs)
+            HttpResponseMessage response = await Const.Client.GetAsync("");
+            if (response.IsSuccessStatusCode)
             {
-                resp += await GetStringAsync($"{url_path}/Audio_{voice_pack}_pkg_version", logger);
-            }
-            foreach (string line in resp.Split('\n'))
-            {
-                if (!string.IsNullOrWhiteSpace(line))
+                string content_raw = await response.Content.ReadAsStringAsync();
+                dynamic content = DynamicJson.Parse(content_raw);
+                string url_path = content.data.game.latest.decompressed_path;
+                string resp = await GetStringAsync($"{url_path}/pkg_version", logger);
+                foreach (string voice_pack in voice_packs)
                 {
-                    JsonNode? json = JsonNode.Parse(line);
-                    if (json != null)
+                    resp += await GetStringAsync($"{url_path}/Audio_{voice_pack}_pkg_version", logger);
+                }
+                foreach (string line in resp.Split('\n'))
+                {
+                    if (!string.IsNullOrWhiteSpace(line))
                     {
-                        online_pkg_version.Add(json);
+                        JsonNode? json = JsonNode.Parse(line);
+                        if (json != null)
+                        {
+                            JsonNode? json1 = JsonNode.Parse(
+                                $"{{" +
+                                $"\"remoteName\":\"{json["remoteName"]}\"," +
+                                $"\"md5\":\"{json["md5"]}\"," +
+                                $"\"fileSize\":{json["fileSize"]}" +
+                                $"}}");
+                            if (json1 != null)
+                                online_pkg_version.Add(json1);
+                        }
                     }
                 }
+                await WriteJsonFileAsync($"{path_temp}\\online_pkg_version", online_pkg_version, logger);
             }
-            await WriteJsonFileAsync($"{path_temp}\\online_pkg_version", online_pkg_version, logger);
+            else throw new Exception(response.StatusCode.ToString());
             SetProgressStyle(ProgressBarStyle.Blocks);
+            return online_pkg_version;
         }
 
-        private static async Task GetLocalPkgVersion(string path_temp, string path_game, string key, Action<ProgressBarStyle> SetProgressStyle, Func<(int, int)> GetProgressValue, Action<(int, int)> SetProgressValue, Action<string>? logger = null)
+        private static async Task GetLocalPkgVersion(string path_temp, string path_game, string key, List<JsonNode> online_pkg_version, Action<ProgressBarStyle> SetProgressStyle, Func<(int, int)> GetProgressValue, Action<(int, int)> SetProgressValue, Action<string>? logger = null)
         {
             SetProgressStyle(ProgressBarStyle.Continuous);
             File.Delete($"{path_temp}\\local_pkg_version");
@@ -114,7 +130,19 @@ namespace Genshin.Downloader
             {
                 //string file = files[GetProgressValue().Item1];
                 int filesize = (int)new FileInfo(file).Length / zoom;
-                FileR? fileR = await GetFileInfoAsync(path_game, file, logger);
+                FileR? fileR = await GetFileInfoAsync(path_game, file, false, logger);
+                JsonNode? online = online_pkg_version.Find((s) =>
+                {
+                    string? name = s["remoteName"]?.ToString();
+                    if (name == fileR?.remoteName)
+                    {
+                        return true;
+                    }
+                    else return false;
+                });
+                string? size = online?["fileSize"]?.ToString();
+                if (size == fileR?.fileSize.ToString()) fileR = await GetFileInfoAsync(path_game, file, true);
+                else logger?.Invoke($"Skipped hashing due to wrong file size, shall be {FileH.ParseSize(long.Parse(size ?? "0"))}");
                 JsonNode? json = fileR?.GetJSON();
                 if (json != null)
                 {
@@ -170,7 +198,7 @@ namespace Genshin.Downloader
             catch (Exception ex) { throw new NotImplementedException(ex.Message, ex); }
         }
 
-        private static async Task<FileR?> GetFileInfoAsync(string gamePath, string filePath, Action<string>? logger = null)
+        private static async Task<FileR?> GetFileInfoAsync(string gamePath, string filePath, bool hash = false, Action<string>? logger = null)
         {
             if (FreeFile(gamePath, filePath))
             {
@@ -180,7 +208,7 @@ namespace Genshin.Downloader
             string remoteName = filePath.Replace(gamePath + "\\", "").Replace("\\", "/");
             long fileSize = new FileInfo(filePath).Length;
             logger?.Invoke($"{remoteName} ({FileH.ParseSize(fileSize)})");
-            string md5 = Convert.ToHexString(await MD5.Create().ComputeHashAsync(File.OpenRead(filePath)));
+            string md5 = hash ? Convert.ToHexString(await MD5.Create().ComputeHashAsync(File.OpenRead(filePath))) : "";
             return new FileR(remoteName, md5, fileSize);
         }
 
@@ -223,24 +251,32 @@ namespace Genshin.Downloader
                         await WriteSurplus(surplus, Logger);
                     }
                     string tempPath = DirectoryH.EnsureExists(Const.TempPath).FullName;
-                    string url_path = await GetStringAsync($"{Const.APIs[key].Value}/data/game/latest/decompressed_path", Logger);
-                    if (File.Exists($"{tempPath}\\downloadfiles.txt"))
+                    HttpResponseMessage response = await Const.Client.GetAsync("");
+                    if (response.IsSuccessStatusCode)
                     {
-                        Logger("开始下载缺失的文件。");
-                        await FileH.ApplyDownload(url_path, tempPath);
+                        string content_raw = await response.Content.ReadAsStringAsync();
+                        dynamic content = DynamicJson.Parse(content_raw);
+                        string url_path = content.data.game.latest.decompressed_path;
+                        // string url_path = await GetStringAsync($"{Const.APIs[key].Value}/data/game/latest/decompressed_path", Logger);
+                        if (File.Exists($"{tempPath}\\downloadfiles.txt"))
+                        {
+                            Logger("开始下载缺失的文件。");
+                            await FileH.ApplyDownload(url_path, tempPath);
+                        }
+
+                        if (File.Exists($"{tempPath}\\deletefiles.txt"))
+                        {
+                            Logger("开始删除多余的文件。");
+                            await FileH.ApplyDelete(path, tempPath);
+                        }
+
+                        Logger("更新 pkg_version..");
+                        await WritePkgVersion(tempPath, url_path);
+
+                        Logger("应用更新");
+                        await FileH.ApplyUpdate(path, tempPath, await GetStringAsync($"{content.data.game.latest.version}", Logger));
                     }
-
-                    if (File.Exists($"{tempPath}\\deletefiles.txt"))
-                    {
-                        Logger("开始删除多余的文件。");
-                        await FileH.ApplyDelete(path, tempPath);
-                    }
-
-                    Logger("更新 pkg_version..");
-                    await WritePkgVersion(tempPath, url_path);
-
-                    Logger("应用更新");
-                    await FileH.ApplyUpdate(path, tempPath, await GetStringAsync($"{Const.APIs[key].Value}/data/game/latest/version", Logger));
+                    else throw new Exception(response.StatusCode.ToString());
                 }
                 catch (Exception ex)
                 {

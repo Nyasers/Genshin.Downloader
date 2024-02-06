@@ -1,7 +1,6 @@
+using Codeplex.Data;
 using Genshin.Downloader.Helper;
 using System.Configuration;
-using System.Text.Json.Nodes;
-using System.Text.RegularExpressions;
 
 namespace Genshin.Downloader
 {
@@ -22,12 +21,12 @@ namespace Genshin.Downloader
 
             foreach (KeyValueConfigurationElement api in Const.APIs)
             {
-                _ = comboBox_API.Items.Add($"{api.Key} => {api.Value[8..]}"); // 去除https://
+                _ = comboBox_API.Items.Add($"{api.Key}"/* => {api.Value[8..]}"*/); // 去除https://
             }
 
             SetItem(Config.Read("item") ?? Const.NormalAPI);
             textBox_path.Text = Config.Read("path");
-
+            /*
             try
             {
                 _ = (await Const.Client.GetAsync("https://genshin.nyaser.tk/")).EnsureSuccessStatusCode();
@@ -42,7 +41,7 @@ namespace Genshin.Downloader
                 {
                     Application.Exit();
                 }
-            }
+            }*/
         }
 
         private void Form_Downloader_FormClosing(object sender, FormClosingEventArgs e)
@@ -170,7 +169,7 @@ namespace Genshin.Downloader
 
         private string GetAPIKey()
         {
-            return comboBox_API.Text[..comboBox_API.Text.IndexOf(" => ")];
+            return comboBox_API.Text/*[..comboBox_API.Text.IndexOf(" => ")]*/;
         }
 
         private void SetItem(string key)
@@ -188,45 +187,92 @@ namespace Genshin.Downloader
         {
             try
             {
-                string game = pre_download ? "pre_download_game" : "game";
-                HttpResponseMessage message = await Const.Client.GetAsync($"/data/{game}/latest/version");
-                if (message.IsSuccessStatusCode)
+                textBox_version_latest.Text = "";
+                listBox_file2down.Items.Clear();
+                HttpResponseMessage response = await Const.Client.GetAsync("");
+                if (response.IsSuccessStatusCode)
                 {
-                    textBox_version_latest.Text = await message.Content.ReadAsStringAsync();
-                    toolStripStatusLabel1.Text = textBox_version_current.Text == textBox_version_latest.Text
-                        ? "已是最新版本，可重新下载完整文件。"
-                        : $"存在 {textBox_version_latest.Text} 版本可下载。";
-                    string requestUri = $"/data/{game}/diffs?version=" + textBox_version_current.Text;
-                    HttpResponseMessage message1 = await Const.Client.GetAsync(requestUri);
-                    if (!message1.IsSuccessStatusCode)
+                    string content_raw = await response.Content.ReadAsStringAsync();
+                    dynamic content = DynamicJson.Parse(content_raw);
+                    if (content.message == "OK")
                     {
-                        requestUri = $"/data/{game}/latest";
-                    }
-                    listBox_file2down.Items.Clear();
-                    await File2Down_Add(requestUri);
-                    if (requestUri.EndsWith("latest"))
-                    {
-                        string res = await Const.Client.GetStringAsync(requestUri + "/segments");
-                        JsonNode? json = JsonNode.Parse(res);
-                        if (json is not null)
+                        dynamic data = content.data;
+                        dynamic game = data.game;
+                        try
                         {
-                            int count = json.AsArray().Count;
-                            for (int i = 0; i < count; i++)
+                            if (pre_download) game = data.pre_download_game;
+                            textBox_version_latest.Text = game.latest.version;
+                        }
+                        catch
+                        {
+                            if (pre_download)
                             {
-                                await File2Down_Add(requestUri + $"/segments/{i}");
+                                toolStripStatusLabel1.Text = "当前不存在可用的预下载。";
+                                checkBox_pre_download.Checked = false;
+                                return;
+                            }
+                            else
+                            {
+                                throw;
                             }
                         }
+                        string current_version = textBox_version_current.Text;
+                        toolStripStatusLabel1.Text = current_version == game.latest.version
+                                ? "已是最新版本，可重新下载完整文件。"
+                                : $"存在 {textBox_version_latest.Text} 版本可下载。";
+
+                        dynamic download = game.latest;
+                        foreach (dynamic diff in game.diffs)
+                        {
+                            if (diff.version == current_version) download = diff;
+                        }
+
+                        try
+                        {
+                            dynamic segments = download.segments;
+                            if (segments != null)
+                            {
+                                foreach (dynamic segment in segments)
+                                {
+                                    await File2Down_Add(segment);
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            dynamic path = StringH.EmptyCheck(download.path);
+                            if (path != null)
+                            {
+                                await File2Down_Add(download);
+                            }
+                            else throw;
+                        }
+                        try
+                        {
+                            List<string> languages = new();
+                            foreach (string item in checkedListBox_voicePacks.CheckedItems)
+                            {
+                                languages.Add(item[1..6]);
+                            }
+                            dynamic voice_packs = download.voice_packs;
+                            foreach (dynamic voice_pack in voice_packs)
+                            {
+                                if (languages.IndexOf(voice_pack.language) != -1)
+                                {
+                                    File2Down_Add(voice_pack);
+                                }
+                            }
+                        }
+                        catch { }
                     }
-                    string pattern = @"\[(.+)\]";
-                    foreach (string item in checkedListBox_voicePacks.CheckedItems)
+                    else
                     {
-                        string language = Regex.Match(item, pattern).Value[1..^1];
-                        await File2Down_Add(requestUri + "/voice_packs?language=" + language);
+                        throw new Exception(content.message);
                     }
                 }
                 else
                 {
-                    toolStripStatusLabel1.Text = "无法获取版本信息，错误：" + message.StatusCode.ToString();
+                    toolStripStatusLabel1.Text = "无法获取版本信息，错误：" + response.StatusCode.ToString();
                 }
             }
             catch (Exception ex)
@@ -235,9 +281,9 @@ namespace Genshin.Downloader
             }
         }
 
-        private async Task File2Down_Add(string requestUri)
+        private async Task File2Down_Add(dynamic data)
         {
-            File2Down? file = await new File2Down().BuildAsync(requestUri);
+            File2Down? file = await new File2Down().BuildAsync(data);
             _ = file is null ? 0 : listBox_file2down.Items.Add(file);
         }
 

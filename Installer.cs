@@ -1,5 +1,4 @@
 ﻿using Genshin.Downloader.Helper;
-using System.Diagnostics;
 
 namespace Genshin.Downloader
 {
