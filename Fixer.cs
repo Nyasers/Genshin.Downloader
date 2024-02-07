@@ -273,8 +273,9 @@ namespace Genshin.Downloader
                         Logger("更新 pkg_version..");
                         await WritePkgVersion(tempPath, url_path);
 
-                        Logger("应用更新");
-                        await FileH.ApplyUpdate(path, tempPath, await GetStringAsync($"{content.data.game.latest.version}", Logger));
+                        string version_new = content.data.game.latest.version;
+                        Logger($"应用更新，版本号：{version_new}");
+                        await FileH.ApplyUpdate(path, tempPath, version_new);
                     }
                     else throw new Exception(response.StatusCode.ToString());
                 }
@@ -284,6 +285,7 @@ namespace Genshin.Downloader
                 }
                 finally
                 {
+                    Logger("修复结束");
                     SetProgressStyle(ProgressBarStyle.Blocks);
                     SetProgressValue((0, 0));
                 }
