@@ -142,7 +142,7 @@ namespace Genshin.Downloader
                 });
                 string? size = online?["fileSize"]?.ToString();
                 if (size == fileR?.fileSize.ToString()) fileR = await GetFileInfoAsync(path_game, file, true);
-                else logger?.Invoke($"Skipped hashing due to wrong file size, shall be {FileH.ParseSize(long.Parse(size ?? "0"))}");
+                else logger?.Invoke($"Skipped hashing due to wrong file size which shall be {FileH.ParseSize(long.Parse(size ?? "0"))}");
                 JsonNode? json = fileR?.GetJSON();
                 if (json != null)
                 {
