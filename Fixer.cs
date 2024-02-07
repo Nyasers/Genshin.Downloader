@@ -217,9 +217,9 @@ namespace Genshin.Downloader
             string remoteName = filePath.Replace(gamePath + "\\", "").Replace("\\", "/");
             return remoteName.Equals("config.ini")
                 || remoteName.EndsWith("pkg_version")
-                || remoteName.StartsWith("GenshinImpact_Data/webCaches/")
-                || remoteName.StartsWith("GenshinImpact_Data/SDKCaches/")
-                || remoteName.StartsWith("GenshinImpact_Data/Persistent/");
+                || remoteName.Contains("/webCaches/")
+                || remoteName.Contains("/SDKCaches/")
+                || remoteName.Contains("/Persistent/");
         }
 
         private async void Button2_Fix_Click(object sender, EventArgs e)
