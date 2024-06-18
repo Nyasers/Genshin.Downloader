@@ -1,4 +1,3 @@
-using Codeplex.Data;
 using Genshin.Downloader.Helper;
 using System.Configuration;
 
@@ -12,7 +11,7 @@ namespace Genshin.Downloader
             MinimumSize = Size;
         }
 
-        private async void Form_Downloader_Load(object sender, EventArgs e)
+        private void Form_Downloader_Load(object sender, EventArgs e)
         {
             if (Config.Read("run") != bool.TrueString)
             {
@@ -21,27 +20,11 @@ namespace Genshin.Downloader
 
             foreach (KeyValueConfigurationElement api in Const.APIs)
             {
-                _ = comboBox_API.Items.Add($"{api.Key}"/* => {api.Value[8..]}"*/); // 去除https://
+                _ = comboBox_API.Items.Add($"{api.Key}");
             }
 
             SetItem(Config.Read("item") ?? Const.NormalAPI);
             textBox_path.Text = Config.Read("path");
-            /*
-            try
-            {
-                _ = (await Const.Client.GetAsync("https://genshin.nyaser.tk/")).EnsureSuccessStatusCode();
-            }
-            catch (HttpRequestException ex)
-            {
-                if (DialogResult.Retry == MessageBox.Show($"无法与服务器进行通信：{ex.Message}", "错误", MessageBoxButtons.RetryCancel))
-                {
-                    Application.Restart();
-                }
-                else
-                {
-                    Application.Exit();
-                }
-            }*/
         }
 
         private void Form_Downloader_FormClosing(object sender, FormClosingEventArgs e)
@@ -169,7 +152,7 @@ namespace Genshin.Downloader
 
         private string GetAPIKey()
         {
-            return comboBox_API.Text/*[..comboBox_API.Text.IndexOf(" => ")]*/;
+            return comboBox_API.Text;
         }
 
         private void SetItem(string key)
@@ -200,7 +183,11 @@ namespace Genshin.Downloader
                         dynamic game = data.game;
                         try
                         {
-                            if (pre_download) game = data.pre_download_game;
+                            if (pre_download)
+                            {
+                                game = data.pre_download_game;
+                            }
+
                             textBox_version_latest.Text = game.latest.version;
                         }
                         catch
@@ -224,7 +211,10 @@ namespace Genshin.Downloader
                         dynamic download = game.latest;
                         foreach (dynamic diff in game.diffs)
                         {
-                            if (diff.version == current_version) download = diff;
+                            if (diff.version == current_version)
+                            {
+                                download = diff;
+                            }
                         }
 
                         try
@@ -245,7 +235,10 @@ namespace Genshin.Downloader
                             {
                                 await File2Down_Add(download);
                             }
-                            else throw;
+                            else
+                            {
+                                throw;
+                            }
                         }
                         try
                         {

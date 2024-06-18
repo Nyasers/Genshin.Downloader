@@ -1,5 +1,4 @@
-﻿using Codeplex.Data;
-using Genshin.Downloader.Helper;
+﻿using Genshin.Downloader.Helper;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text.Json.Nodes;
@@ -92,13 +91,19 @@ namespace Genshin.Downloader
                                 $"\"fileSize\":{json["fileSize"]}" +
                                 $"}}");
                             if (json1 != null)
+                            {
                                 online_pkg_version.Add(json1);
+                            }
                         }
                     }
                 }
                 await WriteJsonFileAsync($"{path_temp}\\online_pkg_version", online_pkg_version, logger);
             }
-            else throw new Exception(response.StatusCode.ToString());
+            else
+            {
+                throw new Exception(response.StatusCode.ToString());
+            }
+
             SetProgressStyle(ProgressBarStyle.Blocks);
             return online_pkg_version;
         }
@@ -134,15 +139,18 @@ namespace Genshin.Downloader
                 JsonNode? online = online_pkg_version.Find((s) =>
                 {
                     string? name = s["remoteName"]?.ToString();
-                    if (name == fileR?.remoteName)
-                    {
-                        return true;
-                    }
-                    else return false;
+                    return name == fileR?.remoteName;
                 });
                 string? size = online?["fileSize"]?.ToString();
-                if (size == fileR?.fileSize.ToString()) fileR = await GetFileInfoAsync(path_game, file, true);
-                else logger?.Invoke($"Skipped hashing due to wrong file size which shall be {FileH.ParseSize(long.Parse(size ?? "0"))}");
+                if (size == fileR?.fileSize.ToString())
+                {
+                    fileR = await GetFileInfoAsync(path_game, file, true);
+                }
+                else
+                {
+                    logger?.Invoke($"Skipped hashing due to wrong file size which shall be {FileH.ParseSize(long.Parse(size ?? "0"))}");
+                }
+
                 JsonNode? json = fileR?.GetJSON();
                 if (json != null)
                 {
@@ -277,7 +285,10 @@ namespace Genshin.Downloader
                         Logger($"应用更新，版本号：{version_new}");
                         await FileH.ApplyUpdate(path, tempPath, version_new);
                     }
-                    else throw new Exception(response.StatusCode.ToString());
+                    else
+                    {
+                        throw new Exception(response.StatusCode.ToString());
+                    }
                 }
                 catch (Exception ex)
                 {
