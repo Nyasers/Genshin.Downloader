@@ -1,4 +1,3 @@
-using Genshin.Downloader.Helper;
 using System.Configuration;
 
 namespace Genshin.Downloader

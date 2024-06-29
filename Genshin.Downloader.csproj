@@ -9,6 +9,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x64</Platforms>
     <BaseOutputPath></BaseOutputPath>
+	  <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -35,19 +36,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="7za.exe">
+    <None Update="Properties\7za.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="aria2c.exe">
+    <None Update="Properties\aria2c.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="hpatchz.exe">
+    <None Update="Properties\hpatchz.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="Codeplex.Data" />
+    <Using Include="Genshin.Downloader.Helper" />
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="del /f /s /q $(OutDir)" />
+    <Exec Command="del/f/s/q $(OutDir)" />
   </Target>
 
 </Project>

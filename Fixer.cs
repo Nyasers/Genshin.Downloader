@@ -1,5 +1,4 @@
-﻿using Genshin.Downloader.Helper;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text.Json.Nodes;
 
