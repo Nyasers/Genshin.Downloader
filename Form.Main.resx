@@ -1,0 +1,729 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema 
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="button_browse.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="button_browse.Location" type="System.Drawing.Point, System.Drawing">
+    <value>399, 22</value>
+  </data>
+  <data name="button_browse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="button_browse.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="button_browse.Text" xml:space="preserve">
+    <value>选择目录</value>
+  </data>
+  <data name="&gt;&gt;button_browse.Name" xml:space="preserve">
+    <value>button_browse</value>
+  </data>
+  <data name="&gt;&gt;button_browse.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_browse.Parent" xml:space="preserve">
+    <value>groupBox_path</value>
+  </data>
+  <data name="&gt;&gt;button_browse.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="textBox_path.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="textBox_path.PlaceholderText" xml:space="preserve">
+    <value>..\Genshin Impact game</value>
+  </data>
+  <data name="textBox_path.Size" type="System.Drawing.Size, System.Drawing">
+    <value>387, 23</value>
+  </data>
+  <data name="textBox_path.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textBox_path.Name" xml:space="preserve">
+    <value>textBox_path</value>
+  </data>
+  <data name="&gt;&gt;textBox_path.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_path.Parent" xml:space="preserve">
+    <value>groupBox_path</value>
+  </data>
+  <data name="&gt;&gt;textBox_path.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox_path.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="groupBox_path.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 51</value>
+  </data>
+  <data name="groupBox_path.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="groupBox_path.Text" xml:space="preserve">
+    <value>游戏目录</value>
+  </data>
+  <data name="&gt;&gt;groupBox_path.Name" xml:space="preserve">
+    <value>groupBox_path</value>
+  </data>
+  <data name="&gt;&gt;groupBox_path.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_path.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_path.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="comboBox_channel.Items" xml:space="preserve">
+    <value>[hk4e_1_0] 官方服</value>
+  </data>
+  <data name="comboBox_channel.Items1" xml:space="preserve">
+    <value>[hk4e_1_1] 国际服</value>
+  </data>
+  <data name="comboBox_channel.Items2" xml:space="preserve">
+    <value>[hk4e_14_0] 渠道服_bilibili</value>
+  </data>
+  <data name="comboBox_channel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="comboBox_channel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 25</value>
+  </data>
+  <data name="comboBox_channel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;comboBox_channel.Name" xml:space="preserve">
+    <value>comboBox_channel</value>
+  </data>
+  <data name="&gt;&gt;comboBox_channel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;comboBox_channel.Parent" xml:space="preserve">
+    <value>groupBox_channel</value>
+  </data>
+  <data name="&gt;&gt;comboBox_channel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_channel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 69</value>
+  </data>
+  <data name="groupBox_channel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 53</value>
+  </data>
+  <data name="groupBox_channel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBox_channel.Text" xml:space="preserve">
+    <value>游戏渠道</value>
+  </data>
+  <data name="&gt;&gt;groupBox_channel.Name" xml:space="preserve">
+    <value>groupBox_channel</value>
+  </data>
+  <data name="&gt;&gt;groupBox_channel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_channel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_channel.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="textBox_version.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="textBox_version.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 23</value>
+  </data>
+  <data name="textBox_version.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="textBox_version.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;textBox_version.Name" xml:space="preserve">
+    <value>textBox_version</value>
+  </data>
+  <data name="&gt;&gt;textBox_version.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_version.Parent" xml:space="preserve">
+    <value>groupBox_version</value>
+  </data>
+  <data name="&gt;&gt;textBox_version.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_version.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 128</value>
+  </data>
+  <data name="groupBox_version.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 51</value>
+  </data>
+  <data name="groupBox_version.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBox_version.Text" xml:space="preserve">
+    <value>游戏版本</value>
+  </data>
+  <data name="&gt;&gt;groupBox_version.Name" xml:space="preserve">
+    <value>groupBox_version</value>
+  </data>
+  <data name="&gt;&gt;groupBox_version.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_version.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_version.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="checkedListBox_voicePack.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="checkedListBox_voicePack.IntegralHeight" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="checkedListBox_voicePack.Items" xml:space="preserve">
+    <value>[zh-cn] 汉语</value>
+  </data>
+  <data name="checkedListBox_voicePack.Items1" xml:space="preserve">
+    <value>[en-us] 英语</value>
+  </data>
+  <data name="checkedListBox_voicePack.Items2" xml:space="preserve">
+    <value>[ja-jp] 日语</value>
+  </data>
+  <data name="checkedListBox_voicePack.Items3" xml:space="preserve">
+    <value>[ko-kr] 韩语</value>
+  </data>
+  <data name="checkedListBox_voicePack.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 19</value>
+  </data>
+  <data name="checkedListBox_voicePack.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 88</value>
+  </data>
+  <data name="checkedListBox_voicePack.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;checkedListBox_voicePack.Name" xml:space="preserve">
+    <value>checkedListBox_voicePack</value>
+  </data>
+  <data name="&gt;&gt;checkedListBox_voicePack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkedListBox_voicePack.Parent" xml:space="preserve">
+    <value>groupBox_voicePack</value>
+  </data>
+  <data name="&gt;&gt;checkedListBox_voicePack.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_voicePack.Location" type="System.Drawing.Point, System.Drawing">
+    <value>218, 69</value>
+  </data>
+  <data name="groupBox_voicePack.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 110</value>
+  </data>
+  <data name="groupBox_voicePack.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="groupBox_voicePack.Text" xml:space="preserve">
+    <value>游戏语音</value>
+  </data>
+  <data name="&gt;&gt;groupBox_voicePack.Name" xml:space="preserve">
+    <value>groupBox_voicePack</value>
+  </data>
+  <data name="&gt;&gt;groupBox_voicePack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_voicePack.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_voicePack.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="textBox_update.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="textBox_update.Size" type="System.Drawing.Size, System.Drawing">
+    <value>318, 23</value>
+  </data>
+  <data name="textBox_update.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="textBox_update.Text" xml:space="preserve">
+    <value>[waiting] 等待检查更新..</value>
+  </data>
+  <data name="&gt;&gt;textBox_update.Name" xml:space="preserve">
+    <value>textBox_update</value>
+  </data>
+  <data name="&gt;&gt;textBox_update.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_update.Parent" xml:space="preserve">
+    <value>groupBox_check</value>
+  </data>
+  <data name="&gt;&gt;textBox_update.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="checkBox_pre.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="checkBox_pre.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBox_pre.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkBox_pre.Location" type="System.Drawing.Point, System.Drawing">
+    <value>330, 24</value>
+  </data>
+  <data name="checkBox_pre.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 21</value>
+  </data>
+  <data name="checkBox_pre.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="checkBox_pre.Text" xml:space="preserve">
+    <value>预下载</value>
+  </data>
+  <data name="&gt;&gt;checkBox_pre.Name" xml:space="preserve">
+    <value>checkBox_pre</value>
+  </data>
+  <data name="&gt;&gt;checkBox_pre.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBox_pre.Parent" xml:space="preserve">
+    <value>groupBox_check</value>
+  </data>
+  <data name="&gt;&gt;checkBox_pre.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="button_check.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="button_check.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_check.Location" type="System.Drawing.Point, System.Drawing">
+    <value>399, 22</value>
+  </data>
+  <data name="button_check.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="button_check.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="button_check.Text" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="&gt;&gt;button_check.Name" xml:space="preserve">
+    <value>button_check</value>
+  </data>
+  <data name="&gt;&gt;button_check.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_check.Parent" xml:space="preserve">
+    <value>groupBox_check</value>
+  </data>
+  <data name="&gt;&gt;button_check.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox_check.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 185</value>
+  </data>
+  <data name="groupBox_check.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 51</value>
+  </data>
+  <data name="groupBox_check.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="groupBox_check.Text" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="&gt;&gt;groupBox_check.Name" xml:space="preserve">
+    <value>groupBox_check</value>
+  </data>
+  <data name="&gt;&gt;groupBox_check.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_check.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_check.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="button_fixer.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="button_fixer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_fixer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>318, 198</value>
+  </data>
+  <data name="button_fixer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="button_fixer.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="button_fixer.Text" xml:space="preserve">
+    <value>修复器</value>
+  </data>
+  <data name="&gt;&gt;button_fixer.Name" xml:space="preserve">
+    <value>button_fixer</value>
+  </data>
+  <data name="&gt;&gt;button_fixer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_fixer.Parent" xml:space="preserve">
+    <value>groupBox_files</value>
+  </data>
+  <data name="&gt;&gt;button_fixer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="button_installer.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="button_installer.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_installer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>399, 198</value>
+  </data>
+  <data name="button_installer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="button_installer.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="button_installer.Text" xml:space="preserve">
+    <value>安装器</value>
+  </data>
+  <data name="&gt;&gt;button_installer.Name" xml:space="preserve">
+    <value>button_installer</value>
+  </data>
+  <data name="&gt;&gt;button_installer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_installer.Parent" xml:space="preserve">
+    <value>groupBox_files</value>
+  </data>
+  <data name="&gt;&gt;button_installer.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="textBox_aria2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="textBox_aria2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 19</value>
+  </data>
+  <data name="textBox_aria2.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="textBox_aria2.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="textBox_aria2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 173</value>
+  </data>
+  <data name="textBox_aria2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;textBox_aria2.Name" xml:space="preserve">
+    <value>textBox_aria2</value>
+  </data>
+  <data name="&gt;&gt;textBox_aria2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_aria2.Parent" xml:space="preserve">
+    <value>groupBox_files</value>
+  </data>
+  <data name="&gt;&gt;textBox_aria2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="button_copy.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="button_copy.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_copy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>87, 198</value>
+  </data>
+  <data name="button_copy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="button_copy.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="button_copy.Text" xml:space="preserve">
+    <value>复制列表</value>
+  </data>
+  <data name="&gt;&gt;button_copy.Name" xml:space="preserve">
+    <value>button_copy</value>
+  </data>
+  <data name="&gt;&gt;button_copy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_copy.Parent" xml:space="preserve">
+    <value>groupBox_files</value>
+  </data>
+  <data name="&gt;&gt;button_copy.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="button_download.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="button_download.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_download.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 198</value>
+  </data>
+  <data name="button_download.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="button_download.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="button_download.Text" xml:space="preserve">
+    <value>开始下载</value>
+  </data>
+  <data name="&gt;&gt;button_download.Name" xml:space="preserve">
+    <value>button_download</value>
+  </data>
+  <data name="&gt;&gt;button_download.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_download.Parent" xml:space="preserve">
+    <value>groupBox_files</value>
+  </data>
+  <data name="&gt;&gt;button_download.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="groupBox_files.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 242</value>
+  </data>
+  <data name="groupBox_files.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 227</value>
+  </data>
+  <data name="groupBox_files.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="groupBox_files.Text" xml:space="preserve">
+    <value>文件列表 (Aria2)</value>
+  </data>
+  <data name="&gt;&gt;groupBox_files.Name" xml:space="preserve">
+    <value>groupBox_files</value>
+  </data>
+  <data name="&gt;&gt;groupBox_files.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_files.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_files.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="button_save.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="button_save.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="button_save.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="button_save.Text" xml:space="preserve">
+    <value>保存配置</value>
+  </data>
+  <data name="&gt;&gt;button_save.Name" xml:space="preserve">
+    <value>button_save</value>
+  </data>
+  <data name="&gt;&gt;button_save.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_save.Parent" xml:space="preserve">
+    <value>groupBox_config</value>
+  </data>
+  <data name="&gt;&gt;button_save.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_config.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 128</value>
+  </data>
+  <data name="groupBox_config.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 51</value>
+  </data>
+  <data name="groupBox_config.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="groupBox_config.Text" xml:space="preserve">
+    <value>配置文件</value>
+  </data>
+  <data name="&gt;&gt;groupBox_config.Name" xml:space="preserve">
+    <value>groupBox_config</value>
+  </data>
+  <data name="&gt;&gt;groupBox_config.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_config.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_config.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 17</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>504, 481</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>520, 520</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Genshin Impact 下载器</value>
+  </data>
+  <data name="&gt;&gt;folderBrowserDialog1.Name" xml:space="preserve">
+    <value>folderBrowserDialog1</value>
+  </data>
+  <data name="&gt;&gt;folderBrowserDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Form_Main</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>
