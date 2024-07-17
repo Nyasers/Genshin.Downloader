@@ -7,7 +7,7 @@ internal static class Worker
 {
     public static async Task ApplyDownload(string channel)
     {
-        string url = (await API.Get(channel)).data.game.latest.decompressed_path;
+        string url = await API.GetDecompressedPathAsync(channel);
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
         string download_file = $"{path_temp}\\downloadfiles.txt";
         List<File2Down> files = [];
@@ -32,7 +32,7 @@ internal static class Worker
             }
         }
         string input = Aria2.GetInput([.. files]);
-        int exitCode = await Aria2.Download(input, DirectoryH.EnsureExists(Properties.Settings.Default.DownPath).FullName, 0);
+        int exitCode = await Aria2.DownloadAsync(input, DirectoryH.EnsureExists(Properties.Settings.Default.DownPath).FullName);
         if (exitCode is not 0)
         {
             throw new Exception($"aria2c.exe exited with exception code {exitCode}.");

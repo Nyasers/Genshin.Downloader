@@ -44,7 +44,7 @@ internal class API
 
     public static Dictionary<string, string> AudioList => audioList;
 
-    public async static Task<dynamic> Get(string channel)
+    public async static Task<dynamic> GetAsync(string channel)
     {
         if (ApiList.TryGetValue(channel, out string? api) && api is not null)
         {
@@ -63,5 +63,10 @@ internal class API
         {
             throw new ArgumentOutOfRangeException(nameof(channel), channel, "Not Found.");
         }
+    }
+
+    public async static Task<string> GetDecompressedPathAsync(string channel)
+    {
+        return (await GetAsync(channel)).data.game.latest.decompressed_path.ToString();
     }
 }
