@@ -252,6 +252,7 @@
             button_start.TabIndex = 0;
             button_start.Text = "  启动！";
             button_start.UseVisualStyleBackColor = true;
+            button_start.Click += Button_Start_Click;
             // 
             // Form_Fixer
             // 

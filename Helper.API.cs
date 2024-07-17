@@ -44,9 +44,9 @@ internal class API
 
     public static Dictionary<string, string> AudioList => audioList;
 
-    public async static Task<dynamic> GetAsync(string channel)
+    public async static Task<dynamic> Get(string? channel)
     {
-        if (ApiList.TryGetValue(channel, out string? api) && api is not null)
+        if (channel is not null && ApiList.TryGetValue(channel, out string? api) && api is not null)
         {
             HttpClient http = new();
             try
@@ -65,7 +65,12 @@ internal class API
         }
     }
 
-    public static async Task<string> GetDecompressedPath(string channel)
+    public static async Task<string> GetLatestVersion(string? channel)
+    {
+        return (await Get(channel)).game.latest.version;
+    }
+
+    public static async Task<string> GetDecompressedPath(string? channel)
     {
         return (await Get(channel)).data.game.latest.decompressed_path;
     }

@@ -80,7 +80,6 @@
         private async Task StartInstall()
         {
             string pack = textBox_pack.Text, version = textBox_version.Text[(textBox_version.Text.IndexOf('_') + 1)..];
-            string path_temp = DirectoryH.EnsureNew(Properties.Settings.Default.TempPath).FullName;
 
             if (!File.Exists(pack))
             {
@@ -88,6 +87,7 @@
                 return;
             }
 
+            string path_temp = DirectoryH.EnsureNew(Properties.Settings.Default.TempPath).FullName;
             int exitCode = await FileH.UnzipAsync(pack, path_temp);
             if (exitCode is not 0)
             {
@@ -101,7 +101,7 @@
             string[] type = textBox_type.Text.Split('.');
             if (type[0] is "HDiff")
             {
-                await HDiffPatch.HPatchAsync(this);
+                await Worker.HPatchAsync(this, Config?.Channel);
             }
             else if (type[0] is not "Full")
             {
