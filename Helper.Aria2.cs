@@ -44,17 +44,14 @@ namespace Helper
                 "Checksum validation failed."
             ];
 
-        public static async Task<int> Download(string input, string path, int log_level = 3, int console_log_level = 1)
+        public static async Task<int> DownloadAsync(string input, string path, int console_log_level = 1)
         {
-
-            (string input, string log) download_info = await GetDownloadInfoAsync(input);
+            string download_info = await GetInputFileAsync(input);
 
             string[] args = [
                 $"-R",
-                $"--log-level={LogLevels[log_level]}",
                 $"--console-log-level={LogLevels[console_log_level]}",
-                $"--input-file=\"{download_info.input}\"",
-                $"--log=\"{download_info.log}\""
+                $"--input-file=\"{download_info}\""
             ];
 
             ProcessStartInfo startInfo = new()
@@ -95,16 +92,12 @@ namespace Helper
             return origin_input;
         }
 
-        private static async Task<(string input, string log)> GetDownloadInfoAsync(string aria2input)
+        private static async Task<string> GetInputFileAsync(string aria2input)
         {
-            if (string.IsNullOrWhiteSpace(aria2input))
-            {
-                throw new ArgumentNullException(nameof(aria2input));
-            }
+            if (string.IsNullOrWhiteSpace(aria2input)) throw new ArgumentNullException(nameof(aria2input));
             string file_input = Path.GetTempFileName();
-            string file_log = $"{file_input}.log";
             await File.WriteAllTextAsync(file_input, aria2input);
-            return (file_input, file_log);
+            return file_input;
         }
     }
 }

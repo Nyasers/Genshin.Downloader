@@ -1,4 +1,3 @@
-﻿
 namespace Helper;
 
 internal class FileInfoH
@@ -25,7 +24,7 @@ internal class FileInfoH
             {
                 this.hash += item.ToString("x2");
             }
-        if (md5) foreach (byte item in System.Security.Cryptography.MD5.HashDataAsync(File.OpenRead(file.FullName)).Result)
+        if (md5) foreach (byte item in System.Security.Cryptography.MD5.HashData(File.OpenRead(file.FullName)))
             {
                 this.md5 += item.ToString("x2");
             }
@@ -61,7 +60,7 @@ internal class FileInfoH
 
     public override string ToString()
     {
-        return remoteName;
+        return $@"{{""remoteName"": ""{remoteName}"", ""md5"": ""{md5 ?? ""}"", ""hash"": ""{hash ?? ""}"", ""fileSize"": {fileSize}}}";
     }
 
     public override int GetHashCode()

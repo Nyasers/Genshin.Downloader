@@ -116,7 +116,7 @@
             button_check.Enabled = false;
             textBox_update.Text = "[pending] 正在检查更新..";
             string channel = StringH.GetKeyName(comboBox_channel.Text) ?? throw new Exception();
-            dynamic data = await API.Get(channel) ?? throw new Exception();
+            dynamic data = await API.GetAsync(channel) ?? throw new Exception();
             await CheckUpdate(data, checkBox_pre.Checked);
             button_check.Enabled = true;
         }
@@ -228,7 +228,7 @@
         private async void Button_Download_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(Aria2Input)) { return; }
-            int exitCode = await Aria2.Download(Aria2Input, DirectoryH.EnsureExists(Properties.Settings.Default.DownPath).FullName);
+            int exitCode = await Aria2.DownloadAsync(Aria2Input, DirectoryH.EnsureExists(Properties.Settings.Default.DownPath).FullName);
             _ = MessageBox.Show(this, Aria2.GetMessage(exitCode), "Aria2c.exe");
         }
 
