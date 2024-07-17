@@ -1,4 +1,4 @@
-namespace Genshin.Downloader
+ï»¿namespace Genshin.Downloader
 {
     public partial class Form_Main : Form
     {
@@ -108,13 +108,13 @@ namespace Genshin.Downloader
                     }
                 }
             }
-            else _ = MessageBox.Show(this, "Ã»ÓĞÊ¶±ğµ½ÓÎÏ·ÇşµÀ£¬ÇëÊÖ¶¯Ñ¡Ôñ£¡", "ÌáÊ¾", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else _ = MessageBox.Show(this, "æ²¡æœ‰è¯†åˆ«åˆ°æ¸¸æˆæ¸ é“ï¼Œè¯·æ‰‹åŠ¨é€‰æ‹©ï¼", "æç¤º", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private async void Button_Check_Click(object sender, EventArgs e)
         {
             button_check.Enabled = false;
-            textBox_update.Text = "[pending] ÕıÔÚ¼ì²é¸üĞÂ..";
+            textBox_update.Text = "[pending] æ­£åœ¨æ£€æŸ¥æ›´æ–°..";
             string channel = StringH.GetKeyName(comboBox_channel.Text) ?? throw new Exception();
             dynamic data = await API.Get(channel) ?? throw new Exception();
             await CheckUpdate(data, checkBox_pre.Checked);
@@ -144,18 +144,18 @@ namespace Genshin.Downloader
                             game = data.pre_download_game;
                         }
 
-                        textBox_update.Text = $"[{game.latest.version}] {(textBox_version.Text == (string)game.latest.version ? "µ±Ç°ÒÑÊÇ×îĞÂ°æ±¾£¬Èô×ÊÔ´È±Ê§¿É³¢ÊÔĞŞ¸´Æ÷" : "ÓĞĞÂ°æ±¾¿ÉÏÂÔØ")}";
+                        textBox_update.Text = $"[{game.latest.version}] {(textBox_version.Text == (string)game.latest.version ? "å½“å‰å·²æ˜¯æœ€æ–°ç‰ˆæœ¬ï¼Œè‹¥èµ„æºç¼ºå¤±å¯å°è¯•ä¿®å¤å™¨" : "æœ‰æ–°ç‰ˆæœ¬å¯ä¸‹è½½")}";
                     }
                     catch
                     {
                         if (pre_download)
                         {
                             checkBox_pre.Checked = false;
-                            throw new Exception("Î´ÕÒµ½¿ÉÓÃµÄÔ¤ÏÂÔØ");
+                            throw new Exception("æœªæ‰¾åˆ°å¯ç”¨çš„é¢„ä¸‹è½½");
                         }
                         else
                         {
-                            throw new Exception("¼ì²é¸üĞÂÊ§°Ü");
+                            throw new Exception("æ£€æŸ¥æ›´æ–°å¤±è´¥");
                         }
                     }
                     string current_version = textBox_version.Text;
@@ -179,7 +179,7 @@ namespace Genshin.Downloader
                                 await File2Down_Add(segment);
                             }
                         }
-                        else throw new Exception("Î´ÕÒµ½¿ÉÏÂÔØµÄ×ÊÔ´");
+                        else throw new Exception("æœªæ‰¾åˆ°å¯ä¸‹è½½çš„èµ„æº");
                     }
                     catch
                     {
@@ -216,7 +216,7 @@ namespace Genshin.Downloader
                 }
                 else
                 {
-                    throw new Exception("ÎŞ·¨»ñÈ¡°æ±¾ĞÅÏ¢");
+                    throw new Exception("æ— æ³•è·å–ç‰ˆæœ¬ä¿¡æ¯");
                 }
             }
             catch (Exception ex)
@@ -236,13 +236,13 @@ namespace Genshin.Downloader
         {
             if (string.IsNullOrWhiteSpace(Aria2Input)) { return; }
             Clipboard.SetText(Aria2Input);
-            _ = MessageBox.Show(this, "¸´ÖÆ³É¹¦", Text);
+            _ = MessageBox.Show(this, "å¤åˆ¶æˆåŠŸ", Text);
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
         {
             bool v = SaveConfig();
-            _ = MessageBox.Show(this, $"±£´æ{(v ? "³É¹¦" : "Ê§°Ü")}", Text, MessageBoxButtons.OK, v ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
+            _ = MessageBox.Show(this, $"ä¿å­˜{(v ? "æˆåŠŸ" : "å¤±è´¥")}", Text, MessageBoxButtons.OK, v ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
         }
 
         private bool SaveConfig()
