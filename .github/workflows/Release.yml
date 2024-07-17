@@ -4,7 +4,7 @@ on:
   push:
     # Sequence of patterns matched against refs/tags
     tags:
-      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+      - "*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
       run: dotnet publish -p:PublishProfile=FolderProfile
       
     - name: Zip the Build
-      run: zip -r ${{ secrets.ReleaseZipName }} ./bin/publish/*
+      run: zip -r ${{ secrets.ReleaseZipName }} ./bin/publish/
       
     - name: Create Release and Upload Release Asset
       uses: softprops/action-gh-release@v1
