@@ -172,6 +172,7 @@
             resources.ApplyResources(button_fixer, "button_fixer");
             button_fixer.Name = "button_fixer";
             button_fixer.UseVisualStyleBackColor = true;
+            button_fixer.Click += Button_Fixer_Click;
             // 
             // button_installer
             // 

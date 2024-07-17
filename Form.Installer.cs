@@ -4,11 +4,9 @@
     {
         private Config? Config;
 
-        public Form_Installer(Dictionary<string, object> args)
+        public Form_Installer()
         {
             InitializeComponent();
-            if ((WindowState = (FormWindowState)args["WindowState"]) != FormWindowState.Maximized) Size = (Size)args["Size"];
-
         }
 
 

@@ -64,4 +64,9 @@ internal class API
             throw new ArgumentOutOfRangeException(nameof(channel), channel, "Not Found.");
         }
     }
+
+    public static async Task<string> GetDecompressedPath(string channel)
+    {
+        return (await Get(channel)).data.game.latest.decompressed_path;
+    }
 }

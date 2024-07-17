@@ -117,17 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="textBox_game.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 22</value>
-  </data>
-  <data name="textBox_game.Size" type="System.Drawing.Size, System.Drawing">
-    <value>390, 23</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="textBox_game.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;textBox_game.Name" xml:space="preserve">
     <value>textBox_game</value>
   </data>
@@ -140,12 +129,14 @@
   <data name="&gt;&gt;textBox_game.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="groupBox_path.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
   </data>
   <data name="groupBox_path.Size" type="System.Drawing.Size, System.Drawing">
     <value>402, 51</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="groupBox_path.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -163,6 +154,75 @@
   </data>
   <data name="&gt;&gt;groupBox_path.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="textBox_game.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="textBox_game.Size" type="System.Drawing.Size, System.Drawing">
+    <value>390, 23</value>
+  </data>
+  <data name="textBox_game.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textBox_game.Name" xml:space="preserve">
+    <value>textBox_game</value>
+  </data>
+  <data name="&gt;&gt;textBox_game.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_game.Parent" xml:space="preserve">
+    <value>groupBox_path</value>
+  </data>
+  <data name="&gt;&gt;textBox_game.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;button_browse.Name" xml:space="preserve">
+    <value>button_browse</value>
+  </data>
+  <data name="&gt;&gt;button_browse.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_browse.Parent" xml:space="preserve">
+    <value>groupBox_pack</value>
+  </data>
+  <data name="&gt;&gt;button_browse.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textBox_pack.Name" xml:space="preserve">
+    <value>textBox_pack</value>
+  </data>
+  <data name="&gt;&gt;textBox_pack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_pack.Parent" xml:space="preserve">
+    <value>groupBox_pack</value>
+  </data>
+  <data name="&gt;&gt;textBox_pack.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox_pack.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 69</value>
+  </data>
+  <data name="groupBox_pack.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 51</value>
+  </data>
+  <data name="groupBox_pack.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBox_pack.Text" xml:space="preserve">
+    <value>资源包</value>
+  </data>
+  <data name="&gt;&gt;groupBox_pack.Name" xml:space="preserve">
+    <value>groupBox_pack</value>
+  </data>
+  <data name="&gt;&gt;groupBox_pack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_pack.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_pack.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="button_browse.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -213,44 +273,11 @@
   <data name="&gt;&gt;textBox_pack.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="groupBox_pack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 69</value>
-  </data>
-  <data name="groupBox_pack.Size" type="System.Drawing.Size, System.Drawing">
-    <value>480, 51</value>
-  </data>
-  <data name="groupBox_pack.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="groupBox_pack.Text" xml:space="preserve">
-    <value>资源包</value>
-  </data>
-  <data name="&gt;&gt;groupBox_pack.Name" xml:space="preserve">
-    <value>groupBox_pack</value>
-  </data>
-  <data name="&gt;&gt;groupBox_pack.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox_pack.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox_pack.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <data name="openFileDialog1.Filter" xml:space="preserve">
     <value>ZIP 资源包|*.zip;*.zip.001</value>
-  </data>
-  <data name="textBox_name.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 22</value>
-  </data>
-  <data name="textBox_name.Size" type="System.Drawing.Size, System.Drawing">
-    <value>282, 23</value>
-  </data>
-  <data name="textBox_name.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;textBox_name.Name" xml:space="preserve">
     <value>textBox_name</value>
@@ -288,17 +315,26 @@
   <data name="&gt;&gt;groupBox_name.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="textBox_type.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="textBox_name.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 22</value>
   </data>
-  <data name="textBox_type.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+  <data name="textBox_name.Size" type="System.Drawing.Size, System.Drawing">
+    <value>282, 23</value>
   </data>
-  <data name="textBox_type.TabIndex" type="System.Int32, mscorlib">
+  <data name="textBox_name.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="textBox_type.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="&gt;&gt;textBox_name.Name" xml:space="preserve">
+    <value>textBox_name</value>
+  </data>
+  <data name="&gt;&gt;textBox_name.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_name.Parent" xml:space="preserve">
+    <value>groupBox_name</value>
+  </data>
+  <data name="&gt;&gt;textBox_name.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;textBox_type.Name" xml:space="preserve">
     <value>textBox_type</value>
@@ -336,17 +372,29 @@
   <data name="&gt;&gt;groupBox_type.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="textBox_version.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="textBox_type.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 22</value>
   </data>
-  <data name="textBox_version.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="textBox_type.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="textBox_version.TabIndex" type="System.Int32, mscorlib">
+  <data name="textBox_type.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="textBox_version.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+  <data name="textBox_type.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
+  </data>
+  <data name="&gt;&gt;textBox_type.Name" xml:space="preserve">
+    <value>textBox_type</value>
+  </data>
+  <data name="&gt;&gt;textBox_type.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_type.Parent" xml:space="preserve">
+    <value>groupBox_type</value>
+  </data>
+  <data name="&gt;&gt;textBox_type.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;textBox_version.Name" xml:space="preserve">
     <value>textBox_version</value>
@@ -384,17 +432,29 @@
   <data name="&gt;&gt;groupBox_version.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="textBox_gameVersion.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="textBox_version.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 22</value>
   </data>
-  <data name="textBox_gameVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 23</value>
+  <data name="textBox_version.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
   </data>
-  <data name="textBox_gameVersion.TabIndex" type="System.Int32, mscorlib">
+  <data name="textBox_version.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="textBox_gameVersion.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+  <data name="textBox_version.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
+  </data>
+  <data name="&gt;&gt;textBox_version.Name" xml:space="preserve">
+    <value>textBox_version</value>
+  </data>
+  <data name="&gt;&gt;textBox_version.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_version.Parent" xml:space="preserve">
+    <value>groupBox_version</value>
+  </data>
+  <data name="&gt;&gt;textBox_version.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;textBox_gameVersion.Name" xml:space="preserve">
     <value>textBox_gameVersion</value>
@@ -432,6 +492,66 @@
   <data name="&gt;&gt;groupBox_gameVersion.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="textBox_gameVersion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="textBox_gameVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 23</value>
+  </data>
+  <data name="textBox_gameVersion.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="textBox_gameVersion.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;textBox_gameVersion.Name" xml:space="preserve">
+    <value>textBox_gameVersion</value>
+  </data>
+  <data name="&gt;&gt;textBox_gameVersion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_gameVersion.Parent" xml:space="preserve">
+    <value>groupBox_gameVersion</value>
+  </data>
+  <data name="&gt;&gt;textBox_gameVersion.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;button_start.Name" xml:space="preserve">
+    <value>button_start</value>
+  </data>
+  <data name="&gt;&gt;button_start.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_start.Parent" xml:space="preserve">
+    <value>groupBox_install</value>
+  </data>
+  <data name="&gt;&gt;button_start.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_install.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 183</value>
+  </data>
+  <data name="groupBox_install.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 286</value>
+  </data>
+  <data name="groupBox_install.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="groupBox_install.Text" xml:space="preserve">
+    <value>开始安装</value>
+  </data>
+  <data name="&gt;&gt;groupBox_install.Name" xml:space="preserve">
+    <value>groupBox_install</value>
+  </data>
+  <data name="&gt;&gt;groupBox_install.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_install.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_install.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="button_start.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -460,30 +580,6 @@
     <value>groupBox_install</value>
   </data>
   <data name="&gt;&gt;button_start.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="groupBox_install.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 183</value>
-  </data>
-  <data name="groupBox_install.Size" type="System.Drawing.Size, System.Drawing">
-    <value>480, 286</value>
-  </data>
-  <data name="groupBox_install.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="groupBox_install.Text" xml:space="preserve">
-    <value>安装资源</value>
-  </data>
-  <data name="&gt;&gt;groupBox_install.Name" xml:space="preserve">
-    <value>groupBox_install</value>
-  </data>
-  <data name="&gt;&gt;groupBox_install.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox_install.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox_install.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

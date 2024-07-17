@@ -12,8 +12,9 @@ internal static class StringH
         return !string.IsNullOrWhiteSpace(left) ? left : null;
     }
 
-    public static string? GetKeyName(string key)
+    public static string? GetKeyName(string? key)
     {
+        if (key is null) return null;
         return key[(key.IndexOf('[') + 1)..key.IndexOf(']')];
     }
 }
