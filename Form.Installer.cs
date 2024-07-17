@@ -8,7 +8,7 @@
         {
             InitializeComponent();
             if ((WindowState = (FormWindowState)args["WindowState"]) != FormWindowState.Maximized) Size = (Size)args["Size"];
-            
+
         }
 
 
