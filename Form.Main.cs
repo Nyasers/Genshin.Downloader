@@ -116,7 +116,7 @@
             button_check.Enabled = false;
             textBox_update.Text = "[pending] 正在检查更新..";
             string channel = StringH.GetKeyName(comboBox_channel.Text) ?? throw new Exception();
-            dynamic data = await API.GetAsync(channel) ?? throw new Exception();
+            dynamic data = await API.Get(channel) ?? throw new Exception();
             await CheckUpdate(data, checkBox_pre.Checked);
             button_check.Enabled = true;
         }
