@@ -1,3 +1,5 @@
+# This project is archived and rebuilt at [Nyasers/Genshin.Downloader](https://github.com/Nyasers/Genshin.Downloader).
+
 [中文 README](README_ZH-CN.md)
 # Genshin.Downloader
 Get Genshin Impact game resources from the official server.
