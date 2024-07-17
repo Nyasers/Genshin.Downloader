@@ -24,11 +24,11 @@
             File2Down result = new();
             try
             {
-                if (string.IsNullOrWhiteSpace(data.path))
+                result.path = data.path ?? string.Empty;
+                if (string.IsNullOrEmpty(result.path))
                 {
                     throw new ArgumentNullException(nameof(data));
                 }
-                else result.path = data.path;
                 try
                 {
                     result.name = data.name ?? string.Empty;
@@ -37,7 +37,7 @@
                 result.name = StringH.EmptyCheck(result.name) ?? FileH.GetName(result.path);
                 result.remoteName = data.remoteName ?? string.Empty;
                 result.size = long.Parse((string)data.package_size ?? "0");
-                result.size = data.size == 0 ? await FileH.GetSizeAsync(result.path) : data.size;
+                result.size = result.size == 0 ? await FileH.GetSizeAsync(result.path) : result.size;
                 result.md5 = data.md5 ?? string.Empty;
             }
             catch
