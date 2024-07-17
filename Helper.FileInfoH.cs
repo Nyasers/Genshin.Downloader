@@ -1,4 +1,3 @@
-﻿
 namespace Helper;
 
 internal class FileInfoH
