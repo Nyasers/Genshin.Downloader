@@ -7,7 +7,7 @@ internal static class Worker
 {
     public static async Task ApplyDownload(string channel)
     {
-        string url = await API.GetDecompressedPathAsync(channel);
+        string url = await API.GetDecompressedPath(channel);
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
         string download_file = $"{path_temp}\\downloadfiles.txt";
         List<File2Down> files = [];

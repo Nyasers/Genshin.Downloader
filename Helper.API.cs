@@ -65,8 +65,8 @@ internal class API
         }
     }
 
-    public async static Task<string> GetDecompressedPathAsync(string channel)
+    public static async Task<string> GetDecompressedPath(string channel)
     {
-        return (await GetAsync(channel)).data.game.latest.decompressed_path.ToString();
+        return (await Get(channel)).data.game.latest.decompressed_path;
     }
 }

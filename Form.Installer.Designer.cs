@@ -182,6 +182,8 @@
             Controls.Add(groupBox_name);
             Controls.Add(groupBox_pack);
             Controls.Add(groupBox_path);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "Form_Installer";
             Load += Form_Installer_Load;
             groupBox_path.ResumeLayout(false);

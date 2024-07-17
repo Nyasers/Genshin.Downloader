@@ -34,6 +34,8 @@
   <ItemGroup>
     <PackageReference Include="Destructurama.JsonNet" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="8.0.0" />
+    <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>

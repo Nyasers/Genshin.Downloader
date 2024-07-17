@@ -266,9 +266,20 @@
         private void Button_Installer_Click(object sender, EventArgs e)
         {
             _ = SaveConfig();
+            Hide(); new Form_Installer().ShowDialog(this); Show();
+        }
+
+        private void Button_Fixer_Click(object sender, EventArgs e)
+        {
+            _ = SaveConfig();
             Dictionary<string, object> args = [];
-            args["Size"] = Size; args["WindowState"] = WindowState;
-            Hide(); new Form_Installer(args).ShowDialog(this); Show();
+            args["AudioList"] = new List<string>();
+            foreach (var item in checkedListBox_voicePack.CheckedItems)
+            {
+                string? key = StringH.GetKeyName(item.ToString());
+                if (key is not null) ((List<string>)args["AudioList"]).Add(API.AudioList[key]);
+            }
+            Hide(); new Form_Fixer(args).ShowDialog(this); Show();
         }
     }
 }
