@@ -1,3 +1,5 @@
+# 该项目已存档并于 [Nyasers/Genshin.Downloader](https://github.com/Nyasers/Genshin.Downloader) 重建.
+
 [Eglish README](README.md)
 # Genshin.Downloader
 从对应的官方服务器下载原神的游戏资源文件。
