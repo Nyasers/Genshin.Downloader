@@ -116,7 +116,7 @@
             button_check.Enabled = false;
             textBox_update.Text = "[pending] 正在检查更新..";
             string channel = StringH.GetKeyName(comboBox_channel.Text) ?? throw new Exception();
-            dynamic data = await API.GetAsync(channel) ?? throw new Exception();
+            dynamic data = await API.Get(channel) ?? throw new Exception();
             await CheckUpdate(data, checkBox_pre.Checked);
             button_check.Enabled = true;
         }
@@ -247,10 +247,8 @@
 
         private bool SaveConfig()
         {
-            Config config;
-            config = new(Properties.Settings.Default.GamePath);
-            string
-                            channel = comboBox_channel.Text, version = textBox_version.Text;
+            Config config = new(Properties.Settings.Default.GamePath);
+            string channel = comboBox_channel.Text, version = textBox_version.Text;
             if (!string.IsNullOrWhiteSpace(channel))
             {
                 config.Channel = StringH.GetKeyName(channel);

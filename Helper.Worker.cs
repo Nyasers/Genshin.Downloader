@@ -64,7 +64,7 @@ internal static class Worker
             }
         }
         string input = Aria2.GetInput([.. files]);
-        System.Runtime.CompilerServices.TaskAwaiter<int> taskAwaiter = Aria2.Download(input, DirectoryH.EnsureExists(Properties.Settings.Default.DownPath).FullName, 0).GetAwaiter();
+        System.Runtime.CompilerServices.TaskAwaiter<int> taskAwaiter = Aria2.DownloadAsync(input, DirectoryH.EnsureExists(Properties.Settings.Default.DownPath).FullName, 0).GetAwaiter();
         taskAwaiter.OnCompleted(() => File.Delete(download_file));
         return taskAwaiter.GetResult();
     }

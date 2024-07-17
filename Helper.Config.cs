@@ -9,7 +9,7 @@ public partial class Config
     private readonly IConfigurationSection section;
     public Config(string path, string key = "General")
     {
-        ArgumentNullException.ThrowIfNull(path);
+        ArgumentNullException.ThrowIfNull(StringH.WhiteSpaceCheck(path), nameof(path));
         file = path + "\\config.ini";
         if (!File.Exists(file)) File.Create(file).Close();
         config = new ConfigurationBuilder()

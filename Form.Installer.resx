@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
+  <!-- 
     Microsoft ResX Schema 
-
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -143,18 +143,6 @@
   <data name="groupBox_path.Text" xml:space="preserve">
     <value>游戏目录</value>
   </data>
-  <data name="&gt;&gt;groupBox_path.Name" xml:space="preserve">
-    <value>groupBox_path</value>
-  </data>
-  <data name="&gt;&gt;groupBox_path.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox_path.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox_path.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="textBox_game.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 22</value>
   </data>
@@ -162,18 +150,6 @@
     <value>390, 23</value>
   </data>
   <data name="textBox_game.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;textBox_game.Name" xml:space="preserve">
-    <value>textBox_game</value>
-  </data>
-  <data name="&gt;&gt;textBox_game.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_game.Parent" xml:space="preserve">
-    <value>groupBox_path</value>
-  </data>
-  <data name="&gt;&gt;textBox_game.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;button_browse.Name" xml:space="preserve">
@@ -224,7 +200,7 @@
   <data name="&gt;&gt;groupBox_pack.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="button_browse.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -240,18 +216,6 @@
   <data name="button_browse.Text" xml:space="preserve">
     <value>选择资源</value>
   </data>
-  <data name="&gt;&gt;button_browse.Name" xml:space="preserve">
-    <value>button_browse</value>
-  </data>
-  <data name="&gt;&gt;button_browse.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_browse.Parent" xml:space="preserve">
-    <value>groupBox_pack</value>
-  </data>
-  <data name="&gt;&gt;button_browse.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="textBox_pack.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 22</value>
   </data>
@@ -261,21 +225,9 @@
   <data name="textBox_pack.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;textBox_pack.Name" xml:space="preserve">
-    <value>textBox_pack</value>
-  </data>
-  <data name="&gt;&gt;textBox_pack.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_pack.Parent" xml:space="preserve">
-    <value>groupBox_pack</value>
-  </data>
-  <data name="&gt;&gt;textBox_pack.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
-  </metadata>
+  </data>
   <data name="openFileDialog1.Filter" xml:space="preserve">
     <value>ZIP 资源包|*.zip;*.zip.001</value>
   </data>
@@ -322,18 +274,6 @@
     <value>282, 23</value>
   </data>
   <data name="textBox_name.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;textBox_name.Name" xml:space="preserve">
-    <value>textBox_name</value>
-  </data>
-  <data name="&gt;&gt;textBox_name.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_name.Parent" xml:space="preserve">
-    <value>groupBox_name</value>
-  </data>
-  <data name="&gt;&gt;textBox_name.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;textBox_type.Name" xml:space="preserve">
@@ -384,18 +324,6 @@
   <data name="textBox_type.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
   </data>
-  <data name="&gt;&gt;textBox_type.Name" xml:space="preserve">
-    <value>textBox_type</value>
-  </data>
-  <data name="&gt;&gt;textBox_type.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_type.Parent" xml:space="preserve">
-    <value>groupBox_type</value>
-  </data>
-  <data name="&gt;&gt;textBox_type.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;textBox_version.Name" xml:space="preserve">
     <value>textBox_version</value>
   </data>
@@ -444,30 +372,6 @@
   <data name="textBox_version.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
   </data>
-  <data name="&gt;&gt;textBox_version.Name" xml:space="preserve">
-    <value>textBox_version</value>
-  </data>
-  <data name="&gt;&gt;textBox_version.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_version.Parent" xml:space="preserve">
-    <value>groupBox_version</value>
-  </data>
-  <data name="&gt;&gt;textBox_version.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;textBox_gameVersion.Name" xml:space="preserve">
-    <value>textBox_gameVersion</value>
-  </data>
-  <data name="&gt;&gt;textBox_gameVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_gameVersion.Parent" xml:space="preserve">
-    <value>groupBox_gameVersion</value>
-  </data>
-  <data name="&gt;&gt;textBox_gameVersion.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="groupBox_gameVersion.Location" type="System.Drawing.Point, System.Drawing">
     <value>420, 12</value>
   </data>
@@ -503,18 +407,6 @@
   </data>
   <data name="textBox_gameVersion.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
-  </data>
-  <data name="&gt;&gt;textBox_gameVersion.Name" xml:space="preserve">
-    <value>textBox_gameVersion</value>
-  </data>
-  <data name="&gt;&gt;textBox_gameVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;textBox_gameVersion.Parent" xml:space="preserve">
-    <value>groupBox_gameVersion</value>
-  </data>
-  <data name="&gt;&gt;textBox_gameVersion.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;button_start.Name" xml:space="preserve">
     <value>button_start</value>
@@ -570,21 +462,9 @@
   <data name="button_start.Text" xml:space="preserve">
     <value>  启动！</value>
   </data>
-  <data name="&gt;&gt;button_start.Name" xml:space="preserve">
-    <value>button_start</value>
-  </data>
-  <data name="&gt;&gt;button_start.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button_start.Parent" xml:space="preserve">
-    <value>groupBox_install</value>
-  </data>
-  <data name="&gt;&gt;button_start.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 17</value>
   </data>

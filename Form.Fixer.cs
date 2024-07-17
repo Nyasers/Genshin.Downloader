@@ -92,7 +92,7 @@ namespace Genshin.Downloader
             groupBox_progress.Text = text;
             progressBar.Value = 0;
         }
-        
+
         private void Button_Start_Click(object sender, EventArgs e)
         {
             button_compare.Enabled = button_start.Enabled = false;

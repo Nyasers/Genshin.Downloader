@@ -117,4 +117,499 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="groupBox_gameVersion.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="textBox_gameVersion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="textBox_gameVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 23</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="textBox_gameVersion.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="textBox_gameVersion.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;textBox_gameVersion.Name" xml:space="preserve">
+    <value>textBox_gameVersion</value>
+  </data>
+  <data name="&gt;&gt;textBox_gameVersion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_gameVersion.Parent" xml:space="preserve">
+    <value>groupBox_gameVersion</value>
+  </data>
+  <data name="&gt;&gt;textBox_gameVersion.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_gameVersion.Location" type="System.Drawing.Point, System.Drawing">
+    <value>420, 12</value>
+  </data>
+  <data name="groupBox_gameVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 51</value>
+  </data>
+  <data name="groupBox_gameVersion.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="groupBox_gameVersion.Text" xml:space="preserve">
+    <value>游戏版本</value>
+  </data>
+  <data name="&gt;&gt;groupBox_gameVersion.Name" xml:space="preserve">
+    <value>groupBox_gameVersion</value>
+  </data>
+  <data name="&gt;&gt;groupBox_gameVersion.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_gameVersion.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_gameVersion.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="textBox_game.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="textBox_game.Size" type="System.Drawing.Size, System.Drawing">
+    <value>390, 23</value>
+  </data>
+  <data name="textBox_game.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textBox_game.Name" xml:space="preserve">
+    <value>textBox_game</value>
+  </data>
+  <data name="&gt;&gt;textBox_game.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_game.Parent" xml:space="preserve">
+    <value>groupBox_path</value>
+  </data>
+  <data name="&gt;&gt;textBox_game.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_path.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="groupBox_path.Size" type="System.Drawing.Size, System.Drawing">
+    <value>402, 51</value>
+  </data>
+  <data name="groupBox_path.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="groupBox_path.Text" xml:space="preserve">
+    <value>游戏目录</value>
+  </data>
+  <data name="&gt;&gt;groupBox_path.Name" xml:space="preserve">
+    <value>groupBox_path</value>
+  </data>
+  <data name="&gt;&gt;groupBox_path.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_path.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_path.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="radioButton_both.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
+    <value>Button</value>
+  </data>
+  <data name="radioButton_both.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton_both.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="radioButton_both.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 27</value>
+  </data>
+  <data name="radioButton_both.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="radioButton_both.Text" xml:space="preserve">
+    <value>Both</value>
+  </data>
+  <data name="&gt;&gt;radioButton_both.Name" xml:space="preserve">
+    <value>radioButton_both</value>
+  </data>
+  <data name="&gt;&gt;radioButton_both.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_both.Parent" xml:space="preserve">
+    <value>groupBox_method</value>
+  </data>
+  <data name="&gt;&gt;radioButton_both.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="radioButton_md5.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
+    <value>Button</value>
+  </data>
+  <data name="radioButton_md5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton_md5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 22</value>
+  </data>
+  <data name="radioButton_md5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 27</value>
+  </data>
+  <data name="radioButton_md5.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="radioButton_md5.Text" xml:space="preserve">
+    <value>MD5</value>
+  </data>
+  <data name="&gt;&gt;radioButton_md5.Name" xml:space="preserve">
+    <value>radioButton_md5</value>
+  </data>
+  <data name="&gt;&gt;radioButton_md5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_md5.Parent" xml:space="preserve">
+    <value>groupBox_method</value>
+  </data>
+  <data name="&gt;&gt;radioButton_md5.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="button_compare.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="button_compare.Location" type="System.Drawing.Point, System.Drawing">
+    <value>286, 22</value>
+  </data>
+  <data name="button_compare.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 27</value>
+  </data>
+  <data name="button_compare.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="button_compare.Text" xml:space="preserve">
+    <value>开始比对</value>
+  </data>
+  <data name="&gt;&gt;button_compare.Name" xml:space="preserve">
+    <value>button_compare</value>
+  </data>
+  <data name="&gt;&gt;button_compare.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_compare.Parent" xml:space="preserve">
+    <value>groupBox_method</value>
+  </data>
+  <data name="&gt;&gt;button_compare.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="radioButton_hash.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
+    <value>Button</value>
+  </data>
+  <data name="radioButton_hash.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton_hash.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 22</value>
+  </data>
+  <data name="radioButton_hash.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 27</value>
+  </data>
+  <data name="radioButton_hash.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="radioButton_hash.Text" xml:space="preserve">
+    <value>XxHash64</value>
+  </data>
+  <data name="&gt;&gt;radioButton_hash.Name" xml:space="preserve">
+    <value>radioButton_hash</value>
+  </data>
+  <data name="&gt;&gt;radioButton_hash.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_hash.Parent" xml:space="preserve">
+    <value>groupBox_method</value>
+  </data>
+  <data name="&gt;&gt;radioButton_hash.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="radioButton_none.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
+    <value>Button</value>
+  </data>
+  <data name="radioButton_none.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton_none.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="radioButton_none.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 27</value>
+  </data>
+  <data name="radioButton_none.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="radioButton_none.Text" xml:space="preserve">
+    <value>FileSize Only</value>
+  </data>
+  <data name="&gt;&gt;radioButton_none.Name" xml:space="preserve">
+    <value>radioButton_none</value>
+  </data>
+  <data name="&gt;&gt;radioButton_none.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_none.Parent" xml:space="preserve">
+    <value>groupBox_method</value>
+  </data>
+  <data name="&gt;&gt;radioButton_none.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="groupBox_method.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 69</value>
+  </data>
+  <data name="groupBox_method.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 55</value>
+  </data>
+  <data name="groupBox_method.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="groupBox_method.Text" xml:space="preserve">
+    <value>比对方式</value>
+  </data>
+  <data name="&gt;&gt;groupBox_method.Name" xml:space="preserve">
+    <value>groupBox_method</value>
+  </data>
+  <data name="&gt;&gt;groupBox_method.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_method.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_method.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="progressBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="progressBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>468, 23</value>
+  </data>
+  <data name="progressBar.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;progressBar.Name" xml:space="preserve">
+    <value>progressBar</value>
+  </data>
+  <data name="&gt;&gt;progressBar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;progressBar.Parent" xml:space="preserve">
+    <value>groupBox_progress</value>
+  </data>
+  <data name="&gt;&gt;progressBar.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_progress.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 126</value>
+  </data>
+  <data name="groupBox_progress.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 51</value>
+  </data>
+  <data name="groupBox_progress.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="groupBox_progress.Text" xml:space="preserve">
+    <value>进度条君</value>
+  </data>
+  <data name="&gt;&gt;groupBox_progress.Name" xml:space="preserve">
+    <value>groupBox_progress</value>
+  </data>
+  <data name="&gt;&gt;groupBox_progress.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_progress.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_progress.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="textBox_missing.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="textBox_missing.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 19</value>
+  </data>
+  <data name="textBox_missing.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="textBox_missing.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 78</value>
+  </data>
+  <data name="textBox_missing.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textBox_missing.Name" xml:space="preserve">
+    <value>textBox_missing</value>
+  </data>
+  <data name="&gt;&gt;textBox_missing.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_missing.Parent" xml:space="preserve">
+    <value>groupBox_missing</value>
+  </data>
+  <data name="&gt;&gt;textBox_missing.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_missing.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 289</value>
+  </data>
+  <data name="groupBox_missing.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 100</value>
+  </data>
+  <data name="groupBox_missing.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="groupBox_missing.Text" xml:space="preserve">
+    <value>缺失文件</value>
+  </data>
+  <data name="&gt;&gt;groupBox_missing.Name" xml:space="preserve">
+    <value>groupBox_missing</value>
+  </data>
+  <data name="&gt;&gt;groupBox_missing.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_missing.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_missing.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="textBox_suplus.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="textBox_suplus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 19</value>
+  </data>
+  <data name="textBox_suplus.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="textBox_suplus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 78</value>
+  </data>
+  <data name="textBox_suplus.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;textBox_suplus.Name" xml:space="preserve">
+    <value>textBox_suplus</value>
+  </data>
+  <data name="&gt;&gt;textBox_suplus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;textBox_suplus.Parent" xml:space="preserve">
+    <value>groupBox_suplus</value>
+  </data>
+  <data name="&gt;&gt;textBox_suplus.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox_suplus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 183</value>
+  </data>
+  <data name="groupBox_suplus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 100</value>
+  </data>
+  <data name="groupBox_suplus.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="groupBox_suplus.Text" xml:space="preserve">
+    <value>多余文件</value>
+  </data>
+  <data name="&gt;&gt;groupBox_suplus.Name" xml:space="preserve">
+    <value>groupBox_suplus</value>
+  </data>
+  <data name="&gt;&gt;groupBox_suplus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox_suplus.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox_suplus.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="button_start.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="button_start.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft YaHei UI, 21.75pt</value>
+  </data>
+  <data name="button_start.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 19</value>
+  </data>
+  <data name="button_start.Size" type="System.Drawing.Size, System.Drawing">
+    <value>474, 52</value>
+  </data>
+  <data name="button_start.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="button_start.Text" xml:space="preserve">
+    <value>  启动！</value>
+  </data>
+  <data name="&gt;&gt;button_start.Name" xml:space="preserve">
+    <value>button_start</value>
+  </data>
+  <data name="&gt;&gt;button_start.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_start.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;button_start.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 395</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 74</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>开始修复</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 17</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>504, 481</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>520, 520</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterParent</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Genshin Impact 修复器</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Form_Fixer</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
