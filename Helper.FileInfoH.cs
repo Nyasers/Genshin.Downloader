@@ -1,11 +1,17 @@
 namespace Helper;
 
-internal class FileInfoH
+internal class FileInfoH : IDisposable
 {
     public string remoteName;
     public string? md5;
     public string? hash;
     public long fileSize;
+
+    private string? path;
+    private byte[]? data;
+    private Stream? stream;
+
+    private bool disposedValue;
 
     public FileInfoH(dynamic json)
     {
@@ -15,42 +21,40 @@ internal class FileInfoH
         fileSize = (long)json.fileSize;
     }
 
-    public FileInfoH(FileInfo file, bool hash = false, bool md5 = false)
+    public FileInfoH(string file)
     {
-        if (File.Exists(file.FullName) is false) throw new FileNotFoundException("File does not exsit.", file.FullName);
-        remoteName = GetRemoteName(file.FullName);
-        fileSize = file.Length;
-        if (hash) foreach (byte item in System.IO.Hashing.XxHash64.Hash(File.ReadAllBytes(file.FullName)))
-            {
-                this.hash += item.ToString("x2");
-            }
-        if (md5) foreach (byte item in System.Security.Cryptography.MD5.HashData(File.OpenRead(file.FullName)))
-            {
-                this.md5 += item.ToString("x2");
-            }
+        if (File.Exists(file) is false) throw new FileNotFoundException("File does not exsit.", file);
+        path = file;
+        remoteName = GetRemoteName(file);
+        fileSize = new FileInfo(file).Length;
     }
 
-    public static async Task<FileInfoH> BuildAsync(FileInfo file, bool hash = false, bool md5 = false)
+    public async Task ComputeMD5()
     {
-        FileInfoH result = new(file);
-        if (hash)
+        if (path is null) return;
+        md5 = null;
+        stream ??= File.OpenRead(path);
+        foreach (byte item in await System.Security.Cryptography.MD5.HashDataAsync(stream))
         {
-            byte[] _hash = System.IO.Hashing.XxHash64.Hash(await File.ReadAllBytesAsync(file.FullName));
-            foreach (byte item in _hash)
-            {
-                result.hash += item.ToString("x2");
-            }
+            md5 += item.ToString("x2");
         }
+    }
 
-        if (md5)
+    public async Task ComputeHash()
+    {
+        if (path is null) return;
+        hash = null;
+        data ??= await File.ReadAllBytesAsync(path);
+        foreach (byte item in System.IO.Hashing.XxHash64.Hash(data))
         {
-            byte[] _md5 = await System.Security.Cryptography.MD5.HashDataAsync(File.OpenRead(file.FullName));
-            foreach (byte item in _md5)
-            {
-                result.md5 += item.ToString("x2");
-            }
+            hash += item.ToString("x2");
         }
-        return result;
+    }
+
+    public async Task ComputeAll()
+    {
+        await ComputeMD5();
+        await ComputeHash();
     }
 
     public static string GetRemoteName(string fileName)
@@ -60,7 +64,12 @@ internal class FileInfoH
 
     public override string ToString()
     {
-        return $@"{{""remoteName"": ""{remoteName}"", ""md5"": ""{md5 ?? ""}"", ""hash"": ""{hash ?? ""}"", ""fileSize"": {fileSize}}}";
+        string result = $"{{";
+        result += $"\"remoteName\": \"{remoteName}\", ";
+        if (md5 is not null) result += $"\"md5\": \"{md5}\", ";
+        result += $"\"package_size\": {fileSize}";
+        result += $"}}";
+        return result;
     }
 
     public override int GetHashCode()
@@ -83,5 +92,38 @@ internal class FileInfoH
             if (md5 != ((FileInfoH)obj).md5)
                 return false;
         return true;
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                // TODO: 释放托管状态(托管对象)
+                stream?.Dispose();
+            }
+
+            // TODO: 释放未托管的资源(未托管的对象)并重写终结器
+            // TODO: 将大型字段设置为 null
+            path = null;
+            data = null;
+            stream = null;
+            disposedValue = true;
+        }
+    }
+
+    // TODO: 仅当“Dispose(bool disposing)”拥有用于释放未托管资源的代码时才替代终结器
+    ~FileInfoH()
+    {
+        // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
+        Dispose(disposing: false);
+    }
+
+    public void Dispose()
+    {
+        // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

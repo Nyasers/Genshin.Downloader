@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Installer));
             groupBox_path = new GroupBox();
             textBox_game = new TextBox();
@@ -45,6 +46,7 @@
             textBox_gameVersion = new TextBox();
             groupBox_install = new GroupBox();
             button_start = new Button();
+            timer_RAM = new System.Windows.Forms.Timer(components);
             groupBox_path.SuspendLayout();
             groupBox_pack.SuspendLayout();
             groupBox_name.SuspendLayout();
@@ -171,6 +173,12 @@
             button_start.UseVisualStyleBackColor = true;
             button_start.Click += Button_Start_Click;
             // 
+            // timer_RAM
+            // 
+            timer_RAM.Enabled = true;
+            timer_RAM.Interval = 250;
+            timer_RAM.Tick += Timer_RAM_Tick;
+            // 
             // Form_Installer
             // 
             resources.ApplyResources(this, "$this");
@@ -185,6 +193,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "Form_Installer";
+            FormClosed += Form_Installer_FormClosed;
             Load += Form_Installer_Load;
             groupBox_path.ResumeLayout(false);
             groupBox_path.PerformLayout();
@@ -219,5 +228,6 @@
         private TextBox textBox_gameVersion;
         private GroupBox groupBox_install;
         private Button button_start;
+        private System.Windows.Forms.Timer timer_RAM;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using System.Resources;
 
 namespace Helper
 {
@@ -40,6 +41,24 @@ namespace Helper
                 await process.WaitForExitAsync();
                 return process.ExitCode;
             }
+        }
+
+        public static void MemoryManager(Form? form = null, ResourceManager? resourceManager = null)
+        {
+            const int MB = 1024 * 1024;
+            long privateMemorySize64 = Process.GetCurrentProcess().PrivateMemorySize64;
+            if (privateMemorySize64 >= MB * 128)
+            {
+                GC.Collect(2,
+                    privateMemorySize64 >= MB * 256 ?
+                    privateMemorySize64 >= MB * 1024 ?
+                    GCCollectionMode.Aggressive : GCCollectionMode.Forced : GCCollectionMode.Optimized,
+                    privateMemorySize64 >= MB * 512,
+                    privateMemorySize64 >= MB * 512);
+                GC.WaitForFullGCComplete();
+            }
+            if (form is not null && resourceManager is not null)
+                form.Text = $"{resourceManager.GetString("$this.Text")} ({privateMemorySize64 / MB} MB)";
         }
 
         /*public static async Task<MethodInfo> GetMethod(string name)

@@ -55,6 +55,10 @@ internal static class Worker
                 dynamic? json = JsonConvert.DeserializeObject(line);
                 if (json != null)
                 {
+                    json.path = $"{url}/{json.remoteName}";
+                    json.package_size = json.fileSize;
+                    json.fileSize = null;
+                    json.hash = null;
                     File2Down? file = await File2Down.BuildAsync(json);
                     if (file is not null && !string.IsNullOrEmpty(file.remoteName))
                     {
@@ -64,9 +68,9 @@ internal static class Worker
             }
         }
         string input = Aria2.GetInput([.. files]);
-        System.Runtime.CompilerServices.TaskAwaiter<int> taskAwaiter = Aria2.DownloadAsync(input, DirectoryH.EnsureExists(Properties.Settings.Default.DownPath).FullName, 0).GetAwaiter();
-        taskAwaiter.OnCompleted(() => File.Delete(download_file));
-        return taskAwaiter.GetResult();
+        int exitCode = await Aria2.DownloadAsync(input, DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName, 0);
+        if (exitCode is 0) File.Delete(download_file);
+        return exitCode;
     }
 
     public static async Task<int> ApplyHDiff()
@@ -74,7 +78,7 @@ internal static class Worker
         string path_game = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
         string hdiff_file = $"{path_temp}\\hdifffiles.txt";
-        string batch_file = Path.GetTempFileName(); //$"{path_temp}\\hdifffiles.bat";
+        string batch_file = Path.GetTempFileName();
         string hpatchz = await Resource.GetTempFileAsync("hpatchz.exe");
         StreamReader reader = new(hdiff_file);
         StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
@@ -129,7 +133,7 @@ internal static class Worker
         {
             await process.WaitForExitAsync();
         }
-        if (process?.ExitCode is not 0)
+        if (process?.ExitCode is 0)
         {
             if (version is not null)
             {

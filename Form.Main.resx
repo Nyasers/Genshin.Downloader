@@ -196,7 +196,7 @@
     <value>6</value>
   </data>
   <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>177, 21</value>
   </metadata>
   <data name="comboBox_channel.Items" xml:space="preserve">
     <value>[hk4e_1_0] 官方服</value>
@@ -696,6 +696,9 @@
   <data name="&gt;&gt;groupBox_config.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="timer_RAM.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -719,6 +722,12 @@
   </data>
   <data name="&gt;&gt;folderBrowserDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;timer_RAM.Name" xml:space="preserve">
+    <value>timer_RAM</value>
+  </data>
+  <data name="&gt;&gt;timer_RAM.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Form_Main</value>

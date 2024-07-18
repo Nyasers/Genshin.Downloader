@@ -2,6 +2,11 @@
 
 internal static class StringH
 {
+    public static string EnsureNotNull(string str)
+    {
+        return str ?? "";
+    }
+
     public static string? EmptyCheck(string? left)
     {
         return !string.IsNullOrEmpty(left) ? left : null;

@@ -1,10 +1,13 @@
-﻿namespace Genshin.Downloader
+﻿using System.Resources;
+
+namespace Genshin.Downloader
 {
     public partial class Form_Main : Form
     {
         private readonly Dictionary<string, int> ContorlSize = [];
         private readonly List<File2Down> Files = [];
         private string Aria2Input = "";
+        private static readonly ResourceManager resourceManager = new(typeof(Form_Main));
 
         public Form_Main()
         {
@@ -263,13 +266,12 @@
 
         private void Button_Installer_Click(object sender, EventArgs e)
         {
-            _ = SaveConfig();
-            Hide(); new Form_Installer().ShowDialog(this); Show();
+            using Form_Installer form = new();
+            ShowDialog(form);
         }
 
         private void Button_Fixer_Click(object sender, EventArgs e)
         {
-            _ = SaveConfig();
             Dictionary<string, object> args = [];
             args["AudioList"] = new List<string>();
             foreach (var item in checkedListBox_voicePack.CheckedItems)
@@ -277,7 +279,38 @@
                 string? key = StringH.GetKeyName(item.ToString());
                 if (key is not null) ((List<string>)args["AudioList"]).Add(API.AudioList[key]);
             }
-            Hide(); new Form_Fixer(args).ShowDialog(this); Show();
+            using Form_Fixer form = new(args);
+            ShowDialog(form);
+        }
+
+        private void ShowDialog(Form form)
+        {
+            ArgumentNullException.ThrowIfNull(form);
+
+            if (SaveConfig() is false) return;
+
+            timer_RAM.Enabled = false;
+
+            form.Shown += (object? sender, EventArgs e) => Hide();
+            form.FormClosed += (object? sender, FormClosedEventArgs e) => Show();
+            form.ShowDialog(this);
+            form.Dispose();
+
+            timer_RAM.Enabled = true;
+
+            GC.Collect(2, GCCollectionMode.Aggressive, true, true);
+            GC.WaitForFullGCComplete();
+        }
+
+        private void Timer_RAM_Tick(object sender, EventArgs e)
+        {
+            Resource.MemoryManager(this, resourceManager);
+        }
+
+        private void Form_Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            GC.Collect(2, GCCollectionMode.Aggressive, true, true);
+            GC.WaitForFullGCComplete();
         }
     }
 }

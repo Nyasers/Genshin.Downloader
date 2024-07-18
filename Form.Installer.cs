@@ -1,14 +1,16 @@
-﻿namespace Genshin.Downloader
+﻿using System.Resources;
+
+namespace Genshin.Downloader
 {
     public partial class Form_Installer : Form
     {
         private Config? Config;
+        private static readonly ResourceManager resourceManager = new(typeof(Form_Installer));
 
         public Form_Installer()
         {
             InitializeComponent();
         }
-
 
         private void Form_Installer_Load(object sender, EventArgs e)
         {
@@ -110,6 +112,17 @@
             }
 
             await Worker.ApplyUpdate(this, type[1] is "Game" ? version : null);
+        }
+
+        private void Timer_RAM_Tick(object sender, EventArgs e)
+        {
+            Resource.MemoryManager(this, resourceManager);
+        }
+
+        private void Form_Installer_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            GC.Collect(2, GCCollectionMode.Aggressive, true, true);
+            GC.WaitForFullGCComplete();
         }
     }
 }

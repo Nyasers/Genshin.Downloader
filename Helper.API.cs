@@ -48,16 +48,9 @@ internal class API
     {
         if (channel is not null && ApiList.TryGetValue(channel, out string? api) && api is not null)
         {
-            HttpClient http = new();
-            try
-            {
-                string data = await http.GetStringAsync(api);
-                return JsonConvert.DeserializeObject<dynamic>(data) ?? throw new Exception();
-            }
-            finally
-            {
-                http.Dispose();
-            }
+            using HttpClient http = new();
+            string data = await http.GetStringAsync(api);
+            return JsonConvert.DeserializeObject<dynamic>(data) ?? throw new Exception();
         }
         else
         {
@@ -65,13 +58,18 @@ internal class API
         }
     }
 
+    public static async Task<dynamic> GetLatest(string? channel)
+    {
+        return (await Get(channel)).data.game.latest;
+    }
+
     public static async Task<string> GetLatestVersion(string? channel)
     {
-        return (await Get(channel)).game.latest.version;
+        return (await GetLatest(channel)).version;
     }
 
     public static async Task<string> GetDecompressedPath(string? channel)
     {
-        return (await Get(channel)).data.game.latest.decompressed_path;
+        return (await GetLatest(channel)).decompressed_path;
     }
 }

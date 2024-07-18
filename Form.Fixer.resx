@@ -216,6 +216,39 @@
   <data name="&gt;&gt;groupBox_path.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="button_cancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="button_cancel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="button_cancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="button_cancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>383, 22</value>
+  </data>
+  <data name="button_cancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 27</value>
+  </data>
+  <data name="button_cancel.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="button_cancel.Text" xml:space="preserve">
+    <value>终止比对</value>
+  </data>
+  <data name="&gt;&gt;button_cancel.Name" xml:space="preserve">
+    <value>button_cancel</value>
+  </data>
+  <data name="&gt;&gt;button_cancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_cancel.Parent" xml:space="preserve">
+    <value>groupBox_method</value>
+  </data>
+  <data name="&gt;&gt;button_cancel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="radioButton_both.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
     <value>Button</value>
   </data>
@@ -234,6 +267,9 @@
   <data name="radioButton_both.Text" xml:space="preserve">
     <value>Both</value>
   </data>
+  <data name="radioButton_both.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
   <data name="&gt;&gt;radioButton_both.Name" xml:space="preserve">
     <value>radioButton_both</value>
   </data>
@@ -244,7 +280,7 @@
     <value>groupBox_method</value>
   </data>
   <data name="&gt;&gt;radioButton_both.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="radioButton_md5.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
     <value>Button</value>
@@ -264,6 +300,9 @@
   <data name="radioButton_md5.Text" xml:space="preserve">
     <value>MD5</value>
   </data>
+  <data name="radioButton_md5.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
   <data name="&gt;&gt;radioButton_md5.Name" xml:space="preserve">
     <value>radioButton_md5</value>
   </data>
@@ -274,7 +313,7 @@
     <value>groupBox_method</value>
   </data>
   <data name="&gt;&gt;radioButton_md5.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="button_compare.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -283,7 +322,7 @@
     <value>286, 22</value>
   </data>
   <data name="button_compare.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 27</value>
+    <value>91, 27</value>
   </data>
   <data name="button_compare.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -301,7 +340,7 @@
     <value>groupBox_method</value>
   </data>
   <data name="&gt;&gt;button_compare.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="radioButton_hash.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
     <value>Button</value>
@@ -321,6 +360,9 @@
   <data name="radioButton_hash.Text" xml:space="preserve">
     <value>XxHash64</value>
   </data>
+  <data name="radioButton_hash.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
   <data name="&gt;&gt;radioButton_hash.Name" xml:space="preserve">
     <value>radioButton_hash</value>
   </data>
@@ -331,7 +373,7 @@
     <value>groupBox_method</value>
   </data>
   <data name="&gt;&gt;radioButton_hash.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="radioButton_none.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
     <value>Button</value>
@@ -351,6 +393,9 @@
   <data name="radioButton_none.Text" xml:space="preserve">
     <value>FileSize Only</value>
   </data>
+  <data name="radioButton_none.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
   <data name="&gt;&gt;radioButton_none.Name" xml:space="preserve">
     <value>radioButton_none</value>
   </data>
@@ -361,7 +406,7 @@
     <value>groupBox_method</value>
   </data>
   <data name="&gt;&gt;radioButton_none.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="groupBox_method.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 69</value>
@@ -441,6 +486,9 @@
   <data name="textBox_missing.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="textBox_missing.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
   <data name="textBox_missing.Size" type="System.Drawing.Size, System.Drawing">
     <value>474, 78</value>
   </data>
@@ -491,6 +539,9 @@
   </data>
   <data name="textBox_suplus.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="textBox_suplus.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
   </data>
   <data name="textBox_suplus.Size" type="System.Drawing.Size, System.Drawing">
     <value>474, 78</value>
@@ -588,6 +639,9 @@
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="timer_RAM.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -605,6 +659,12 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Genshin Impact 修复器</value>
+  </data>
+  <data name="&gt;&gt;timer_RAM.Name" xml:space="preserve">
+    <value>timer_RAM</value>
+  </data>
+  <data name="&gt;&gt;timer_RAM.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Form_Fixer</value>

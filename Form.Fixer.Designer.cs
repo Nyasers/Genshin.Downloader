@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Fixer));
             groupBox_gameVersion = new GroupBox();
             textBox_gameVersion = new TextBox();
             groupBox_path = new GroupBox();
             textBox_game = new TextBox();
             groupBox_method = new GroupBox();
+            button_cancel = new Button();
             radioButton_both = new RadioButton();
             radioButton_md5 = new RadioButton();
             button_compare = new Button();
@@ -47,6 +49,7 @@
             textBox_suplus = new TextBox();
             groupBox1 = new GroupBox();
             button_start = new Button();
+            timer_RAM = new System.Windows.Forms.Timer(components);
             groupBox_gameVersion.SuspendLayout();
             groupBox_path.SuspendLayout();
             groupBox_method.SuspendLayout();
@@ -88,6 +91,7 @@
             // 
             // groupBox_method
             // 
+            groupBox_method.Controls.Add(button_cancel);
             groupBox_method.Controls.Add(radioButton_both);
             groupBox_method.Controls.Add(radioButton_md5);
             groupBox_method.Controls.Add(button_compare);
@@ -96,6 +100,13 @@
             resources.ApplyResources(groupBox_method, "groupBox_method");
             groupBox_method.Name = "groupBox_method";
             groupBox_method.TabStop = false;
+            // 
+            // button_cancel
+            // 
+            resources.ApplyResources(button_cancel, "button_cancel");
+            button_cancel.Name = "button_cancel";
+            button_cancel.UseVisualStyleBackColor = true;
+            button_cancel.Click += Button_Cancel_Click;
             // 
             // radioButton_both
             // 
@@ -189,6 +200,12 @@
             button_start.UseVisualStyleBackColor = true;
             button_start.Click += Button_Start_Click;
             // 
+            // timer_RAM
+            // 
+            timer_RAM.Enabled = true;
+            timer_RAM.Interval = 250;
+            timer_RAM.Tick += Timer_RAM_Tick;
+            // 
             // Form_Fixer
             // 
             resources.ApplyResources(this, "$this");
@@ -203,6 +220,8 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "Form_Fixer";
+            FormClosing += Form_Fixer_FormClosing;
+            FormClosed += Form_Fixer_FormClosed;
             Load += Form_Fixer_Load;
             groupBox_gameVersion.ResumeLayout(false);
             groupBox_gameVersion.PerformLayout();
@@ -239,5 +258,7 @@
         private TextBox textBox_suplus;
         private GroupBox groupBox1;
         private Button button_start;
+        private System.Windows.Forms.Timer timer_RAM;
+        private Button button_cancel;
     }
 }

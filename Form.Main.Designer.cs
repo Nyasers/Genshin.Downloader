@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Main));
             groupBox_path = new GroupBox();
             button_browse = new Button();
@@ -51,6 +52,7 @@
             button_download = new Button();
             groupBox_config = new GroupBox();
             button_save = new Button();
+            timer_RAM = new System.Windows.Forms.Timer(components);
             groupBox_path.SuspendLayout();
             groupBox_channel.SuspendLayout();
             groupBox_version.SuspendLayout();
@@ -216,6 +218,12 @@
             button_save.UseVisualStyleBackColor = true;
             button_save.Click += Button_Save_Click;
             // 
+            // timer_RAM
+            // 
+            timer_RAM.Enabled = true;
+            timer_RAM.Interval = 250;
+            timer_RAM.Tick += Timer_RAM_Tick;
+            // 
             // Form_Main
             // 
             resources.ApplyResources(this, "$this");
@@ -229,6 +237,7 @@
             Controls.Add(groupBox_path);
             Name = "Form_Main";
             FormClosing += Form_Main_FormClosing;
+            FormClosed += Form_Main_FormClosed;
             Load += Form_Main_Load;
             SizeChanged += Form_Main_SizeChanged;
             groupBox_path.ResumeLayout(false);
@@ -269,5 +278,6 @@
         private Button button_fixer;
         private Button button_installer;
         private TextBox textBox_aria2;
+        private System.Windows.Forms.Timer timer_RAM;
     }
 }
