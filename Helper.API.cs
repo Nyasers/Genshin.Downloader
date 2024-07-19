@@ -1,9 +1,12 @@
 using Newtonsoft.Json;
+using System.Resources;
 
 namespace Helper;
 
 internal class API
 {
+    private static readonly ResourceManager resource = new(typeof(Worker));
+    
     private static readonly Dictionary<string, string> audioList = new()
     {
         {
@@ -54,7 +57,7 @@ internal class API
         }
         else
         {
-            throw new ArgumentOutOfRangeException(nameof(channel), channel, "Not Found.");
+            throw new ArgumentOutOfRangeException(nameof(channel), channel, resource.GetString("msg.error.notfound"));
         }
     }
 
