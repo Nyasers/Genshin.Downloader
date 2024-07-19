@@ -12,16 +12,16 @@ internal static class Worker
         string path_game = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
         string delete_file = $"{path_temp}\\deletefiles.txt";
-        string batch_file = $"{path_temp}\\deletefiles.bat";
+        string batch_file = Path.GetTempFileName();
         StreamReader reader = new(delete_file);
         StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
-        await writer.WriteLineAsync("@echo off");
+        await writer.WriteLineAsync("@echo off & title 正在删除文件..");
         while (!reader.EndOfStream)
         {
             string? line = await reader.ReadLineAsync();
             if (line != null)
             {
-                string command_line = $"del /f \"{path_game}\\{line.Replace("/", "\\")}\"||pause";
+                string command_line = $"del /f \"{path_game}\\{line.Replace("/", "\\")}\" || (pause & exit 1)";
                 await writer.WriteLineAsync(command_line);
             }
         }
@@ -56,9 +56,6 @@ internal static class Worker
                 if (json != null)
                 {
                     json.path = $"{url}/{json.remoteName}";
-                    json.package_size = json.fileSize;
-                    json.fileSize = null;
-                    json.hash = null;
                     File2Down? file = await File2Down.BuildAsync(json);
                     if (file is not null && !string.IsNullOrEmpty(file.remoteName))
                     {
@@ -82,7 +79,7 @@ internal static class Worker
         string hpatchz = await Resource.GetTempFileAsync("hpatchz.exe");
         StreamReader reader = new(hdiff_file);
         StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
-        await writer.WriteLineAsync("@echo off");
+        await writer.WriteLineAsync("@echo off & title 正在执行HPatch..");
         while (!reader.EndOfStream)
         {
             string? line = await reader.ReadLineAsync();
@@ -96,14 +93,13 @@ internal static class Worker
                     string oldFile = $"{path_game}\\{remoteName}";
                     string diffFile = $"{path_temp}\\{remoteName}.hdiff";
                     string newFile = $"{path_temp}\\{remoteName}";
-                    string command_line = $"(\"{hpatchz}\" -C-all \"{oldFile}\" \"{diffFile}\" \"{newFile}\"||(pause&exit -1))&&del /f \"{diffFile}\"";
+                    string command_line = $"(\"{hpatchz}\" -C-all \"{oldFile}\" \"{diffFile}\" \"{newFile}\" || (pause & exit -1)) && del /f \"{diffFile}\"";
                     await writer.WriteLineAsync(command_line);
                 }
             }
         }
         reader.Close();
-        await writer.WriteLineAsync($"del /f \"{hdiff_file}\"");
-        await writer.WriteLineAsync($"del /f \"{hpatchz}\"");
+        await writer.WriteLineAsync($"del /f \"{hpatchz}\" & del /f \"{hdiff_file}\"");
         await writer.WriteLineAsync("del %0 & exit");
         writer.Close();
         Process? process = Process.Start(new ProcessStartInfo()
@@ -123,11 +119,11 @@ internal static class Worker
     {
         string path_game = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
-        string command_line = $"(xcopy /f /e /y \"{path_temp}\" \"{path_game}\" && del /s /q \"{path_temp}\\*\" && rd /s /q \"{path_temp}\" && exit 0) || pause";
+        string command_line = $"@title 正在应用更新.. & (xcopy /f /e /y \"{path_temp}\" \"{path_game}\" && del /s /q \"{path_temp}\\*\" && rd /s /q \"{path_temp}\" && exit 0) || (pause & exit 1)";
         Process? process = Process.Start(new ProcessStartInfo()
         {
             FileName = "cmd.exe",
-            Arguments = $"/c title 正在应用更新.. & {command_line}"
+            Arguments = $"/c {command_line}"
         });
         if (process is not null)
         {
