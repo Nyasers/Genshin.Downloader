@@ -5,7 +5,7 @@ namespace Helper;
 
 internal class API
 {
-    private static readonly ResourceManager resource = new(typeof(Worker));
+    private static readonly ResourceManager resource = new(typeof(API));
     
     private static readonly Dictionary<string, string> audioList = new()
     {
