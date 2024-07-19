@@ -7,7 +7,7 @@ public partial class Form_Fixer : Form
 {
     private Config? Config;
     private readonly List<string> AudioList;
-    private static readonly ResourceManager resourceManager = new(typeof(Form_Fixer));
+    private static readonly ResourceManager resource = new(typeof(Form_Fixer));
 
     public Form_Fixer(Dictionary<string, object> args)
     {
@@ -20,7 +20,7 @@ public partial class Form_Fixer : Form
         Show();
         if (StringH.WhiteSpaceCheck(Properties.Settings.Default.GamePath) is null)
         {
-            _ = MessageBox.Show(this, "未设置游戏目录！", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            _ = MessageBox.Show(this, resource.GetString("mbox.gamePathEmpty"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             Close(); return;
         }
         textBox_game.Text = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
@@ -49,9 +49,9 @@ public partial class Form_Fixer : Form
     private async Task Compare()
     {
         if (Config is null || Config.Channel is null) return;
-        groupBox_suplus.Text = resourceManager.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
-        groupBox_missing.Text = resourceManager.GetString("groupBox_missing.Text"); textBox_missing.Clear();
-        groupBox_progress.Text = resourceManager.GetString("groupBox_progress.Text") + " (等待服务器响应)";
+        groupBox_suplus.Text = resource.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
+        groupBox_missing.Text = resource.GetString("groupBox_missing.Text"); textBox_missing.Clear();
+        groupBox_progress.Text = $"{resource.GetString("groupBox_progress.Text")} ({resource.GetString("tbox.waitServer")})";
         progressBar.Style = ProgressBarStyle.Marquee;
         HttpClient http = new()
         {
@@ -108,15 +108,15 @@ public partial class Form_Fixer : Form
                 local.Add(fi);
             }
             progressBar.Value = local.Count;
-            groupBox_progress.Text = $"{resourceManager.GetString("groupBox_progress.Text")} ({local.Count} of {items.Count})";
+            groupBox_progress.Text = $"{resource.GetString("groupBox_progress.Text")} ({local.Count} of {items.Count})";
             if (CancellingCompare) break;
         }
         items.Clear();
         if (CancellingCompare) return;
         List<FileInfoH> surplus = local.Except(online).ToList();
         List<FileInfoH> missing = online.Except(local).ToList();
-        groupBox_suplus.Text = $"{resourceManager.GetString("groupBox_suplus.Text")} ({surplus.Count} of {local.Count})"; local.Clear();
-        groupBox_missing.Text = $"{resourceManager.GetString("groupBox_missing.Text")} ({missing.Count} of {online.Count})"; online.Clear();
+        groupBox_suplus.Text = $"{resource.GetString("groupBox_suplus.Text")} ({surplus.Count} of {local.Count})"; local.Clear();
+        groupBox_missing.Text = $"{resource.GetString("groupBox_missing.Text")} ({missing.Count} of {online.Count})"; online.Clear();
         surplus.ForEach((i) => textBox_suplus.Text += $"{i.remoteName}\r\n"); surplus.Clear();
         missing.ForEach((i) => textBox_missing.Text += $"{i}\r\n"); missing.Clear();
     }
@@ -135,7 +135,7 @@ public partial class Form_Fixer : Form
     {
         if (string.IsNullOrWhiteSpace(textBox_suplus.Text) && string.IsNullOrWhiteSpace(textBox_missing.Text))
         {
-            _ = MessageBox.Show(this, "没有需要修复的文件！", Text, MessageBoxButtons.OK, MessageBoxIcon.Information); return;
+            _ = MessageBox.Show(this, resource.GetString("mbox.nothing2Fix"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information); return;
         }
         string version = await API.GetLatestVersion(Config?.Channel);
         string path_temp = DirectoryH.EnsureNew(Properties.Settings.Default.TempPath).FullName;
@@ -154,7 +154,7 @@ public partial class Form_Fixer : Form
 
     private void Timer_RAM_Tick(object sender, EventArgs e)
     {
-        Resource.MemoryManager(this, resourceManager);
+        Resource.MemoryManager(this, resource);
     }
 
     private void Form_Fixer_FormClosing(object sender, FormClosingEventArgs e)
