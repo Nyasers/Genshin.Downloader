@@ -31,15 +31,15 @@ internal class API
     {
         {
             "hk4e_1_0",
-            "https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/resource?launcher_id=18&key=eYd89JmJ&channel_id=1&sub_channel_id=1"
+            "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?launcher_id=jGHBHlcOq1&game_ids[]=1Z8W5NHUQb"
         },
         {
             "hk4e_1_1",
-            "https://hk4e-launcher-static.hoyoverse.com/hk4e_global/mdk/launcher/api/resource?launcher_id=10&key=gcStgarh&channel_id=1&sub_channel_id=3"
+            "https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getGamePackages?launcher_id=VYTpXlbWo8&game_ids[]=gopR6Cufr3"
         },
         {
             "hk4e_14_0",
-            "https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/resource?launcher_id=17&key=KAtdSsoQ&channel_id=14&sub_channel_id=0"
+            "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGamePackages?launcher_id=umfgRO5gh5&game_ids[]=T2S0Gz4Dr2"
         }
     };
 
@@ -47,32 +47,20 @@ internal class API
 
     public static Dictionary<string, string> AudioList => audioList;
 
-    public async static Task<dynamic> Get(string? channel)
+    public async static Task<dynamic> GetAsync(string? channel)
     {
         if (channel is not null && ApiList.TryGetValue(channel, out string? api) && api is not null)
         {
             using HttpClient http = new();
-            string data = await http.GetStringAsync(api);
-            return JsonConvert.DeserializeObject<dynamic>(data) ?? throw new Exception();
+            string value = await http.GetStringAsync(api);
+            dynamic ret = JsonConvert.DeserializeObject<dynamic>(value) ?? throw new Exception();
+            if ((int?)ret.retcode is not 0) throw new Exception(ret.message);
+            dynamic res = ret.data.game_packages[0] ?? throw new Exception();
+            return res;
         }
         else
         {
             throw new ArgumentOutOfRangeException(nameof(channel), channel, resource.GetString("msg.error.notfound"));
         }
-    }
-
-    public static async Task<dynamic> GetLatest(string? channel)
-    {
-        return (await Get(channel)).data.game.latest;
-    }
-
-    public static async Task<string> GetLatestVersion(string? channel)
-    {
-        return (await GetLatest(channel)).version;
-    }
-
-    public static async Task<string> GetDecompressedPath(string? channel)
-    {
-        return (await GetLatest(channel)).decompressed_path;
     }
 }

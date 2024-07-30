@@ -3,7 +3,7 @@
     internal partial class File2Down
     {
         public string name;
-        public string path;
+        public string url;
         public string remoteName;
         public long size;
         public string md5;
@@ -14,37 +14,32 @@
         {
             name = "";
             remoteName = "";
-            path = "";
+            url = "";
             size = 0;
             md5 = "";
         }
 
-        public async static Task<File2Down?> BuildAsync(dynamic data)
+        public async static Task<File2Down?> BuildAsync(dynamic pkg)
         {
-            File2Down result = new();
+            File2Down res = new();
             try
             {
-                result.path = data.path ?? string.Empty;
-                if (string.IsNullOrEmpty(result.path))
+                res.url = pkg.url ?? string.Empty;
+                if (string.IsNullOrEmpty(res.url))
                 {
-                    throw new ArgumentNullException(nameof(data));
+                    throw new ArgumentNullException(nameof(pkg));
                 }
-                try
-                {
-                    result.name = data.name ?? string.Empty;
-                }
-                catch { }
-                result.name = StringH.EmptyCheck(result.name) ?? FileH.GetName(result.path);
-                result.remoteName = data.remoteName ?? string.Empty;
-                result.size = long.Parse((string)data.package_size ?? "0");
-                result.size = result.size == 0 ? await FileH.GetSizeAsync(result.path) : result.size;
-                result.md5 = data.md5 ?? string.Empty;
+                res.name = FileH.GetName(res.url);
+                res.md5 = pkg.md5 ?? string.Empty;
+                res.size = long.Parse((string)pkg.size ?? "0");
+                res.size = res.size == 0 ? await FileH.GetSizeAsync(res.url) : res.size;
+                res.remoteName = pkg.remoteName ?? string.Empty;
             }
             catch
             {
                 return null;
             }
-            return result;
+            return res;
         }
 
         public override string ToString()

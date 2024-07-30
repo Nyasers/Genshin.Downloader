@@ -5,7 +5,7 @@ internal class FileInfoH : IDisposable
     public string remoteName;
     public string? md5;
     public string? hash;
-    public long fileSize;
+    public long size;
 
     private string? path;
     private byte[]? data;
@@ -18,7 +18,7 @@ internal class FileInfoH : IDisposable
         remoteName = (string)json.remoteName;
         md5 = (string)json.md5;
         hash = (string)json.hash;
-        fileSize = (long)json.fileSize;
+        size = (long)json.fileSize;
     }
 
     public FileInfoH(string file)
@@ -26,7 +26,7 @@ internal class FileInfoH : IDisposable
         if (File.Exists(file) is false) throw new FileNotFoundException("File does not exsit.", file);
         path = file;
         remoteName = GetRemoteName(file);
-        fileSize = new FileInfo(file).Length;
+        size = new FileInfo(file).Length;
     }
 
     public async Task ComputeMD5()
@@ -64,11 +64,9 @@ internal class FileInfoH : IDisposable
 
     public override string ToString()
     {
-        string result = $"{{";
-        result += $"\"remoteName\": \"{remoteName}\", ";
+        string result = $"{{\"remoteName\": \"{remoteName}\", ";
         if (md5 is not null) result += $"\"md5\": \"{md5}\", ";
-        result += $"\"package_size\": {fileSize}";
-        result += $"}}";
+        result += $"\"size\": {size}}}";
         return result;
     }
 
@@ -83,7 +81,7 @@ internal class FileInfoH : IDisposable
             return false;
         if (remoteName != ((FileInfoH)obj).remoteName)
             return false;
-        if (fileSize != ((FileInfoH)obj).fileSize)
+        if (size != ((FileInfoH)obj).size)
             return false;
         else if (hash is not null && ((FileInfoH)obj).hash is not null)
             if (hash != ((FileInfoH)obj).hash)
