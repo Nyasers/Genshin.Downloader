@@ -133,7 +133,11 @@ internal static class Worker
         {
             if (version is not null)
             {
-                new Config(path_game).Version = version;
+                Config config = new(path_game)
+                {
+                    Version = version
+                };
+                config.Save();
             }
         }
         else if (DialogResult.Retry == MessageBox.Show(owner, $"{Genshin.Downloader.Text.msg_failed_code}{process?.ExitCode}", Genshin.Downloader.Text.msg_failed_task, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
