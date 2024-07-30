@@ -294,19 +294,28 @@ namespace Genshin.Downloader
             string path = textBox_path.Text;
             if (Directory.Exists(path))
             {
-                if (Directory.Exists(path + "\\YuanShen_Data") && File.Exists(path + "\\YuanShen.exe"))
-                {
-                    Process.Start("cmd.exe", "/c start \"\" \"" + path + "\\YuanShen.exe\"");
-                }
-                else if (Directory.Exists(path + "\\GenshinImpact_Data") && File.Exists(path + "\\GenshinImpact.exe"))
-                {
-                    Process.Start("cmd.exe", "/c start \"\" \"" + path + "\\GenshinImpact.exe\"");
-                }
-                else
+                if (!Launch(this, path, "YuanShen") && !Launch(this, path, "GenshinImpact"))
                 {
                     _ = MessageBox.Show(this, Downloader.Text.mbox_launchFailed, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private static bool Launch(Form owner, string path, string name)
+        {
+            if (!Directory.Exists($"{path}\\{name}_Data") || !File.Exists($"{path}\\{name}.exe"))
+            {
+                return false;
+            }
+            using Process? process = Process.Start(new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                Arguments = $"/c start \"\" \"{path}\\{name}\"",
+                CreateNoWindow = true
+            });
+            if (process is null) return false;
+            owner.Close();
+            return true;
         }
     }
 }
