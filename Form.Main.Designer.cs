@@ -45,6 +45,7 @@
             checkBox_pre = new CheckBox();
             button_check = new Button();
             groupBox_files = new GroupBox();
+            button_launch = new Button();
             button_fixer = new Button();
             button_installer = new Button();
             textBox_aria2 = new TextBox();
@@ -160,6 +161,7 @@
             // 
             // groupBox_files
             // 
+            groupBox_files.Controls.Add(button_launch);
             groupBox_files.Controls.Add(button_fixer);
             groupBox_files.Controls.Add(button_installer);
             groupBox_files.Controls.Add(textBox_aria2);
@@ -168,6 +170,13 @@
             resources.ApplyResources(groupBox_files, "groupBox_files");
             groupBox_files.Name = "groupBox_files";
             groupBox_files.TabStop = false;
+            // 
+            // button_launch
+            // 
+            resources.ApplyResources(button_launch, "button_launch");
+            button_launch.Name = "button_launch";
+            button_launch.UseVisualStyleBackColor = true;
+            button_launch.Click += Button_Launch_Click;
             // 
             // button_fixer
             // 
@@ -279,5 +288,6 @@
         private Button button_installer;
         private TextBox textBox_aria2;
         private System.Windows.Forms.Timer timer_RAM;
+        private Button button_launch;
     }
 }

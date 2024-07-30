@@ -474,6 +474,30 @@
   <data name="&gt;&gt;groupBox_check.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="button_launch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>168, 198</value>
+  </data>
+  <data name="button_launch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 23</value>
+  </data>
+  <data name="button_launch.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="button_launch.Text" xml:space="preserve">
+    <value>原神，启动！</value>
+  </data>
+  <data name="&gt;&gt;button_launch.Name" xml:space="preserve">
+    <value>button_launch</value>
+  </data>
+  <data name="&gt;&gt;button_launch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_launch.Parent" xml:space="preserve">
+    <value>groupBox_files</value>
+  </data>
+  <data name="&gt;&gt;button_launch.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="button_fixer.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
@@ -502,7 +526,7 @@
     <value>groupBox_files</value>
   </data>
   <data name="&gt;&gt;button_fixer.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="button_installer.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -532,7 +556,7 @@
     <value>groupBox_files</value>
   </data>
   <data name="&gt;&gt;button_installer.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="textBox_aria2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -562,7 +586,7 @@
     <value>groupBox_files</value>
   </data>
   <data name="&gt;&gt;textBox_aria2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="button_copy.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -592,7 +616,7 @@
     <value>groupBox_files</value>
   </data>
   <data name="&gt;&gt;button_copy.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="button_download.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -622,7 +646,7 @@
     <value>groupBox_files</value>
   </data>
   <data name="&gt;&gt;button_download.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="groupBox_files.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 242</value>
@@ -735,23 +759,14 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="error.failedCheckUpdate" xml:space="preserve">
-    <value>检查更新失败</value>
-  </data>
-  <data name="error.failedGetVersion" xml:space="preserve">
-    <value>无法获取版本信息</value>
-  </data>
-  <data name="error.preDownloadNotFound" xml:space="preserve">
-    <value>未找到可用的预下载</value>
-  </data>
-  <data name="error.resourceNotFound" xml:space="preserve">
-    <value>未找到可下载的资源</value>
-  </data>
   <data name="mbox.channelNotFound" xml:space="preserve">
     <value>没有识别到游戏渠道，请手动选择！</value>
   </data>
   <data name="mbox.copyS" xml:space="preserve">
     <value>复制成功</value>
+  </data>
+  <data name="mbox.launchFailed" xml:space="preserve">
+    <value>启动失败，或许你没有安装好原神？</value>
   </data>
   <data name="mbox.saveF" xml:space="preserve">
     <value>保存失败</value>
@@ -765,13 +780,13 @@
   <data name="tbox.checkingUpdate" xml:space="preserve">
     <value>[执行中] 正在检查更新..</value>
   </data>
+  <data name="tbox.error" xml:space="preserve">
+    <value>出错</value>
+  </data>
   <data name="tbox.newFound" xml:space="preserve">
     <value>有新版本可下载</value>
   </data>
   <data name="tbox.updated" xml:space="preserve">
     <value>当前已是最新版本，若资源缺失可尝试修复器</value>
-  </data>
-  <data name="tbox.error" xml:space="preserve">
-    <value>出错</value>
   </data>
 </root>

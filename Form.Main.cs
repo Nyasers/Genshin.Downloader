@@ -1,4 +1,5 @@
-﻿using System.Resources;
+﻿using System.Diagnostics;
+using System.Resources;
 
 namespace Genshin.Downloader
 {
@@ -286,6 +287,26 @@ namespace Genshin.Downloader
         {
             GC.Collect(2, GCCollectionMode.Aggressive, true, true);
             GC.WaitForFullGCComplete();
+        }
+
+        private void Button_Launch_Click(object sender, EventArgs e)
+        {
+            string path = textBox_path.Text;
+            if (Directory.Exists(path))
+            {
+                if (Directory.Exists(path + "\\YuanShen_Data") && File.Exists(path + "\\YuanShen.exe"))
+                {
+                    Process.Start("cmd.exe", "/c start \"\" \"" + path + "\\YuanShen.exe\"");
+                }
+                else if (Directory.Exists(path + "\\GenshinImpact_Data") && File.Exists(path + "\\GenshinImpact.exe"))
+                {
+                    Process.Start("cmd.exe", "/c start \"\" \"" + path + "\\GenshinImpact.exe\"");
+                }
+                else
+                {
+                    _ = MessageBox.Show(this, resource.GetString("mbox.launchFailed"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }
