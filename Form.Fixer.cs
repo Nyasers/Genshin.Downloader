@@ -7,7 +7,7 @@ public partial class Form_Fixer : Form
 {
     private Config? Config;
     private readonly List<string> AudioList;
-    private static readonly ResourceManager resource = new(typeof(Form_Fixer));
+    private static readonly ResourceManager Resources = new(typeof(Form_Fixer));
 
     public Form_Fixer(Dictionary<string, object> args)
     {
@@ -49,9 +49,9 @@ public partial class Form_Fixer : Form
     private async Task Compare()
     {
         if (Config is null || Config.Channel is null) return;
-        groupBox_suplus.Text = resource.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
-        groupBox_missing.Text = resource.GetString("groupBox_missing.Text"); textBox_missing.Clear();
-        groupBox_progress.Text = $"{resource.GetString("groupBox_progress.Text")} ({Downloader.Text.tbox_waitServer})";
+        groupBox_suplus.Text = Resources.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
+        groupBox_missing.Text = Resources.GetString("groupBox_missing.Text"); textBox_missing.Clear();
+        groupBox_progress.Text = $"{Resources.GetString("groupBox_progress.Text")} ({Downloader.Text.tbox_waitServer})";
         progressBar.Style = ProgressBarStyle.Marquee;
         HttpClient http = new()
         {
@@ -108,15 +108,15 @@ public partial class Form_Fixer : Form
                 local.Add(fi);
             }
             progressBar.Value = local.Count;
-            groupBox_progress.Text = $"{resource.GetString("groupBox_progress.Text")} ({local.Count} of {items.Count})";
+            groupBox_progress.Text = $"{Resources.GetString("groupBox_progress.Text")} ({local.Count} of {items.Count})";
             if (CancellingCompare) break;
         }
         items.Clear();
         if (CancellingCompare) return;
         List<FileInfoH> surplus = local.Except(online).ToList();
         List<FileInfoH> missing = online.Except(local).ToList();
-        groupBox_suplus.Text = $"{resource.GetString("groupBox_suplus.Text")} ({surplus.Count} of {local.Count})"; local.Clear();
-        groupBox_missing.Text = $"{resource.GetString("groupBox_missing.Text")} ({missing.Count} of {online.Count})"; online.Clear();
+        groupBox_suplus.Text = $"{Resources.GetString("groupBox_suplus.Text")} ({surplus.Count} of {local.Count})"; local.Clear();
+        groupBox_missing.Text = $"{Resources.GetString("groupBox_missing.Text")} ({missing.Count} of {online.Count})"; online.Clear();
         string surplus_str = string.Empty; surplus.ForEach((i) => surplus_str += $"{i.remoteName}\r\n"); textBox_suplus.Text = surplus_str; surplus.Clear();
         string missing_str = string.Empty; missing.ForEach((i) => missing_str += $"{i}\r\n"); textBox_missing.Text = missing_str; missing.Clear();
     }
@@ -126,9 +126,9 @@ public partial class Form_Fixer : Form
         button_compare.Enabled = button_start.Enabled = false;
         StartFix().GetAwaiter().OnCompleted(() =>
         {
-            groupBox_progress.Text = $"{resource.GetString("groupBox_progress.Text")}"; progressBar.Value = 0;
-            groupBox_suplus.Text = resource.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
-            groupBox_missing.Text = resource.GetString("groupBox_missing.Text"); textBox_missing.Clear();
+            groupBox_progress.Text = $"{Resources.GetString("groupBox_progress.Text")}"; progressBar.Value = 0;
+            groupBox_suplus.Text = Resources.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
+            groupBox_missing.Text = Resources.GetString("groupBox_missing.Text"); textBox_missing.Clear();
             button_compare.Enabled = button_start.Enabled = true;
         });
     }
@@ -137,7 +137,7 @@ public partial class Form_Fixer : Form
     {
         if (string.IsNullOrWhiteSpace(textBox_suplus.Text) && string.IsNullOrWhiteSpace(textBox_missing.Text))
         {
-            _ = MessageBox.Show(this, Downloader.Text.mbox_nothing2Fix, Text, MessageBoxButtons.OK, MessageBoxIcon.Information); return;
+            _ = MessageBox.Show(this, Downloader.Text.mbox_nothing2Fix, Resources.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Information); return;
         }
         string version = (await API.GetAsync(Config?.Channel)).main.major.version;
         try
@@ -153,7 +153,6 @@ public partial class Form_Fixer : Form
             }
             await Worker.HPatchAsync(this, Config?.Channel);
             await Worker.ApplyUpdate(this, version);
-            Directory.Delete(path_temp, true);
         }
         catch (IOException ex)
         {

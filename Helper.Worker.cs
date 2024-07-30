@@ -12,10 +12,10 @@ internal static class Worker
         string path_game = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
         string delete_file = $"{path_temp}\\deletefiles.txt";
-        string batch_file = Path.GetTempFileName();
+        string batch_file = Path.GetTempFileName(); File.Delete(batch_file); batch_file += ".bat";
         StreamReader reader = new(delete_file);
         StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
-        await writer.WriteLineAsync($"@echo off & title {Genshin.Downloader.Text.msg_doing_delete}");
+        await writer.WriteLineAsync($"@echo off & title {Genshin.Downloader.Text.msg_doing_delete} & chcp 65001 & cls");
         while (!reader.EndOfStream)
         {
             string? line = await reader.ReadLineAsync();
@@ -31,8 +31,7 @@ internal static class Worker
         writer.Close();
         Process? process = Process.Start(new ProcessStartInfo()
         {
-            FileName = "cmd.exe",
-            Arguments = $"/c \"{batch_file}\""
+            FileName = batch_file
         });
         if (process is not null)
         {
@@ -75,11 +74,11 @@ internal static class Worker
         string path_game = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
         string hdiff_file = $"{path_temp}\\hdifffiles.txt";
-        string batch_file = Path.GetTempFileName();
+        string batch_file = Path.GetTempFileName(); File.Delete(batch_file); batch_file += ".bat";
         string hpatchz = await Resource.GetTempFileAsync("hpatchz.exe");
         StreamReader reader = new(hdiff_file);
         StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
-        await writer.WriteLineAsync($"@echo off & title {Genshin.Downloader.Text.msg_doing_hpatch}");
+        await writer.WriteLineAsync($"@echo off & title {Genshin.Downloader.Text.msg_doing_hpatch} & chcp 65001 & cls");
         while (!reader.EndOfStream)
         {
             string? line = await reader.ReadLineAsync();
@@ -104,8 +103,7 @@ internal static class Worker
         writer.Close();
         Process? process = Process.Start(new ProcessStartInfo()
         {
-            FileName = "cmd.exe",
-            Arguments = $"/c \"{batch_file}\""
+            FileName = batch_file
         });
         if (process is not null)
         {
