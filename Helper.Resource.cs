@@ -43,9 +43,10 @@ namespace Helper
             }
         }
 
-        public static void MemoryManager(Form? form = null, ResourceManager? resourceManager = null)
+        public static void MemoryManager(Form? form = null, Type? type = null)
         {
             const int MB = 1024 * 1024;
+            ResourceManager? resourceManager = type is null ? null : new(type);
             long privateMemorySize64 = Process.GetCurrentProcess().PrivateMemorySize64;
             if (privateMemorySize64 >= MB * 128)
             {

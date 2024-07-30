@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Resources;
 
 namespace Genshin.Downloader
 {
@@ -8,7 +7,6 @@ namespace Genshin.Downloader
         private readonly Dictionary<string, int> ContorlSize = [];
         private readonly List<File2Down> Files = [];
         private string Aria2Input = "";
-        private static readonly ResourceManager resource = new(typeof(Form_Main));
 
         public Form_Main()
         {
@@ -112,13 +110,13 @@ namespace Genshin.Downloader
                     }
                 }
             }
-            else _ = MessageBox.Show(this, resource.GetString("mbox.channelNotFound"), resource.GetString("mbox.title.notice"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else _ = MessageBox.Show(this, Downloader.Text.mbox_channelNotFound, Downloader.Text.mbox_notice, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private async void Button_Check_Click(object sender, EventArgs e)
         {
             button_check.Enabled = false;
-            textBox_update.Text = resource.GetString("tbox.checkingUpdate");
+            textBox_update.Text = Downloader.Text.tbox_checkingUpdate;
             string channel = StringH.GetKeyName(comboBox_channel.Text) ?? throw new Exception();
             dynamic data = await API.GetAsync(channel) ?? throw new Exception();
             await CheckUpdate(data, checkBox_pre.Checked);
@@ -141,18 +139,18 @@ namespace Genshin.Downloader
                 try
                 {
                     game = pre_download ? pkgs.pre_download : pkgs.main;
-                    textBox_update.Text = $"[{game.major.version}] {(textBox_version.Text == (string)game.major.version ? resource.GetString("tbox.updated") : resource.GetString("tbox.newFound"))}";
+                    textBox_update.Text = $"[{game.major.version}] {(textBox_version.Text == (string)game.major.version ? Downloader.Text.tbox_updated : Downloader.Text.tbox_newFound)}";
                 }
                 catch
                 {
                     if (pre_download)
                     {
                         checkBox_pre.Checked = false;
-                        throw new Exception(resource.GetString("error.preDownloadNotFound"));
+                        throw new Exception(Downloader.Text.error_preDownloadNotFound);
                     }
                     else
                     {
-                        throw new Exception(resource.GetString("error.failedCheckUpdate"));
+                        throw new Exception(Downloader.Text.error_failedCheckUpdate);
                     }
                 }
                 string current_version = textBox_version.Text;
@@ -175,7 +173,7 @@ namespace Genshin.Downloader
                         await File2Down_Add(game_pkg);
                     }
                 }
-                else throw new Exception(resource.GetString("error.resourceNotFound"));
+                else throw new Exception(Downloader.Text.error_resourceNotFound);
 
                 try
                 {
@@ -200,7 +198,7 @@ namespace Genshin.Downloader
             }
             catch (Exception ex)
             {
-                textBox_update.Text = $"[{resource.GetString("tbox.error")}] {ex.Message}";
+                textBox_update.Text = $"[{Downloader.Text.tbox_error}] {ex.Message}";
             }
         }
 
@@ -215,13 +213,13 @@ namespace Genshin.Downloader
         {
             if (string.IsNullOrWhiteSpace(Aria2Input)) { return; }
             Clipboard.SetText(Aria2Input);
-            _ = MessageBox.Show(this, resource.GetString("mbox.copyS"), Text);
+            _ = MessageBox.Show(this, Downloader.Text.mbox_copyS, Text);
         }
 
         private void Button_Save_Click(object sender, EventArgs e)
         {
             bool v = SaveConfig();
-            _ = MessageBox.Show(this, resource.GetString($"mbox.save{(v ? "S" : "F")}"), Text, MessageBoxButtons.OK, v ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
+            _ = MessageBox.Show(this, v ? Downloader.Text.mbox_saveS : Downloader.Text.mbox_saveF, Text, MessageBoxButtons.OK, v ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
         }
 
         private bool SaveConfig()
@@ -280,7 +278,7 @@ namespace Genshin.Downloader
 
         private void Timer_RAM_Tick(object sender, EventArgs e)
         {
-            Resource.MemoryManager(this, resource);
+            Resource.MemoryManager(this, typeof(Form_Main));
         }
 
         private void Form_Main_FormClosed(object sender, FormClosedEventArgs e)
@@ -304,7 +302,7 @@ namespace Genshin.Downloader
                 }
                 else
                 {
-                    _ = MessageBox.Show(this, resource.GetString("mbox.launchFailed"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _ = MessageBox.Show(this, Downloader.Text.mbox_launchFailed, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

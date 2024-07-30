@@ -20,7 +20,7 @@ public partial class Form_Fixer : Form
         Show();
         if (StringH.WhiteSpaceCheck(Properties.Settings.Default.GamePath) is null)
         {
-            _ = MessageBox.Show(this, resource.GetString("mbox.gamePathEmpty"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            _ = MessageBox.Show(this, Downloader.Text.mbox_gamePathEmpty, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             Close(); return;
         }
         textBox_game.Text = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
@@ -51,7 +51,7 @@ public partial class Form_Fixer : Form
         if (Config is null || Config.Channel is null) return;
         groupBox_suplus.Text = resource.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
         groupBox_missing.Text = resource.GetString("groupBox_missing.Text"); textBox_missing.Clear();
-        groupBox_progress.Text = $"{resource.GetString("groupBox_progress.Text")} ({resource.GetString("tbox.waitServer")})";
+        groupBox_progress.Text = $"{resource.GetString("groupBox_progress.Text")} ({Downloader.Text.tbox_waitServer})";
         progressBar.Style = ProgressBarStyle.Marquee;
         HttpClient http = new()
         {
@@ -134,7 +134,7 @@ public partial class Form_Fixer : Form
     {
         if (string.IsNullOrWhiteSpace(textBox_suplus.Text) && string.IsNullOrWhiteSpace(textBox_missing.Text))
         {
-            _ = MessageBox.Show(this, resource.GetString("mbox.nothing2Fix"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information); return;
+            _ = MessageBox.Show(this, Downloader.Text.mbox_nothing2Fix, Text, MessageBoxButtons.OK, MessageBoxIcon.Information); return;
         }
         string version = (await API.GetAsync(Config?.Channel)).main.major.version;
         try
@@ -164,7 +164,7 @@ public partial class Form_Fixer : Form
 
     private void Timer_RAM_Tick(object sender, EventArgs e)
     {
-        Resource.MemoryManager(this, resource);
+        Resource.MemoryManager(this, typeof(Form_Fixer));
     }
 
     private void Form_Fixer_FormClosing(object sender, FormClosingEventArgs e)

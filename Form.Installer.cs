@@ -1,11 +1,8 @@
-﻿using System.Resources;
-
-namespace Genshin.Downloader
+﻿namespace Genshin.Downloader
 {
     public partial class Form_Installer : Form
     {
         private Config? Config;
-        private static readonly ResourceManager resource = new(typeof(Form_Installer));
 
         public Form_Installer()
         {
@@ -17,7 +14,7 @@ namespace Genshin.Downloader
             Show();
             if (StringH.WhiteSpaceCheck(Properties.Settings.Default.GamePath) is null)
             {
-                _ = MessageBox.Show(this, resource.GetString("mbox.gamePathEmpty"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _ = MessageBox.Show(this, Downloader.Text.mbox_gamePathEmpty, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
             }
             else
@@ -67,7 +64,7 @@ namespace Genshin.Downloader
 
                 if (type.StartsWith("HDiff")
                     && version[..version.IndexOf('_')] != textBox_gameVersion.Text
-                    && DialogResult.Yes != MessageBox.Show(this, string.Format(resource.GetString("mbox.versionException") ?? "{0}, {1}", version, textBox_gameVersion.Text), Text, MessageBoxButtons.YesNo))
+                    && DialogResult.Yes != MessageBox.Show(this, string.Format(Downloader.Text.mbox_versionException ?? "{0}, {1}", version, textBox_gameVersion.Text), Text, MessageBoxButtons.YesNo))
                     SetPackage(null);
             }
         }
@@ -85,7 +82,7 @@ namespace Genshin.Downloader
 
             if (!File.Exists(pack))
             {
-                MessageBox.Show(this, resource.GetString("mbox.packageEmpty"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, Downloader.Text.mbox_packageEmpty, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -98,7 +95,7 @@ namespace Genshin.Downloader
             }
             else if (type[0] is not "Full")
             {
-                _ = MessageBox.Show(this, resource.GetString("mbox.packageTypeException"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _ = MessageBox.Show(this, Downloader.Text.mbox_packageTypeException, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -107,7 +104,7 @@ namespace Genshin.Downloader
 
         private void Timer_RAM_Tick(object sender, EventArgs e)
         {
-            Resource.MemoryManager(this, resource);
+            Resource.MemoryManager(this, typeof(Form_Installer));
         }
 
         private void Form_Installer_FormClosed(object sender, FormClosedEventArgs e)

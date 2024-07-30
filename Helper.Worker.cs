@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Resources;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -8,8 +7,6 @@ namespace Helper;
 
 internal static class Worker
 {
-    private static readonly ResourceManager resource = new(typeof(Worker));
-
     public static async Task<int> ApplyDelete()
     {
         string path_game = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
@@ -18,7 +15,7 @@ internal static class Worker
         string batch_file = Path.GetTempFileName();
         StreamReader reader = new(delete_file);
         StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
-        await writer.WriteLineAsync($"@echo off & title {resource.GetString("msg.doing.delete")}");
+        await writer.WriteLineAsync($"@echo off & title {Genshin.Downloader.Text.msg_doing_delete}");
         while (!reader.EndOfStream)
         {
             string? line = await reader.ReadLineAsync();
@@ -82,7 +79,7 @@ internal static class Worker
         string hpatchz = await Resource.GetTempFileAsync("hpatchz.exe");
         StreamReader reader = new(hdiff_file);
         StreamWriter writer = new(batch_file, false, new UTF8Encoding(false));
-        await writer.WriteLineAsync($"@echo off & title {resource.GetString("msg.doing.hpatch")}");
+        await writer.WriteLineAsync($"@echo off & title {Genshin.Downloader.Text.msg_doing_hpatch}");
         while (!reader.EndOfStream)
         {
             string? line = await reader.ReadLineAsync();
@@ -122,7 +119,7 @@ internal static class Worker
     {
         string path_game = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
-        string command_line = $"@title {resource.GetString("msg.doing.update")} & (xcopy /f /e /y \"{path_temp}\" \"{path_game}\" && del /s /q \"{path_temp}\\*\" && rd /s /q \"{path_temp}\" && exit 0) || (pause & exit 1)";
+        string command_line = $"@title {Genshin.Downloader.Text.msg_doing_update} & (xcopy /f /e /y \"{path_temp}\" \"{path_game}\" && del /s /q \"{path_temp}\\*\" && rd /s /q \"{path_temp}\" && exit 0) || (pause & exit 1)";
         Process? process = Process.Start(new ProcessStartInfo()
         {
             FileName = "cmd.exe",
@@ -139,7 +136,7 @@ internal static class Worker
                 new Config(path_game).Version = version;
             }
         }
-        else if (DialogResult.Retry == MessageBox.Show(owner, $"{resource.GetString("msg.failed.code")}{process?.ExitCode}", resource.GetString("msg.failed.task"), MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
+        else if (DialogResult.Retry == MessageBox.Show(owner, $"{Genshin.Downloader.Text.msg_failed_code}{process?.ExitCode}", Genshin.Downloader.Text.msg_failed_task, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
         {
             await ApplyUpdate(owner, version);
         }
@@ -161,7 +158,7 @@ internal static class Worker
         }
         catch (IOException ex)
         {
-            if (DialogResult.Retry == MessageBox.Show(owner, ex.Message, resource.GetString("msg.failed.task"), MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
+            if (DialogResult.Retry == MessageBox.Show(owner, ex.Message, Genshin.Downloader.Text.msg_failed_task, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
             {
                 await ApplyUnzip(owner, path);
             }
@@ -176,7 +173,7 @@ internal static class Worker
          || (File.Exists($"{path_temp}\\hdifffiles.txt") && 0 != (exitCode = await ApplyHDiff()))
          || (File.Exists($"{path_temp}\\deletefiles.txt") && 0 != (exitCode = await ApplyDelete())))
         {
-            if (DialogResult.Retry == MessageBox.Show(owner, $"{resource.GetString("msg.failed.code")}{exitCode}", resource.GetString("msg.failed.task"), MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
+            if (DialogResult.Retry == MessageBox.Show(owner, $"{Genshin.Downloader.Text.msg_failed_code}{exitCode}", Genshin.Downloader.Text.msg_failed_task, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
             {
                 await HPatchAsync(owner, channel);
             }

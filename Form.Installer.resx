@@ -525,16 +525,4 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="mbox.gamePathEmpty" xml:space="preserve">
-    <value>未设置游戏目录！</value>
-  </data>
-  <data name="mbox.packageEmpty" xml:space="preserve">
-    <value>未指定资源包或指定的资源包不存在</value>
-  </data>
-  <data name="mbox.packageTypeException" xml:space="preserve">
-    <value>意外的资源包类型</value>
-  </data>
-  <data name="mbox.versionException" xml:space="preserve">
-    <value>你选择的资源包版本 ({0})\r\n可能不适用于已安装的游戏版本 ({1})\r\n是否仍要使用该资源包？</value>
-  </data>
 </root>
