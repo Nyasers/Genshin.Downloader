@@ -20,6 +20,7 @@ namespace Genshin.Downloader
             ContorlSize.Add("groupBox_files.Height", Height - groupBox_files.Height);
             ContorlSize.Add("textBox_aria2.Width", Width - textBox_aria2.Width);
             ContorlSize.Add("textBox_aria2.Height", Height - textBox_aria2.Height);
+            ContorlSize.Add("button_launch.Width", Width - button_launch.Width);
         }
 
         private void Form_Main_SizeChanged(object sender, EventArgs e)
@@ -33,6 +34,7 @@ namespace Genshin.Downloader
             groupBox_files.Height = Height - ContorlSize["groupBox_files.Height"];
             textBox_aria2.Width = Width - ContorlSize["textBox_aria2.Width"];
             textBox_aria2.Height = Height - ContorlSize["textBox_aria2.Height"];
+            button_launch.Width = Width - ContorlSize["button_launch.Width"];
         }
 
         private void Form_Main_Load(object sender, EventArgs e)
