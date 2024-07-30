@@ -55,7 +55,7 @@ public partial class Form_Fixer : Form
         progressBar.Style = ProgressBarStyle.Marquee;
         HttpClient http = new()
         {
-            BaseAddress = new Uri(await API.GetDecompressedPath(Config.Channel))
+            BaseAddress = new Uri((await API.GetAsync(Config.Channel)).main.major.res_list_url)
         };
         Dictionary<string, string> pkg_version = [];
         pkg_version["game"] = await http.GetStringAsync($"{http.BaseAddress}/pkg_version");
@@ -73,7 +73,7 @@ public partial class Form_Fixer : Form
                         select new FileInfoH(j));
         online.Sort((FileInfoH left, FileInfoH right) =>
         {
-            return (int)(left.fileSize - right.fileSize);
+            return (int)(left.size - right.size);
         });
 
         List<FileInfoH> local = [];
@@ -117,8 +117,8 @@ public partial class Form_Fixer : Form
         List<FileInfoH> missing = online.Except(local).ToList();
         groupBox_suplus.Text = $"{resource.GetString("groupBox_suplus.Text")} ({surplus.Count} of {local.Count})"; local.Clear();
         groupBox_missing.Text = $"{resource.GetString("groupBox_missing.Text")} ({missing.Count} of {online.Count})"; online.Clear();
-        surplus.ForEach((i) => textBox_suplus.Text += $"{i.remoteName}\r\n"); surplus.Clear();
-        missing.ForEach((i) => textBox_missing.Text += $"{i}\r\n"); missing.Clear();
+        string surplus_str = string.Empty; surplus.ForEach((i) => surplus_str += $"{i.remoteName}\r\n"); textBox_suplus.Text = surplus_str; surplus.Clear();
+        string missing_str = string.Empty; missing.ForEach((i) => missing_str += $"{i}\r\n"); textBox_missing.Text = missing_str; missing.Clear();
     }
 
     private void Button_Start_Click(object sender, EventArgs e)
@@ -126,8 +126,7 @@ public partial class Form_Fixer : Form
         button_compare.Enabled = button_start.Enabled = false;
         StartFix().GetAwaiter().OnCompleted(() =>
         {
-            radioButton_none.Checked = true;
-            Button_Compare_Click(sender, e);
+            button_compare.Enabled = button_start.Enabled = true;
         });
     }
 
@@ -137,19 +136,30 @@ public partial class Form_Fixer : Form
         {
             _ = MessageBox.Show(this, resource.GetString("mbox.nothing2Fix"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information); return;
         }
-        string version = await API.GetLatestVersion(Config?.Channel);
-        string path_temp = DirectoryH.EnsureNew(Properties.Settings.Default.TempPath).FullName;
-        if (!string.IsNullOrWhiteSpace(textBox_suplus.Text))
+        string version = (await API.GetAsync(Config?.Channel)).main.major.version;
+        try
         {
-            await File.AppendAllTextAsync($"{path_temp}\\deletefiles.txt", textBox_suplus.Text); textBox_suplus.Clear();
+            string path_temp = DirectoryH.EnsureNew(Properties.Settings.Default.TempPath).FullName;
+            if (!string.IsNullOrWhiteSpace(textBox_suplus.Text))
+            {
+                await File.AppendAllTextAsync($"{path_temp}\\deletefiles.txt", textBox_suplus.Text); textBox_suplus.Clear();
+            }
+            if (!string.IsNullOrWhiteSpace(textBox_missing.Text))
+            {
+                await File.AppendAllTextAsync($"{path_temp}\\downloadfiles.txt", textBox_missing.Text); textBox_missing.Clear();
+            }
+            await Worker.HPatchAsync(this, Config?.Channel);
+            await Worker.ApplyUpdate(this, version);
+            Directory.Delete(path_temp, true);
         }
-        if (!string.IsNullOrWhiteSpace(textBox_missing.Text))
+        catch (IOException ex)
         {
-            await File.AppendAllTextAsync($"{path_temp}\\downloadfiles.txt", textBox_missing.Text); textBox_missing.Clear();
+            if (DialogResult.Retry == MessageBox.Show(this, ex.Message, Text, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
+            {
+                await StartFix();
+            }
+            else throw;
         }
-        await Worker.HPatchAsync(this, Config?.Channel);
-        await Worker.ApplyUpdate(this, version);
-        Directory.Delete(path_temp, true);
     }
 
     private void Timer_RAM_Tick(object sender, EventArgs e)

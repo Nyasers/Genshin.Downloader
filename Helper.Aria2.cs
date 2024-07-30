@@ -83,7 +83,7 @@ namespace Helper
             {
                 string? outPath = string.IsNullOrEmpty(file.remoteName) ? file.name : file.remoteName;
                 origin_input += $"#{file}\n" +
-                $"{file.path}\n" +
+                $"{file.url}\n" +
                 $" out={outPath}\n" +
                 $" checksum=md5={file.md5}\n\n";
                 size_total += file.size;

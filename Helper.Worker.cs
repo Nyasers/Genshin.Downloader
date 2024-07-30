@@ -47,7 +47,7 @@ internal static class Worker
 
     public static async Task<int> ApplyDownload(string? channel)
     {
-        string url = await API.GetDecompressedPath(channel);
+        string url = (await API.GetAsync(channel)).main.major.res_list_url;
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
         string download_file = $"{path_temp}\\downloadfiles.txt";
         List<File2Down> files = [];
@@ -58,7 +58,7 @@ internal static class Worker
                 dynamic? json = JsonConvert.DeserializeObject(line);
                 if (json != null)
                 {
-                    json.path = $"{url}/{json.remoteName}";
+                    json.url = $"{url}/{json.remoteName}";
                     File2Down? file = await File2Down.BuildAsync(json);
                     if (file is not null && !string.IsNullOrEmpty(file.remoteName))
                     {
@@ -142,6 +142,29 @@ internal static class Worker
         else if (DialogResult.Retry == MessageBox.Show(owner, $"{resource.GetString("msg.failed.code")}{process?.ExitCode}", resource.GetString("msg.failed.task"), MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
         {
             await ApplyUpdate(owner, version);
+        }
+    }
+
+    public static async Task ApplyUnzip(Form? owner, string path)
+    {
+        try
+        {
+            string path_temp = DirectoryH.EnsureNew(Properties.Settings.Default.TempPath).FullName;
+            int exitCode = await FileH.UnzipAsync(path, path_temp);
+            if (exitCode is not 0)
+            {
+                if (DialogResult.Retry == MessageBox.Show(owner, $"{exitCode}", "7za.exe", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
+                {
+                    await ApplyUnzip(owner, path);
+                }
+            }
+        }
+        catch (IOException ex)
+        {
+            if (DialogResult.Retry == MessageBox.Show(owner, ex.Message, resource.GetString("msg.failed.task"), MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
+            {
+                await ApplyUnzip(owner, path);
+            }
         }
     }
 

@@ -119,7 +119,7 @@ namespace Genshin.Downloader
             button_check.Enabled = false;
             textBox_update.Text = resource.GetString("tbox.checkingUpdate");
             string channel = StringH.GetKeyName(comboBox_channel.Text) ?? throw new Exception();
-            dynamic data = await API.Get(channel) ?? throw new Exception();
+            dynamic data = await API.GetAsync(channel) ?? throw new Exception();
             await CheckUpdate(data, checkBox_pre.Checked);
             button_check.Enabled = true;
         }
@@ -131,96 +131,71 @@ namespace Genshin.Downloader
             Files.Add(file);
         }
 
-        private async Task CheckUpdate(dynamic content, bool pre_download = false)
+        private async Task CheckUpdate(dynamic pkgs, bool pre_download = false)
         {
             try
             {
                 Files.Clear();
-                if (content.message == "OK")
+                dynamic? game = null;
+                try
                 {
-                    dynamic data = content.data;
-                    dynamic game = data.game;
-                    try
-                    {
-                        if (pre_download)
-                        {
-                            game = data.pre_download_game;
-                        }
-
-                        textBox_update.Text = $"[{game.latest.version}] {(textBox_version.Text == (string)game.latest.version ? resource.GetString("tbox.updated") : resource.GetString("tbox.newFound"))}";
-                    }
-                    catch
-                    {
-                        if (pre_download)
-                        {
-                            checkBox_pre.Checked = false;
-                            throw new Exception(resource.GetString("error.preDownloadNotFound"));
-                        }
-                        else
-                        {
-                            throw new Exception(resource.GetString("error.failedCheckUpdate"));
-                        }
-                    }
-                    string current_version = textBox_version.Text;
-
-                    dynamic download = game.latest;
-                    foreach (dynamic diff in game.diffs)
-                    {
-                        if (diff.version == current_version)
-                        {
-                            download = diff;
-                        }
-                    }
-
-                    try
-                    {
-                        dynamic segments = download.segments;
-                        if (segments != null)
-                        {
-                            foreach (dynamic segment in segments)
-                            {
-                                await File2Down_Add(segment);
-                            }
-                        }
-                        else throw new Exception(resource.GetString("error.resourceNotFound"));
-                    }
-                    catch
-                    {
-                        string? path = StringH.EmptyCheck((string?)download.path);
-                        if (path != null)
-                        {
-                            await File2Down_Add(download);
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    try
-                    {
-                        List<string> languages = [];
-                        foreach (string item in checkedListBox_voicePack.CheckedItems)
-                        {
-                            languages.Add(item[1..6]);
-                        }
-                        dynamic voice_packs = download.voice_packs;
-                        foreach (dynamic voice_pack in voice_packs)
-                        {
-                            if (languages.IndexOf((string)voice_pack.language) != -1)
-                            {
-                                File2Down_Add(voice_pack);
-                            }
-                        }
-                    }
-                    catch { }
-
-                    Aria2Input = Aria2.GetInput([.. Files]);
-                    textBox_aria2.Text = Aria2Input.Replace("\n", "\r\n");
+                    game = pre_download ? pkgs.pre_download : pkgs.main;
+                    textBox_update.Text = $"[{game.major.version}] {(textBox_version.Text == (string)game.major.version ? resource.GetString("tbox.updated") : resource.GetString("tbox.newFound"))}";
                 }
-                else
+                catch
                 {
-                    throw new Exception(resource.GetString("error.failedGetVersion"));
+                    if (pre_download)
+                    {
+                        checkBox_pre.Checked = false;
+                        throw new Exception(resource.GetString("error.preDownloadNotFound"));
+                    }
+                    else
+                    {
+                        throw new Exception(resource.GetString("error.failedCheckUpdate"));
+                    }
                 }
+                string current_version = textBox_version.Text;
+
+                dynamic download = game.major;
+                foreach (dynamic patch in game.patches)
+                {
+                    if (patch.version == current_version)
+                    {
+                        download = patch;
+                        break;
+                    }
+                }
+
+                dynamic game_pkgs = download.game_pkgs;
+                if (game_pkgs != null)
+                {
+                    foreach (dynamic game_pkg in game_pkgs)
+                    {
+                        await File2Down_Add(game_pkg);
+                    }
+                }
+                else throw new Exception(resource.GetString("error.resourceNotFound"));
+
+                try
+                {
+                    List<string> languages = [];
+                    foreach (string item in checkedListBox_voicePack.CheckedItems)
+                    {
+                        languages.Add(item[1..6]);
+                    }
+                    dynamic audio_pkgs = download.audio_pkgs;
+                    foreach (dynamic audio_pkg in audio_pkgs)
+                    {
+                        if (languages.IndexOf((string)audio_pkg.language) != -1)
+                        {
+                            File2Down_Add(audio_pkg);
+                        }
+                    }
+                }
+                catch { }
+
+                Aria2Input = Aria2.GetInput([.. Files]);
+                textBox_aria2.Text = Aria2Input.Replace("\n", "\r\n");
             }
             catch (Exception ex)
             {

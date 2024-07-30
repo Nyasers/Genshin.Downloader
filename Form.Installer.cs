@@ -51,13 +51,13 @@ namespace Genshin.Downloader
                     type = file.Contains("hdiff") ? "HDiff" : "Full", version;
                 if (type == "HDiff")
                 {
-                    version = file[(file.IndexOf('_') + 1)..file.IndexOf("_hdiff")];
                     type += key == "game" ? ".Game" : ".Audio";
+                    version = file[(file.IndexOf('_', type.EndsWith("Audio") ? (file.IndexOf('_') + 1) : 0) + 1)..file.IndexOf("_hdiff")];
                 }
                 else
                 {
-                    version = file[(file.LastIndexOf('_') + 1)..];
                     type += key != "Audio" ? ".Game" : ".Audio";
+                    version = file[(file.LastIndexOf('_') + 1)..];
                 }
 
                 textBox_pack.Text = info.FullName;
@@ -89,16 +89,7 @@ namespace Genshin.Downloader
                 return;
             }
 
-            string path_temp = DirectoryH.EnsureNew(Properties.Settings.Default.TempPath).FullName;
-            int exitCode = await FileH.UnzipAsync(pack, path_temp);
-            if (exitCode is not 0)
-            {
-                if (DialogResult.Retry == MessageBox.Show(this, $"{exitCode}", "7za.exe", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
-                {
-                    await StartInstall();
-                }
-                return;
-            }
+            await Worker.ApplyUnzip(this, pack);
 
             string[] type = textBox_type.Text.Split('.');
             if (type[0] is "HDiff")
