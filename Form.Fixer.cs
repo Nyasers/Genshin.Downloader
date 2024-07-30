@@ -126,6 +126,9 @@ public partial class Form_Fixer : Form
         button_compare.Enabled = button_start.Enabled = false;
         StartFix().GetAwaiter().OnCompleted(() =>
         {
+            groupBox_progress.Text = $"{resource.GetString("groupBox_progress.Text")}"; progressBar.Value = 0;
+            groupBox_suplus.Text = resource.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
+            groupBox_missing.Text = resource.GetString("groupBox_missing.Text"); textBox_missing.Clear();
             button_compare.Enabled = button_start.Enabled = true;
         });
     }
@@ -142,11 +145,11 @@ public partial class Form_Fixer : Form
             string path_temp = DirectoryH.EnsureNew(Properties.Settings.Default.TempPath).FullName;
             if (!string.IsNullOrWhiteSpace(textBox_suplus.Text))
             {
-                await File.AppendAllTextAsync($"{path_temp}\\deletefiles.txt", textBox_suplus.Text); textBox_suplus.Clear();
+                await File.AppendAllTextAsync($"{path_temp}\\deletefiles.txt", textBox_suplus.Text);
             }
             if (!string.IsNullOrWhiteSpace(textBox_missing.Text))
             {
-                await File.AppendAllTextAsync($"{path_temp}\\downloadfiles.txt", textBox_missing.Text); textBox_missing.Clear();
+                await File.AppendAllTextAsync($"{path_temp}\\downloadfiles.txt", textBox_missing.Text);
             }
             await Worker.HPatchAsync(this, Config?.Channel);
             await Worker.ApplyUpdate(this, version);
