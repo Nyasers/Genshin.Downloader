@@ -8,6 +8,7 @@ public partial class Form_Fixer : Form
     private Config? Config;
     private readonly List<string> AudioList;
     private static readonly ResourceManager Resources = new(typeof(Form_Fixer));
+    private CancellationTokenSource cancellationTokenSource = new();
 
     public Form_Fixer(Dictionary<string, object> args)
     {
@@ -28,25 +29,24 @@ public partial class Form_Fixer : Form
         textBox_gameVersion.Text = Config.Version;
     }
 
-    private bool CancellingCompare;
-
     private void Button_Compare_Click(object sender, EventArgs e)
     {
-        button_cancel.Enabled = !(CancellingCompare = button_compare.Enabled = button_start.Enabled = false);
-        Compare().GetAwaiter().OnCompleted(() =>
+        button_cancel.Enabled = !(button_compare.Enabled = button_start.Enabled = false);
+        Compare(cancellationTokenSource.Token).GetAwaiter().OnCompleted(() =>
         {
-            GC.Collect(2, GCCollectionMode.Aggressive, true, true);
-            GC.WaitForFullGCComplete();
+            GC.Collect(2, GCCollectionMode.Aggressive, true, true); GC.WaitForFullGCComplete();
+            progressBar.Value = 0; progressBar.Maximum = 100; progressBar.Style = ProgressBarStyle.Continuous;
             button_cancel.Enabled = !(button_compare.Enabled = button_start.Enabled = true);
         });
     }
 
     private void Button_Cancel_Click(object sender, EventArgs e)
     {
-        CancellingCompare = true;
+        cancellationTokenSource.Cancel(); cancellationTokenSource.Token.WaitHandle.WaitOne();
+        cancellationTokenSource.Dispose(); cancellationTokenSource = new CancellationTokenSource();
     }
 
-    private async Task Compare()
+    private async Task Compare(CancellationToken token)
     {
         if (Config is null || Config.Channel is null) return;
         groupBox_suplus.Text = Resources.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
@@ -58,10 +58,10 @@ public partial class Form_Fixer : Form
             BaseAddress = new Uri((await API.GetAsync(Config.Channel)).main.major.res_list_url)
         };
         Dictionary<string, string> pkg_version = [];
-        pkg_version["game"] = await http.GetStringAsync($"{http.BaseAddress}/pkg_version");
+        pkg_version["game"] = await http.GetStringAsync($"{http.BaseAddress}/pkg_version", token);
         foreach (string item in AudioList)
         {
-            pkg_version[item] = await http.GetStringAsync($"{http.BaseAddress}/{item}_pkg_version");
+            pkg_version[item] = await http.GetStringAsync($"{http.BaseAddress}/{item}_pkg_version", token);
         }
 
         List<FileInfoH> online = [];
@@ -109,10 +109,10 @@ public partial class Form_Fixer : Form
             }
             progressBar.Value = local.Count;
             groupBox_progress.Text = $"{Resources.GetString("groupBox_progress.Text")} ({local.Count} of {items.Count})";
-            if (CancellingCompare) break;
+            if (token.IsCancellationRequested) break;
         }
         items.Clear();
-        if (CancellingCompare) return;
+        if (token.IsCancellationRequested) return;
         List<FileInfoH> surplus = local.Except(online).ToList();
         List<FileInfoH> missing = online.Except(local).ToList();
         groupBox_suplus.Text = $"{Resources.GetString("groupBox_suplus.Text")} ({surplus.Count} of {local.Count})"; local.Clear();
@@ -126,7 +126,7 @@ public partial class Form_Fixer : Form
         button_compare.Enabled = button_start.Enabled = false;
         StartFix().GetAwaiter().OnCompleted(() =>
         {
-            groupBox_progress.Text = $"{Resources.GetString("groupBox_progress.Text")}"; progressBar.Value = 0;
+            groupBox_progress.Text = Resources.GetString("groupBox_progress.Text"); progressBar.Value = 0;
             groupBox_suplus.Text = Resources.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
             groupBox_missing.Text = Resources.GetString("groupBox_missing.Text"); textBox_missing.Clear();
             button_compare.Enabled = button_start.Enabled = true;
@@ -171,7 +171,7 @@ public partial class Form_Fixer : Form
 
     private void Form_Fixer_FormClosing(object sender, FormClosingEventArgs e)
     {
-        CancellingCompare = true;
+        Button_Cancel_Click(sender, e);
     }
 
     private void Form_Fixer_FormClosed(object sender, FormClosedEventArgs e)
