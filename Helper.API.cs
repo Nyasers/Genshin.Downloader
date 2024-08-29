@@ -44,12 +44,12 @@ internal class API
 
     public static Dictionary<string, string> AudioList => audioList;
 
-    public async static Task<dynamic> GetAsync(string? channel)
+    public async static Task<dynamic> GetAsync(string? channel, CancellationToken token = default)
     {
         if (channel is not null && ApiList.TryGetValue(channel, out string? api) && api is not null)
         {
             using HttpClient http = new();
-            string value = await http.GetStringAsync(api);
+            string value = await http.GetStringAsync(api, token);
             dynamic ret = JsonConvert.DeserializeObject<dynamic>(value) ?? throw new Exception();
             if ((int?)ret.retcode is not 0) throw new Exception(ret.message);
             dynamic res = ret.data.game_packages[0] ?? throw new Exception();

@@ -133,7 +133,7 @@ namespace Genshin.Downloader {
         }
         
         /// <summary>
-        ///   查找类似 没有需要修复的文件！ 的本地化字符串。
+        ///   查找类似 没有需要修复的资源文件，将仅为你更新 pkg_version 文件。 的本地化字符串。
         /// </summary>
         public static string mbox_nothing2Fix {
             get {

@@ -130,7 +130,7 @@
     <value>启动失败，或许你没有安装好原神？</value>
   </data>
   <data name="mbox.nothing2Fix" xml:space="preserve">
-    <value>没有需要修复的文件！</value>
+    <value>没有需要修复的资源文件，将仅为你更新 pkg_version 文件。</value>
   </data>
   <data name="mbox.packageEmpty" xml:space="preserve">
     <value>未指定资源包或指定的资源包不存在</value>

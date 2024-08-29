@@ -69,7 +69,7 @@ internal static class Worker
         return exitCode;
     }
 
-    public static async Task<int> ApplyHDiff()
+    public static async Task<int> ApplyHDiff(CancellationToken token = default)
     {
         string path_game = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
@@ -81,7 +81,7 @@ internal static class Worker
         await writer.WriteLineAsync($"@echo off & title {Genshin.Downloader.Text.msg_doing_hpatch} & chcp 65001 & cls");
         while (!reader.EndOfStream)
         {
-            string? line = await reader.ReadLineAsync();
+            string? line = await reader.ReadLineAsync(token);
             if (line != null)
             {
                 string pattern = @"{""remoteName"": ""(.+)""}";
@@ -107,13 +107,13 @@ internal static class Worker
         });
         if (process is not null)
         {
-            await process.WaitForExitAsync();
+            await process.WaitForExitAsync(token);
             return process.ExitCode;
         }
         return -1;
     }
 
-    public static async Task ApplyUpdate(Form? owner = null, string? version = null)
+    public static async Task ApplyUpdate(Form? owner = null, string? version = null, CancellationToken token = default)
     {
         string path_game = DirectoryH.EnsureExists(Properties.Settings.Default.GamePath).FullName;
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
@@ -125,7 +125,7 @@ internal static class Worker
         });
         if (process is not null)
         {
-            await process.WaitForExitAsync();
+            await process.WaitForExitAsync(token);
         }
         if (process?.ExitCode is 0)
         {
@@ -140,7 +140,7 @@ internal static class Worker
         }
         else if (DialogResult.Retry == MessageBox.Show(owner, $"{Genshin.Downloader.Text.msg_failed_code}{process?.ExitCode}", Genshin.Downloader.Text.msg_failed_task, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
         {
-            await ApplyUpdate(owner, version);
+            await ApplyUpdate(owner, version, token);
         }
     }
 
@@ -167,17 +167,17 @@ internal static class Worker
         }
     }
 
-    public static async Task HPatchAsync(Form? owner = null, string? channel = null)
+    public static async Task HPatchAsync(Form? owner = null, string? channel = null, CancellationToken token = default)
     {
         string path_temp = DirectoryH.EnsureExists(Properties.Settings.Default.TempPath).FullName;
         int exitCode;
         if ((File.Exists($"{path_temp}\\downloadfiles.txt") && 0 != (exitCode = await ApplyDownload(channel)))
-         || (File.Exists($"{path_temp}\\hdifffiles.txt") && 0 != (exitCode = await ApplyHDiff()))
+         || (File.Exists($"{path_temp}\\hdifffiles.txt") && 0 != (exitCode = await ApplyHDiff(token)))
          || (File.Exists($"{path_temp}\\deletefiles.txt") && 0 != (exitCode = await ApplyDelete())))
         {
             if (DialogResult.Retry == MessageBox.Show(owner, $"{Genshin.Downloader.Text.msg_failed_code}{exitCode}", Genshin.Downloader.Text.msg_failed_task, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
             {
-                await HPatchAsync(owner, channel);
+                await HPatchAsync(owner, channel, token);
             }
             return;
         }

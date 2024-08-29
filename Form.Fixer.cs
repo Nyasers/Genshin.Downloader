@@ -8,7 +8,6 @@ public partial class Form_Fixer : Form
     private Config? Config;
     private readonly List<string> AudioList;
     private static readonly ResourceManager Resources = new(typeof(Form_Fixer));
-    private CancellationTokenSource cancellationTokenSource = new();
 
     public Form_Fixer(Dictionary<string, object> args)
     {
@@ -29,10 +28,13 @@ public partial class Form_Fixer : Form
         textBox_gameVersion.Text = Config.Version;
     }
 
+    private CancellationTokenSource? source;
+
     private void Button_Compare_Click(object sender, EventArgs e)
     {
         button_cancel.Enabled = !(button_compare.Enabled = button_start.Enabled = false);
-        Compare(cancellationTokenSource.Token).GetAwaiter().OnCompleted(() =>
+        source = new CancellationTokenSource();
+        Compare(source.Token).GetAwaiter().OnCompleted(() =>
         {
             GC.Collect(2, GCCollectionMode.Aggressive, true, true); GC.WaitForFullGCComplete();
             progressBar.Value = 0; progressBar.Maximum = 100; progressBar.Style = ProgressBarStyle.Continuous;
@@ -42,27 +44,19 @@ public partial class Form_Fixer : Form
 
     private void Button_Cancel_Click(object sender, EventArgs e)
     {
-        cancellationTokenSource.Cancel(); cancellationTokenSource.Token.WaitHandle.WaitOne();
-        cancellationTokenSource.Dispose(); cancellationTokenSource = new CancellationTokenSource();
+        source?.Cancel();
+        source?.Token.WaitHandle.WaitOne();
+        source?.Dispose();
     }
 
-    private async Task Compare(CancellationToken token)
+    private async Task Compare(CancellationToken token = default)
     {
         if (Config is null || Config.Channel is null) return;
         groupBox_suplus.Text = Resources.GetString("groupBox_suplus.Text"); textBox_suplus.Clear();
         groupBox_missing.Text = Resources.GetString("groupBox_missing.Text"); textBox_missing.Clear();
         groupBox_progress.Text = $"{Resources.GetString("groupBox_progress.Text")} ({Downloader.Text.tbox_waitServer})";
         progressBar.Style = ProgressBarStyle.Marquee;
-        HttpClient http = new()
-        {
-            BaseAddress = new Uri((await API.GetAsync(Config.Channel)).main.major.res_list_url)
-        };
-        Dictionary<string, string> pkg_version = [];
-        pkg_version["game"] = await http.GetStringAsync($"{http.BaseAddress}/pkg_version", token);
-        foreach (string item in AudioList)
-        {
-            pkg_version[item] = await http.GetStringAsync($"{http.BaseAddress}/{item}_pkg_version", token);
-        }
+        Dictionary<string, string> pkg_version = await GetOnlinePackageVersionAsync(Config.Channel, token);
 
         List<FileInfoH> online = [];
         online.AddRange(from KeyValuePair<string, string> p in pkg_version
@@ -82,6 +76,7 @@ public partial class Form_Fixer : Form
         {
             string remoteName = FileInfoH.GetRemoteName(item.FullName);
             if (remoteName.Equals("config.ini")
+             || remoteName.EndsWith("pkg_version")
              || remoteName.StartsWith("ScreenShot")
              || remoteName.Contains("/webCaches/")
              || remoteName.Contains("/SDKCaches/")
@@ -121,6 +116,22 @@ public partial class Form_Fixer : Form
         string missing_str = string.Empty; missing.ForEach((i) => missing_str += $"{i}\r\n"); textBox_missing.Text = missing_str; missing.Clear();
     }
 
+    public async Task<Dictionary<string, string>> GetOnlinePackageVersionAsync(string? channel, CancellationToken token = default)
+    {
+        HttpClient http = new()
+        {
+            BaseAddress = new Uri($"{(await API.GetAsync(channel, token)).main.major.res_list_url}")
+        };
+        Dictionary<string, string> pkg_version = [];
+        pkg_version["pkg_version"] = await http.GetStringAsync($"{http.BaseAddress}/pkg_version", token);
+        foreach (string item in AudioList)
+        {
+            pkg_version[item + "_pkg_version"] = await http.GetStringAsync($"{http.BaseAddress}/{item}_pkg_version", token);
+        }
+
+        return pkg_version;
+    }
+
     private void Button_Start_Click(object sender, EventArgs e)
     {
         button_compare.Enabled = button_start.Enabled = false;
@@ -133,34 +144,38 @@ public partial class Form_Fixer : Form
         });
     }
 
-    private async Task StartFix()
+    private async Task StartFix(CancellationToken token = default)
     {
-        if (string.IsNullOrWhiteSpace(textBox_suplus.Text) && string.IsNullOrWhiteSpace(textBox_missing.Text))
+        if (!string.IsNullOrWhiteSpace(textBox_suplus.Text) || !string.IsNullOrWhiteSpace(textBox_missing.Text) || DialogResult.OK == MessageBox.Show(this, Downloader.Text.mbox_nothing2Fix, Resources.GetString("$this.Text"), MessageBoxButtons.OKCancel, MessageBoxIcon.Information))
         {
-            _ = MessageBox.Show(this, Downloader.Text.mbox_nothing2Fix, Resources.GetString("$this.Text"), MessageBoxButtons.OK, MessageBoxIcon.Information); return;
-        }
-        string version = (await API.GetAsync(Config?.Channel)).main.major.version;
-        try
-        {
-            string path_temp = DirectoryH.EnsureNew(Properties.Settings.Default.TempPath).FullName;
-            if (!string.IsNullOrWhiteSpace(textBox_suplus.Text))
+            string version = (await API.GetAsync(Config?.Channel, token)).main.major.version;
+            try
             {
-                await File.AppendAllTextAsync($"{path_temp}\\deletefiles.txt", textBox_suplus.Text);
+                string path_temp = DirectoryH.EnsureNew(Properties.Settings.Default.TempPath).FullName;
+                if (!string.IsNullOrWhiteSpace(textBox_suplus.Text))
+                {
+                    await File.AppendAllTextAsync($"{path_temp}\\deletefiles.txt", textBox_suplus.Text, token);
+                }
+                if (!string.IsNullOrWhiteSpace(textBox_missing.Text))
+                {
+                    await File.AppendAllTextAsync($"{path_temp}\\downloadfiles.txt", textBox_missing.Text, token);
+                }
+                await Worker.HPatchAsync(this, Config?.Channel, token);
+                Dictionary<string, string> pkg_version = await GetOnlinePackageVersionAsync(Config?.Channel, token);
+                foreach (var item in pkg_version)
+                {
+                    await File.AppendAllTextAsync($"{path_temp}\\{item.Key}", item.Value, token);
+                }
+                await Worker.ApplyUpdate(this, version, token);
             }
-            if (!string.IsNullOrWhiteSpace(textBox_missing.Text))
+            catch (IOException ex)
             {
-                await File.AppendAllTextAsync($"{path_temp}\\downloadfiles.txt", textBox_missing.Text);
+                if (DialogResult.Retry == MessageBox.Show(this, ex.Message, Text, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
+                {
+                    await StartFix(token);
+                }
+                else throw;
             }
-            await Worker.HPatchAsync(this, Config?.Channel);
-            await Worker.ApplyUpdate(this, version);
-        }
-        catch (IOException ex)
-        {
-            if (DialogResult.Retry == MessageBox.Show(this, ex.Message, Text, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error))
-            {
-                await StartFix();
-            }
-            else throw;
         }
     }
 
