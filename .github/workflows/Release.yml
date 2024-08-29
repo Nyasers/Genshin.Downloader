@@ -18,7 +18,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.7
+        dotnet-version: 8.0
       
     - name: Build
       run: dotnet publish -p:PublishProfile=FolderProfile -p:EnableWindowsTargeting=true
