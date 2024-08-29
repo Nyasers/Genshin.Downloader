@@ -24,7 +24,7 @@ jobs:
       run: dotnet publish -p:PublishProfile=FolderProfile
       
     - name: Zip the Build
-      run: Compress-Archive -Path .\bin\publish\* -DestinationPath Genshin.Downloader.ziph/
+      run: Compress-Archive -Path .\bin\publish\* -DestinationPath Genshin.Downloader.zip
       
     - name: Upload Release Asset
       uses: softprops/action-gh-release@v2
