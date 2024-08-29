@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       contents: write
 
@@ -21,10 +21,10 @@ jobs:
         dotnet-version: 8.0
       
     - name: Build
-      run: dotnet publish -p:PublishProfile=FolderProfile -p:EnableWindowsTargeting=true
+      run: dotnet publish -p:PublishProfile=FolderProfile
       
     - name: Zip the Build
-      run: zip -j -r Genshin.Downloader.zip ./bin/publish/
+      run: Compress-Archive -Path .\bin\publish\* -DestinationPath Genshin.Downloader.zip
       
     - name: Upload Release Asset
       uses: softprops/action-gh-release@v2
