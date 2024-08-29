@@ -82,7 +82,6 @@ public partial class Form_Fixer : Form
         {
             string remoteName = FileInfoH.GetRemoteName(item.FullName);
             if (remoteName.Equals("config.ini")
-             || remoteName.EndsWith("pkg_version")
              || remoteName.StartsWith("ScreenShot")
              || remoteName.Contains("/webCaches/")
              || remoteName.Contains("/SDKCaches/")
