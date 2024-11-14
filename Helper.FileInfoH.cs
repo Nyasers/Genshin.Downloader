@@ -29,12 +29,23 @@ internal class FileInfoH : IDisposable
         size = new FileInfo(file).Length;
     }
 
-    public async Task ComputeMD5()
+    public async Task ComputeMD5Async(CancellationToken token = default)
     {
         if (path is null) return;
         md5 = null;
         stream ??= File.OpenRead(path);
-        foreach (byte item in await System.Security.Cryptography.MD5.HashDataAsync(stream))
+        foreach (byte item in await System.Security.Cryptography.MD5.HashDataAsync(stream, token))
+        {
+            md5 += item.ToString("x2");
+        }
+    }
+
+    public async Task ComputeMD5()
+    {
+        if (path is null) return;
+        md5 = null;
+        data ??= await File.ReadAllBytesAsync(path);
+        foreach (byte item in System.Security.Cryptography.MD5.HashData(data))
         {
             md5 += item.ToString("x2");
         }

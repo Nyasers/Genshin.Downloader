@@ -44,9 +44,13 @@ public partial class Form_Fixer : Form
 
     private void Button_Cancel_Click(object sender, EventArgs e)
     {
-        source?.Cancel();
-        source?.Token.WaitHandle.WaitOne();
-        source?.Dispose();
+        try
+        {
+            source?.Cancel();
+            source?.Token.WaitHandle.WaitOne();
+            source?.Dispose();
+        }
+        catch (ObjectDisposedException) { }
     }
 
     private async Task Compare(CancellationToken token = default)
@@ -97,7 +101,7 @@ public partial class Form_Fixer : Form
         {
             using (FileInfoH fi = new(item.FullName))
             {
-                if (radioButton_md5.Checked) await fi.ComputeMD5();
+                if (radioButton_md5.Checked) await fi.ComputeMD5Async(token);
                 if (radioButton_hash.Checked) await fi.ComputeHash();
                 if (radioButton_both.Checked) await fi.ComputeAll();
                 local.Add(fi);
