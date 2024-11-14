@@ -49,7 +49,7 @@ namespace Helper
             string download_info = await GetInputFileAsync(input);
 
             string[] args = [
-                $"-R",
+                "-R -x 16 -s 16",
                 $"--console-log-level={LogLevels[console_log_level]}",
                 $"--input-file=\"{download_info}\""
             ];

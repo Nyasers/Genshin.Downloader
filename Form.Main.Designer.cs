@@ -230,7 +230,7 @@
             // timer_RAM
             // 
             timer_RAM.Enabled = true;
-            timer_RAM.Interval = 250;
+            timer_RAM.Interval = 1000;
             timer_RAM.Tick += Timer_RAM_Tick;
             // 
             // Form_Main

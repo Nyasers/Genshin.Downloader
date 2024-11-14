@@ -48,33 +48,33 @@ namespace Helper
             const int MB = 1024 * 1024;
             ResourceManager? resourceManager = type is null ? null : new(type);
             long privateMemorySize64 = Process.GetCurrentProcess().PrivateMemorySize64;
-            if (privateMemorySize64 >= MB * 128)
-            {
-                GC.Collect(2,
-                    privateMemorySize64 >= MB * 256 ?
-                    privateMemorySize64 >= MB * 1024 ?
-                    GCCollectionMode.Aggressive : GCCollectionMode.Forced : GCCollectionMode.Optimized,
-                    privateMemorySize64 >= MB * 512,
-                    privateMemorySize64 >= MB * 512);
-                GC.WaitForFullGCComplete();
-            }
+            //if (privateMemorySize64 >= MB * 128)
+            //{
+            //    GC.Collect(2,
+            //        privateMemorySize64 >= MB * 256 ?
+            //        privateMemorySize64 >= MB * 1024 ?
+            //        GCCollectionMode.Aggressive : GCCollectionMode.Forced : GCCollectionMode.Optimized,
+            //        privateMemorySize64 >= MB * 512,
+            //        privateMemorySize64 >= MB * 512);
+            //    GC.WaitForFullGCComplete();
+            //}
             if (form is not null && resourceManager is not null)
                 form.Text = $"{resourceManager.GetString("$this.Text")} ({privateMemorySize64 / MB} MB)";
         }
 
-        /*public static async Task<MethodInfo> GetMethod(string name)
-        {
-            try
-            {
-                byte[] buffer = await GetBytes(name);
-                Assembly assembly = Assembly.Load(buffer);
-                MethodInfo pointInfo = assembly.EntryPoint ?? throw new FileLoadException("Failed to get EntryPoint.", name);
-                return pointInfo;
-            }
-            catch
-            {
-                throw;
-            }
-        }*/
+        //public static async Task<MethodInfo> GetMethod(string name)
+        //{
+        //    try
+        //    {
+        //        byte[] buffer = await GetBytes(name);
+        //        Assembly assembly = Assembly.Load(buffer);
+        //        MethodInfo pointInfo = assembly.EntryPoint ?? throw new FileLoadException("Failed to get EntryPoint.", name);
+        //        return pointInfo;
+        //    }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
     }
 }
